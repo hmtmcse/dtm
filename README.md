@@ -21,7 +21,7 @@ task status closely for complete the Iteration perfectly.
 ## How to Start Project Source
 1. Open the [Git Bash](https://git-scm.com/downloads) / any Git client / Terminal / Console
 2. Go to the destination directory where want to clone the project
-3. Download the file using curl or wget. curl example: ```curl https://url -o clone.sh```
+3. Download the file using curl or wget. curl example: ```curl https://raw.githubusercontent.com/hmtmcse/dtm/master/project-start.sh -o clone.sh```
 4. Run the clone.sh file. Example: ```sh clone.sh```
 5. If everything above command successfully run then will get a Directory named **DTM**, Here is all of source codes
 6. This a Gradle Project so need to open this project as Gradle Project. **[IntelliJ IDEA](https://www.jetbrains.com/idea/download)**, **[Eclipse](https://www.eclipse.org/downloads/)**
@@ -38,5 +38,16 @@ environments:
 ```
 8. Create a database into the MySQL.
 9. Run the Project. it will be run **http://localhost:1122** Url
-10. We may use Gradle Wrapper for Run Directly. Example: From project root directory run the command ``````
+10. We may use Gradle Wrapper for Run Directly. Example: From project root directory run the command ```sh ./gradlew bootRun```
+
+
+
+
+
+<br/>
+<br/>
+
+License
+-------
+Grails Swagger is licensed [Apache License 2.0](http://www.apache.org/licenses/).
 
