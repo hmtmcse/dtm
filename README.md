@@ -49,5 +49,5 @@ environments:
 
 License
 -------
-Grails Swagger is licensed [Apache License 2.0](http://www.apache.org/licenses/).
+**Development Task Manager (DTM)** is licensed [Apache License 2.0](http://www.apache.org/licenses/).
 
