@@ -1,0 +1,3 @@
+rootProject.name = 'DTM'
+include 'grails-swagger'
+
