@@ -54,16 +54,8 @@ class TodoComplexityPanel extends RaViewComponent {
     }
 
     loadComplexity(callBack) {
-        const {uiDefinition} = this.props;
-        this.getToApi(ApiURL.ComplexityGetDetailsByTodoAndType + "?todoId=" + this.state.allDetails.id + "&type=" + uiDefinition.complexityType, response => {
-            let responseData = response.data.response;
-            if (responseData){
-                this.setState({complexityAndSteps: responseData});
-            }
-            if (callBack){
-                callBack();
-            }
-        });
+        const {uiDefinition, parentComponent} = this.props;
+        parentComponent.loadAllDetails(callBack);
     }
 
     loadComplexityStep(callBack){
@@ -230,6 +222,7 @@ export default withStyles(viewCommon)(TodoComplexityPanel);
 TodoComplexityPanel.propTypes = {
     allDetails: PropTypes.object.isRequired,
     uiDefinition: PropTypes.object.isRequired,
+    parentComponent: PropTypes.object.isRequired,
 };
 
 

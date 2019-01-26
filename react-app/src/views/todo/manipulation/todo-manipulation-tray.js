@@ -17,6 +17,7 @@ import TodoBugReportPanel from "./panel/todo-bug-report-panel";
 import RaExpandableCard from "../../../artifacts/ra-expandable-card";
 import {ActionDefinition} from "../../../artifacts/ra-table-action";
 import PropTypes from "prop-types";
+import TodoMainDetailsPanel from "./details-panel/todo-main-details-panel";
 
 
 class TodoManipulationTray extends RaViewComponent {
@@ -41,7 +42,7 @@ class TodoManipulationTray extends RaViewComponent {
         this.loadAllDetails();
     }
 
-    loadAllDetails() {
+    loadAllDetails(callBack = undefined) {
         let id = this.getValueFromParams("id");
         if (id) {
             const {uiDefinition} = this.props;
@@ -54,6 +55,9 @@ class TodoManipulationTray extends RaViewComponent {
                 this.setState({allDetails: allDetails});
                 if (Object.getOwnPropertyNames(allDetails.complexity).length) {
                     this.setState({complexityAndSteps: allDetails.complexity});
+                }
+                if (callBack){
+                    callBack();
                 }
             });
         } else {
@@ -110,12 +114,12 @@ class TodoManipulationTray extends RaViewComponent {
                 <Paper className={classes.mainActionArea}>
                     <Grid container spacing={8}>
                         <Grid item xs={12}>
-                            <RaExpandableCard actions={mainActions(this.state.allDetails)} title={todoName} titleVariant="headline"/>
+                            <RaExpandableCard actions={mainActions(this.state.allDetails)} title={todoName} titleVariant="headline" alwaysExpanded={true} children={<TodoMainDetailsPanel allDetails={this.state.allDetails} uiDefinition={uiDefinition}/>}/>
                         </Grid>
                         <Grid item xs={12}>
                             <Grid container spacing={8}>
                                 <Grid item xs={complexityPanelSpan}>
-                                    <TodoComplexityPanel allDetails={this.state.allDetails} uiDefinition={uiDefinition}/>
+                                    <TodoComplexityPanel allDetails={this.state.allDetails} uiDefinition={uiDefinition} parentComponent={this}/>
                                     <div className={classes.againMainActionArea}/>
                                 </Grid>
                                 {leftPanel}

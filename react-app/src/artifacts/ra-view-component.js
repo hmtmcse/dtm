@@ -81,6 +81,12 @@ export default class RaViewComponent extends Component {
         return undefined;
     }
 
+    getValueFromObject(object, key, defaultValue = "") {
+        if (object && object[key]){
+            return object[key];
+        }
+        return defaultValue;
+    }
 
     isInputValue(fieldName) {
         if (this.state.formData && this.state.formData[fieldName]) {

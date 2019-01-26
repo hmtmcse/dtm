@@ -60,6 +60,18 @@ class TodoDefinitionService {
             }
         }
 
+        swaggerHelper = new SwaggerHelper()
+        swaggerHelper.initItem(SwaggerConstant.SWAGGER_DT_OBJECT, SwaggerConstant.IN_BODY)
+        swaggerHelper.addProperties("totalComplexity", SwaggerConstant.SWAGGER_DT_INTEGER)
+        swaggerHelper.addProperties("totalStep", SwaggerConstant.SWAGGER_DT_INTEGER)
+        swaggerHelper.addProperties("estimatedHour", SwaggerConstant.SWAGGER_DT_DOUBLE)
+        swaggerHelper.addProperties("estimation", SwaggerConstant.SWAGGER_DT_STRING)
+        gsApiActionDefinition.addResponseProperty("summery").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).setPropertyMap(swaggerHelper.getAllProperties()).customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                return todoService.processTodSummery(domainRow)
+            }
+        }
 
 
         gsApiActionDefinition.addResponseProperty("due").setDataType(SwaggerConstant.SWAGGER_DT_INTEGER).customResponseParamProcessor = new CustomResponseParamProcessor() {

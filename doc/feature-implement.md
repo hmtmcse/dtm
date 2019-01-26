@@ -21,7 +21,7 @@ Management Panel
 -------------------------------
 1. Expand
 2. View all button
-3. Number of Complexity, Number of Steps, Estimation
+3. Number of Complexity, Number of Steps, Estimation _/
 4. Task Status Update Quickly
 5. Step Expand panel Description
 6. Read only Change Log, Notes for QA and others
@@ -46,9 +46,9 @@ Todo Complexity
 
 Dashboard ***
 ------------------------
-1. Assigned Task
-2. My Task
-3. Notes
+1. Assigned Task _/
+2. My Task _/
+3. Notes x
 
 
 Other Task
