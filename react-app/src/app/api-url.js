@@ -72,6 +72,8 @@ export const ApiURL = {
     AssigneeBulkAssign: "api/v1/assignee/bulkAssign",
     AssigneeUpdateBulkAssign: "api/v1/assignee/updateBulkAssign",
 
+    DashboardTodoReport: "api/v1/dashboard/dashboardTodoReport",
+
     XXXList: "",
     XXXXCreate: "",
     XXXXUpdate: "",

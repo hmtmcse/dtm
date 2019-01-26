@@ -15,30 +15,16 @@ import {TaskStatusColor} from "../../app/task-status-color";
 
 class DashboardTodoReport extends RaViewComponent {
 
-    issueFilterBy = "ALL_ISSUES";
-    statusSelectValue = "SELECT";
 
     constructor(props) {
         super(props);
         this.state = {
-            editPopup: false,
-            taskWarriorPopup: false,
-            orderBy: "id",
-            search: "",
-            order: "desc",
-            todoList: [],
-            formData: {},
-            todoDetails: {},
-            formError: {},
-            total: 0,
-            max: AppConstant.rowsPerPage,
-            offset: AppConstant.defaultOffset,
+            assignedTodo: [],
+            privateTodo: [],
+            otherTodo: [],
             priority: {},
             todoType: {},
-            issueFilterByOptions: {},
-            issueFilterBy: this.issueFilterBy,
             statusOptions: {},
-            statusSelectValue: this.statusSelectValue,
         };
     }
 
@@ -69,24 +55,18 @@ class DashboardTodoReport extends RaViewComponent {
                 this.setState({statusOptions: data.status})
             }
         });
-
-        this.getToApi(ApiURL.CommonTodoFilterDropDownContent,  response => {
-            let data = response.data.response;
-            if (data.issueFilterBy){
-                this.setState({issueFilterByOptions: data.issueFilterBy})
-            }
-        });
     }
 
     loadList(condition = {}) {
-        condition = this.loadOffsetMax(condition);
-        condition.issueFilterBy = this.issueFilterBy;
-        if (this.statusSelectValue !== "SELECT"){
-            condition = RaGsConditionMaker.equal(condition, "status", this.statusSelectValue);
-        }
-        this.postJsonToApi(ApiURL.TodoList, condition, response => {
-            this.setState({todoList: response.data.response});
-            this.setState({total: response.data.total ? response.data.total : 0});
+        this.postJsonToApi(ApiURL.DashboardTodoReport, condition, response => {
+            let data = response.data;
+            if (data.isSuccess) {
+                this.setState({assignedTodo: data.response.assignedTodo});
+                this.setState({privateTodo: data.response.privateTodo});
+                this.setState({otherTodo: data.response.otherTodo});
+            }else{
+                this.showErrorInfo(data.message);
+            }
         });
     }
 
@@ -98,9 +78,9 @@ class DashboardTodoReport extends RaViewComponent {
                 <Grid item xs={4}>
                     <Card>
                         <CardContent>
-                            <Typography variant="title" >My Assigned Task</Typography>
+                            <Typography variant="title" >Assigned Todo</Typography>
                             <List>
-                                {this.state.todoList.map(function (todo, key) {
+                                {this.state.assignedTodo.map(function (todo, key) {
                                     return (
                                         <ListItem button>
                                             <ListItemText
@@ -121,9 +101,9 @@ class DashboardTodoReport extends RaViewComponent {
                 <Grid item xs={4}>
                     <Card>
                         <CardContent>
-                            <Typography variant="title" >My Task</Typography>
+                            <Typography variant="title" >My Todo</Typography>
                             <List>
-                                {this.state.todoList.map(function (todo, key) {
+                                {this.state.privateTodo.map(function (todo, key) {
                                     return (
                                         <ListItem button>
                                             <ListItemText
@@ -144,9 +124,9 @@ class DashboardTodoReport extends RaViewComponent {
                 <Grid item xs={4}>
                     <Card>
                         <CardContent>
-                            <Typography variant="title">Currently Processing</Typography>
+                            <Typography variant="title">Published Tod</Typography>
                             <List>
-                                {this.state.todoList.map(function (todo, key) {
+                                {this.state.otherTodo.map(function (todo, key) {
                                     return (
                                         <ListItem button>
                                             <ListItemText

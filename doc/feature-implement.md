@@ -17,6 +17,17 @@ Todo List
 6. Todo Summery, Complexity, Steps, Estimation By Complexity ***
 
 
+Management Panel
+-------------------------------
+1. Expand
+2. View all button
+3. Number of Complexity, Number of Steps, Estimation
+4. Task Status Update Quickly
+5. Step Expand panel Description
+6. Read only Change Log, Notes for QA and others
+7. Dashboard Task List
+
+
 Todo Complexity
 --------------------
 1. Color (Done - Green, Processing - Yellow, Pending - Blue, Todo - Black,  Failed - Red, Draft - Violet) _/
@@ -26,7 +37,7 @@ Todo Complexity
 5. Description on expand view ***
 6. Quick Report on top (Number of Steps, Pending, Done Processing, Failed) ***
 7. Read only Change Log, Notes for QA and others ***
-8. Add label in top by complexity type ***
+8. Add label in top by complexity type _/
 9. Started, Push, Overview 
 10. Complexity Summery, number of steps, total estimation ***
 11. Steps Summery, estimation ***

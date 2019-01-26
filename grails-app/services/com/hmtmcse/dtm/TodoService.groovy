@@ -13,7 +13,6 @@ class TodoService {
     ChangeLogService changeLogService
     NoteService noteService
     BugReportService bugReportService
-    TodoService todoService
     AuthenticationService authenticationService
 
     def getTodoById(Long id) {
@@ -52,7 +51,7 @@ class TodoService {
     }
 
     GsApiResponseData getTodoDetails(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
-        Todo todo = todoService.getTodoById(paramData.filteredGrailsParameterMap.id)
+        Todo todo = getTodoById(paramData.filteredGrailsParameterMap.id)
         def processedResponse = [:]
         if (!todo) {
             return GsApiResponseData.failed("Invalid Todo Request")
@@ -130,6 +129,33 @@ class TodoService {
         }
         summery.estimation = hourToEstimation(summery.estimatedHour)
         return summery
+    }
+
+
+    List<Todo> allAssignedTodoList(Integer offset = 0, Integer max = 5) {
+        return Todo.createCriteria().list([max: max, offset: offset]) {
+            eq("isDeleted", false)
+            assignee {
+                eq("assignTo", authenticationService.userInfo)
+                order("lastUpdated", "desc")
+            }
+        }
+    }
+
+    List<Todo> privateTodoList(Integer offset = 0, Integer max = 5) {
+        return Todo.createCriteria().list([max: max, offset: offset]) {
+            eq("isDeleted", false)
+            eq("privateFor", authenticationService.userInfo)
+            order("id", "desc")
+        }
+    }
+
+    List<Todo> publishTodoList(Integer offset = 0, Integer max = 5) {
+        return Todo.createCriteria().list([max: max, offset: offset]) {
+            eq("isDeleted", false)
+            isNull("privateFor")
+            order("lastUpdated", "desc")
+        }
     }
 
 
