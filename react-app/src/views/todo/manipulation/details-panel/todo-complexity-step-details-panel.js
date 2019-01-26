@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
 import {
-    Button, Card, Grid, CardContent, withStyles
+    Button, Card, Grid, Typography, withStyles
 } from '@material-ui/core'
 import React from 'react';
 import RaViewComponent from "../../../../artifacts/ra-view-component";
 import {viewCommon} from "../../../../assets/jss/style-jss";
-import Typography from "@material-ui/core/es/Typography/Typography";
 import RaMarkdown from "../../../../artifacts/ra-markdown";
 
 class TodoComplexityStepDetailsPanel extends RaViewComponent {

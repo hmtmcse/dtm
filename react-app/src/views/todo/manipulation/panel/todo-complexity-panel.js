@@ -127,8 +127,8 @@ class TodoComplexityPanel extends RaViewComponent {
         const [removed] = data.splice(result.source.index, 1);
         data.splice(result.destination.index, 0, removed);
         let dbUpdateData = [];
-        data.map(function (complexity, key) {
-            dbUpdateData.unshift({
+        data.slice().reverse().map(function (complexity, key) {
+            dbUpdateData.push({
                 "index": key,
                 "dbId": complexity.id,
             })
