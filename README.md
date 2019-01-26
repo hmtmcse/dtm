@@ -50,7 +50,7 @@ environments:
 Development Task Manager (DTM) Links 
 -------
 1. **Click the [Link For Bug Report](https://github.com/hmtmcse/dtm/issues)**
-2. **Click the [Link Wiki](https://github.com/hmtmcse/dtm/wiki)**
+2. **Click the [Wiki Link](https://github.com/hmtmcse/dtm/wiki)**
 
 
 
