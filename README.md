@@ -44,6 +44,15 @@ environments:
 
 
 
+<br/>
+<br/>
+
+Development Task Manager (DTM) Links 
+-------
+1. **Click the [Link For Bug Report](https://github.com/hmtmcse/dtm/issues)**
+2. **Click the [Link Wiki](https://github.com/hmtmcse/dtm/wiki)**
+
+
 
 <br/>
 <br/>
