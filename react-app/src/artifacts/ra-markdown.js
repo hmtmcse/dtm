@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Paper from "@material-ui/core/Paper/Paper";
 import {withStyles} from '@material-ui/core/styles';
 import ReactMarkdown from "react-markdown";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
     root: {
@@ -14,10 +15,15 @@ const styles = theme => ({
 
 class RaMarkdown extends Component {
     render() {
-        const {content, enablePaper, classes} = this.props;
+        const {content, enablePaper, classes, titlePanel} = this.props;
         let render = "";
         if (enablePaper) {
-            render = <Paper className={classes.root}><ReactMarkdown children={content}/></Paper>
+            render = (
+                <Paper className={classes.root}>
+                    {titlePanel}
+                    <ReactMarkdown children={content}/>
+                </Paper>
+            )
         } else {
             render = (<ReactMarkdown children={content}/>);
         }
@@ -30,9 +36,11 @@ export default withStyles(styles)(RaMarkdown);
 RaMarkdown.propTypes = {
     content: PropTypes.string,
     enablePaper: PropTypes.bool,
+    titlePanel: PropTypes.node,
 };
 
 RaMarkdown.defaultProps = {
+    titlePanel: "",
     content: "",
     enablePaper: true,
 };

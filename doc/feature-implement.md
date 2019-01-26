@@ -19,11 +19,11 @@ Todo List
 
 Management Panel
 -------------------------------
-1. Expand
+1. Expand _/
 2. View all button
 3. Number of Complexity, Number of Steps, Estimation _/
 4. Task Status Update Quickly
-5. Step Expand panel Description
+5. Step Expand panel Description _/
 6. Read only Change Log, Notes for QA and others
 7. Dashboard Task List _/
 8. Implement Soft Delete for all 

@@ -3,7 +3,6 @@ import {
     Button, Card, CardActions, Typography, CardContent
 } from '@material-ui/core'
 import React from 'react';
-import AddIcon from '@material-ui/icons/Add';
 import RaExpandableCard from "../../../../artifacts/ra-expandable-card";
 import {ActionDefinition} from "../../../../artifacts/ra-table-action";
 import RaViewComponent from "../../../../artifacts/ra-view-component";
@@ -11,11 +10,10 @@ import {ApiURL} from "../../../../app/api-url";
 import {withStyles} from '@material-ui/core/styles';
 import {viewCommon} from "../../../../assets/jss/style-jss";
 import {RaGsConditionMaker} from "../../../../artifacts/ra-gs-condition-maker";
-import TodoComplexityDialog from "../dialog/todo-complexity-dialog";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import TodoComplexityStepDialog from "../dialog/todo-complexity-step-dialog";
-import RaMarkdown from "../../../../artifacts/ra-markdown";
 import {TaskStatusColor} from "../../../../app/task-status-color";
+import TodoComplexityStepDetailsPanel from "../details-panel/todo-complexity-step-details-panel";
 
 
 
@@ -119,7 +117,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
                                                     <div ref={provided.innerRef}
                                                          {...provided.draggableProps}
                                                          {...provided.dragHandleProps}>
-                                                        <RaExpandableCard  actions={noteActions(step)} cardTop={TaskStatusColor.statusDivider(step.status)} title={step.name} children={<RaMarkdown content={step.description}/>}/>
+                                                        <RaExpandableCard  actions={noteActions(step)} cardTop={TaskStatusColor.statusDivider(step.status)} title={step.name} children={<TodoComplexityStepDetailsPanel stepDetails={step}/>}/>
                                                     </div>
                                                 )}
                                             </Draggable>

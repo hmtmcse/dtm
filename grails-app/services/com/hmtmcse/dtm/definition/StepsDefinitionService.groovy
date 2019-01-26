@@ -99,6 +99,7 @@ class StepsDefinitionService {
         gsApiActionDefinition.addRequestProperty("name")
         gsApiActionDefinition.addRequestProperty("description")
         gsApiActionDefinition.addRequestProperty("status")
+        gsApiActionDefinition.addRequestProperty("reference")
         gsApiActionDefinition.addRequestProperty("estimatedHour").setErrorMessage("Please Enter valid Estimation, in Hour format. (1 or 1.5)")
         gsApiActionDefinition.addRequestProperty("startedMoment").enableTypeCast().setDateFormat("yyyy-MM-dd")
         gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
