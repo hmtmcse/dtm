@@ -46,6 +46,13 @@ class RaExpandableCard extends Component {
         };
     }
 
+    componentDidMount() {
+        const { alwaysExpanded } = this.props;
+        if (alwaysExpanded){
+            this.setState({expanded: alwaysExpanded})
+        }
+    }
+
     confirmationHandler = (event, actionDefinition) => {
         if (actionDefinition.confirmation) {
             let confirmation = actionDefinition.confirmation;
@@ -79,7 +86,7 @@ class RaExpandableCard extends Component {
     }
 
     render() {
-        const { classes, title, actions, children, titleVariant, cardTop } = this.props;
+        const { classes, title, actions, children, titleVariant, cardTop, cardMiddleChildren } = this.props;
         let showHideButton = (this.state.expanded ? classes.expandOpen : classes.expandClose);
         return (
             <React.Fragment>
@@ -89,6 +96,7 @@ class RaExpandableCard extends Component {
                         <div>
                             <Typography variant={titleVariant} align="center">{title}</Typography>
                         </div>
+                        <div>{cardMiddleChildren}</div>
                         <div>
                             {
                                 _.map(actions, (actionDefinition, key) => {
@@ -131,12 +139,15 @@ RaExpandableCard.propTypes = {
     title: PropTypes.string.isRequired,
     titleVariant: PropTypes.string,
     children: PropTypes.node,
+    cardMiddleChildren: PropTypes.node,
     cardTop: PropTypes.node,
+    alwaysExpanded: PropTypes.bool,
 };
 
 RaExpandableCard.defaultProps = {
     titleVariant: "subheading",
     cardTop: "",
+    alwaysExpanded: false,
 };
 
 export default withStyles(styles)(RaExpandableCard);
