@@ -109,8 +109,8 @@ class TMConstant {
 
     public static final ISSUE_FILTER_BY = [
             ASSIGNED_TO_ME: "Assigned Me",
-            MY_ISSUE      : "My Issues",
-            ALL_ISSUES    : "All Issues",
+            MY_TODO      : "My Todo",
+            ALL_TODO    : "All Todo",
     ]
 
 }

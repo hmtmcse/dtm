@@ -115,7 +115,7 @@ const tableHeaderDefinition = [
 
 class TodoMainView extends RaViewComponent {
 
-    issueFilterBy = "ALL_ISSUES";
+    issueFilterBy = "ALL_TODO";
     statusSelectValue = "SELECT";
 
     constructor(props) {
@@ -398,7 +398,7 @@ class TodoMainView extends RaViewComponent {
                             </form>
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField label="Issue Filter" onChange={event => {this.issueFilterByOnChange(event)}} value={this.state.issueFilterBy} placeholder="Issue Filter" select fullWidth>
+                            <TextField label="Todo Filter" onChange={event => {this.issueFilterByOnChange(event)}} value={this.state.issueFilterBy} placeholder="Issue Filter" select fullWidth>
                                 {
                                     Object.entries(this.state.issueFilterByOptions).map(([objectKey, objectValue], key) => {
                                         return (<MenuItem key={key} value={objectKey}>{objectValue}</MenuItem>)

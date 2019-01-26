@@ -120,11 +120,11 @@ class TodoDefinitionService {
                 if (filteredGrailsParameterMap.issueFilterBy) {
                     String issueFilterValue = filteredGrailsParameterMap.issueFilterBy
                     switch (TMConstant.ISSUE_FILTER_BY[issueFilterValue]) {
-                        case TMConstant.ISSUE_FILTER_BY.MY_ISSUE:
+                        case TMConstant.ISSUE_FILTER_BY.MY_TODO:
                             definition.addToWhereFilterProperty("createdBy")
                             gsFilteredData.where.addEqual("createdBy", authenticationService.userInfo)
                             break
-                        case TMConstant.ISSUE_FILTER_BY.ALL_ISSUES:
+                        case TMConstant.ISSUE_FILTER_BY.ALL_TODO:
                             break
                         case TMConstant.ISSUE_FILTER_BY.ASSIGNED_TO_ME:
                             gsFilteredData.additionalWhereClosure = {
