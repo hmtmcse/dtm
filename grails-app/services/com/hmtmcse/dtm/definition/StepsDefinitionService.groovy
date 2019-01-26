@@ -1,11 +1,15 @@
 package com.hmtmcse.dtm.definition
 
+import com.hmtmcse.dtm.AppUtil
+import com.hmtmcse.dtm.TodoService
 import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.data.ApiHelper
 import com.hmtmcse.gs.data.GsApiResponseData
+import com.hmtmcse.gs.data.GsApiResponseProperty
 import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.data.GsParamsPairData
 import com.hmtmcse.gs.model.CustomProcessor
+import com.hmtmcse.gs.model.CustomResponseParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
 import com.hmtmcse.swagger.SwaggerHelper
 import com.hmtmcse.swagger.definition.SwaggerConstant
@@ -21,6 +25,25 @@ class StepsDefinitionService {
     static GsApiActionDefinition detailsDefinition() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Steps>(Steps)
         gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(DefinitionCommonService.commonSkipFields())
+        SwaggerHelper swaggerHelper = new SwaggerHelper()
+        swaggerHelper.initItem(SwaggerConstant.SWAGGER_DT_OBJECT, SwaggerConstant.IN_BODY)
+        swaggerHelper.addProperties("hour", SwaggerConstant.SWAGGER_DT_DOUBLE)
+        swaggerHelper.addProperties("estimation", SwaggerConstant.SWAGGER_DT_STRING)
+        gsApiActionDefinition.addResponseProperty("estimatedHour").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).setPropertyMap(swaggerHelper.getAllProperties()).customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                Map response = [
+                        hour: 0.0,
+                        estimation: "",
+                ]
+                Double estimatedHour = domainRow[fieldName]
+                if (estimatedHour){
+                    response.hour = estimatedHour
+                    response.estimation = AppUtil.hourToEstimation(estimatedHour)
+                }
+                return response
+            }
+        }
         return gsApiActionDefinition
     }
 

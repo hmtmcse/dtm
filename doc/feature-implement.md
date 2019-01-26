@@ -25,7 +25,8 @@ Management Panel
 4. Task Status Update Quickly
 5. Step Expand panel Description
 6. Read only Change Log, Notes for QA and others
-7. Dashboard Task List
+7. Dashboard Task List _/
+8. Implement Soft Delete for all 
 
 
 Todo Complexity

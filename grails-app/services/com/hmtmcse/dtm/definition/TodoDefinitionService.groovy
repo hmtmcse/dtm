@@ -23,6 +23,70 @@ class TodoDefinitionService {
     AuthenticationService authenticationService
     TodoService todoService
 
+    GsApiActionDefinition todoReadGeneralDefinition() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
+        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(DefinitionCommonService.commonSkipFields())
+
+        gsApiActionDefinition.addRelationalEntityResponse("parentIssue")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+
+        gsApiActionDefinition.addRelationalEntityResponse("createdBy")
+        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
+        gsApiActionDefinition.reResponseData().addResponseProperty("firstName")
+        gsApiActionDefinition.reResponseData().addResponseProperty("lastName")
+
+        SwaggerHelper swaggerHelper = new SwaggerHelper()
+        gsApiActionDefinition.addResponseProperty("publishInfo").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                def publishInfo = ["isPublished": false, "isShow": false]
+                if (domainRow.privateFor){
+                    publishInfo.isPublished = false
+                }else{
+                    publishInfo.isPublished = true
+                }
+                if (domainRow.createdBy.id == authenticationService.userInfo.id){
+                    publishInfo.isShow = true
+                }
+                return publishInfo
+            }
+        }
+
+        gsApiActionDefinition.addResponseProperty("depth").setDataType(SwaggerConstant.SWAGGER_DT_STRING).customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                return todoService.calculateDepth(domainRow)
+            }
+        }
+
+
+
+        gsApiActionDefinition.addResponseProperty("due").setDataType(SwaggerConstant.SWAGGER_DT_INTEGER).customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                return todoService.calculateDue(domainRow)
+            }
+        }
+
+        gsApiActionDefinition.addResponseProperty("estimation").setDataType(SwaggerConstant.SWAGGER_DT_STRING).customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                return todoService.calculateEstimation(domainRow)
+            }
+        }
+
+        gsApiActionDefinition.addResponseProperty("dueDate").customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                Date date = domainRow[fieldName]
+                return date.format("dd MMM yyyy")
+            }
+        }
+        return gsApiActionDefinition
+    }
+
+
     GsApiActionDefinition createUpdateDefinition() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
         gsApiActionDefinition.addRequestProperty("name").required() setErrorMessage("Please Enter Valid Name.")
@@ -98,26 +162,15 @@ class TodoDefinitionService {
 
 
     GsApiActionDefinition list() {
-        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
-        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(["isDeleted", "dateCreated", "lastUpdated"])
+        GsApiActionDefinition gsApiActionDefinition = todoReadGeneralDefinition()
         gsApiActionDefinition.addRequestProperty("issueFilterBy", SwaggerConstant.SWAGGER_DT_STRING)
 
-        gsApiActionDefinition.addRelationalEntityResponse("parentIssue")
-        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
-
-        gsApiActionDefinition.addRelationalEntityResponse("createdBy")
-        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
-        gsApiActionDefinition.reResponseData().addResponseProperty("firstName")
-        gsApiActionDefinition.reResponseData().addResponseProperty("lastName")
-
         gsApiActionDefinition.includeInWhereFilter(["name", "priority", "todoType", "status"])
-
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
             @Override
             GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {
                 GrailsParameterMap filteredGrailsParameterMap = gsFilteredData.gsParamsPairData.filteredGrailsParameterMap
-                if (filteredGrailsParameterMap.issueFilterBy) {
+                if (filteredGrailsParameterMap && filteredGrailsParameterMap.issueFilterBy) {
                     String issueFilterValue = filteredGrailsParameterMap.issueFilterBy
                     switch (TMConstant.ISSUE_FILTER_BY[issueFilterValue]) {
                         case TMConstant.ISSUE_FILTER_BY.MY_TODO:
@@ -144,62 +197,11 @@ class TodoDefinitionService {
                 return gsFilteredData
             }
         }
-
-        SwaggerHelper swaggerHelper = new SwaggerHelper()
-        gsApiActionDefinition.addResponseProperty("publishInfo").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).customResponseParamProcessor = new CustomResponseParamProcessor() {
-            @Override
-            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
-                def publishInfo = ["isPublished": false, "isShow": false]
-                if (domainRow.privateFor){
-                    publishInfo.isPublished = false
-                }else{
-                    publishInfo.isPublished = true
-                }
-                if (domainRow.createdBy.id == authenticationService.userInfo.id){
-                    publishInfo.isShow = true
-                }
-                return publishInfo
-            }
-        }
-
-        gsApiActionDefinition.addResponseProperty("depth").setDataType(SwaggerConstant.SWAGGER_DT_STRING).customResponseParamProcessor = new CustomResponseParamProcessor() {
-            @Override
-            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
-                return todoService.calculateDepth(domainRow)
-            }
-        }
-
-
-
-        gsApiActionDefinition.addResponseProperty("due").setDataType(SwaggerConstant.SWAGGER_DT_INTEGER).customResponseParamProcessor = new CustomResponseParamProcessor() {
-            @Override
-            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
-                return todoService.calculateDue(domainRow)
-            }
-        }
-
-        gsApiActionDefinition.addResponseProperty("estimation").setDataType(SwaggerConstant.SWAGGER_DT_STRING).customResponseParamProcessor = new CustomResponseParamProcessor() {
-            @Override
-            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
-                return todoService.calculateEstimation(domainRow)
-            }
-        }
-
-        gsApiActionDefinition.addResponseProperty("dueDate").customResponseParamProcessor = new CustomResponseParamProcessor() {
-            @Override
-            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
-                Date date = domainRow[fieldName]
-                return date.format("dd MMM yyyy")
-            }
-        }
-
         return gsApiActionDefinition
     }
 
     GsApiActionDefinition details() {
-        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
-        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(["isDeleted", "dateCreated", "lastUpdated"])
-
+        GsApiActionDefinition gsApiActionDefinition = todoReadGeneralDefinition()
         gsApiActionDefinition.addResponseProperty("dueDate").customResponseParamProcessor = new CustomResponseParamProcessor() {
             @Override
             Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
@@ -207,15 +209,6 @@ class TodoDefinitionService {
                 return date.format("yyyy-MM-dd")
             }
         }
-
-        gsApiActionDefinition.addRelationalEntityResponse("parentIssue")
-        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
-
-        gsApiActionDefinition.addRelationalEntityResponse("createdBy")
-        gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
-
         gsApiActionDefinition.addToWhereFilterProperty('id').enableTypeCast()
         return gsApiActionDefinition
     }
@@ -235,7 +228,8 @@ class TodoDefinitionService {
 
         gsApiActionDefinition.addRelationalEntityResponse("assignee")
         gsApiActionDefinition.reResponseData().addResponseProperty("uuid")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
+        gsApiActionDefinition.reResponseData().addResponseProperty("firstName")
+        gsApiActionDefinition.reResponseData().addResponseProperty("lastName")
 
         gsApiActionDefinition.addRelationalEntityResponse("bug")
         gsApiActionDefinition.reResponseData().addResponseProperty("uuid")

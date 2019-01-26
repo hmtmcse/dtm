@@ -44,4 +44,22 @@ class AppUtil {
         return defaultValue
     }
 
+    static String hourToEstimation(Double estimatedHour){
+        Integer day = 0
+        Double hour = 0
+        if (estimatedHour){
+            day = (estimatedHour / 8)
+            hour = (estimatedHour % 8)
+        }
+        String estimation = ""
+        if (day){
+            estimation = "${day}d "
+        }
+
+        if (hour){
+            estimation += "${hour}h"
+        }
+        return (!estimation.equals("") ? estimation : "0.0")
+    }
+
 }
