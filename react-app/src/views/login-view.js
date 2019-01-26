@@ -58,9 +58,7 @@ class LoginView extends RaViewComponent {
                 <CssBaseline/>
                 <main className={classes.layout}>
                     <Paper className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockIcon/>
-                        </Avatar>
+                        <Avatar className={classes.avatar} src="/assets/logo-192x192.jpg"/>
                         <Typography variant="headline">{AppConstant.loginLabel}</Typography>
                         <form onSubmit={this.doLogin} className={classes.form}>
                             <FormControl margin="normal" required fullWidth>
