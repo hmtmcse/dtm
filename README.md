@@ -39,6 +39,7 @@ environments:
 8. Create a database into the MySQL.
 9. Run the Project. it will be run **http://localhost:1122** Url
 10. We may use Gradle Wrapper for Run Directly. Example: From project root directory run the command ``` sh ./gradlew bootRun```
+11. Default Login credential. email: admin@taskmanager.local, password: 123456
 
 
 
