@@ -1,11 +1,14 @@
 package com.hmtmcse.dtm.definition
 
+import com.hmtmcse.dtm.TodoService
 import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.data.ApiHelper
 import com.hmtmcse.gs.data.GsApiResponseData
+import com.hmtmcse.gs.data.GsApiResponseProperty
 import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.data.GsParamsPairData
 import com.hmtmcse.gs.model.CustomProcessor
+import com.hmtmcse.gs.model.CustomResponseParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
 import com.hmtmcse.swagger.SwaggerHelper
 import com.hmtmcse.swagger.definition.SwaggerConstant
@@ -28,6 +31,18 @@ class ComplexityDefinitionService {
     static GsApiActionDefinition detailsDefinition() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Complexity>(Complexity)
         gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(DefinitionCommonService.commonSkipFields())
+        SwaggerHelper swaggerHelper = new SwaggerHelper()
+        swaggerHelper.initItem(SwaggerConstant.SWAGGER_DT_OBJECT, SwaggerConstant.IN_BODY)
+        swaggerHelper.addProperties("totalStep", SwaggerConstant.SWAGGER_DT_INTEGER)
+        swaggerHelper.addProperties("estimatedHour", SwaggerConstant.SWAGGER_DT_DOUBLE)
+        swaggerHelper.addProperties("estimation", SwaggerConstant.SWAGGER_DT_STRING)
+        gsApiActionDefinition.addResponseProperty("stepSummery").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).setPropertyMap(swaggerHelper.getAllProperties()).customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                TodoService todoService = new TodoService()
+                return todoService.processTodoComplexity(domainRow)
+            }
+        }
         return gsApiActionDefinition
     }
 

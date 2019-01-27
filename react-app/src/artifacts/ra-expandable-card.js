@@ -10,7 +10,7 @@ import RaAlertDialog from "./ra-alert-dialog";
 import {withStyles} from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
-    Card, CardActions, Typography, Collapse, CardContent
+    Card, CardActions, Typography, Collapse, Divider
 } from '@material-ui/core'
 
 
@@ -31,7 +31,7 @@ const styles = theme => ({
         }),
     },
     spaceInBottom : {
-        marginBottom: "1px"
+        marginBottom: "15px"
     },
 });
 
@@ -86,7 +86,7 @@ class RaExpandableCard extends Component {
     }
 
     render() {
-        const { classes, title, actions, children, titleVariant, cardTop, cardMiddleChildren } = this.props;
+        const { classes, title, actions, children, titleVariant, cardTop, cardActionMiddleChildren } = this.props;
         let showHideButton = (this.state.expanded ? classes.expandOpen : classes.expandClose);
         return (
             <React.Fragment>
@@ -96,7 +96,7 @@ class RaExpandableCard extends Component {
                         <div>
                             <Typography variant={titleVariant} align="center">{title}</Typography>
                         </div>
-                        <div>{cardMiddleChildren}</div>
+                        <div>{cardActionMiddleChildren}</div>
                         <div>
                             {
                                 _.map(actions, (actionDefinition, key) => {
@@ -124,6 +124,7 @@ class RaExpandableCard extends Component {
                         </div>
                     </CardActions>
                     <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                        <Divider/>
                         {children}
                     </Collapse>
                 </Card>
@@ -139,7 +140,7 @@ RaExpandableCard.propTypes = {
     title: PropTypes.string.isRequired,
     titleVariant: PropTypes.string,
     children: PropTypes.node,
-    cardMiddleChildren: PropTypes.node,
+    cardActionMiddleChildren: PropTypes.node,
     cardTop: PropTypes.node,
     alwaysExpanded: PropTypes.bool,
 };

@@ -87,12 +87,30 @@ class TodoService {
     }
 
     String calculateEstimation(Todo todo){
-        Map summary = processTodSummery(todo)
+        Map summary = processTodoSummery(todo)
         return summary.estimation
     }
 
 
-    Map processTodSummery(Todo todo){
+    Map processTodoComplexity(Complexity complexity){
+        def summery = [
+                totalStep : 0,
+                estimatedHour : 0.0,
+                estimation : ""
+        ]
+        if (complexity){
+            summery.totalStep += complexity.steps.size()
+            complexity.steps.each { Steps estimationStep ->
+                if (estimationStep.estimatedHour){
+                    summery.estimatedHour += estimationStep.estimatedHour
+                }
+            }
+            summery.estimation = AppUtil.hourToEstimation(summery.estimatedHour)
+        }
+        return summery
+    }
+
+    Map processTodoSummery(Todo todo){
         def summery = [
                 totalComplexity : 0,
                 totalStep : 0,
@@ -101,13 +119,11 @@ class TodoService {
         ]
         if (todo){
             summery.totalComplexity = todo.complexity.size()
+            Map complexitySummery = [:]
             todo.complexity.each { Complexity complexity ->
-                summery.totalStep += complexity.steps.size()
-                complexity.steps.each { Steps estimationStep ->
-                    if (estimationStep.estimatedHour){
-                        summery.estimatedHour += estimationStep.estimatedHour
-                    }
-                }
+                complexitySummery = processTodoComplexity(complexity)
+                summery.estimatedHour += complexitySummery.estimatedHour
+                summery.totalStep += complexitySummery.totalStep
             }
         }
         summery.estimation = AppUtil.hourToEstimation(summery.estimatedHour)

@@ -69,7 +69,7 @@ class TodoDefinitionService {
         gsApiActionDefinition.addResponseProperty("summery").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).setPropertyMap(swaggerHelper.getAllProperties()).customResponseParamProcessor = new CustomResponseParamProcessor() {
             @Override
             Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
-                return todoService.processTodSummery(domainRow)
+                return todoService.processTodoSummery(domainRow)
             }
         }
 

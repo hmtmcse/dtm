@@ -14,6 +14,7 @@ import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import TodoComplexityStepDialog from "../dialog/todo-complexity-step-dialog";
 import {TaskStatusColor} from "../../../../app/task-status-color";
 import TodoComplexityStepDetailsPanel from "../details-panel/todo-complexity-step-details-panel";
+import TodoComplexityStepTitlePanel from "../title-panel/todo-complexity-step-title-panel";
 
 
 
@@ -102,6 +103,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
             return actions;
         };
         const {stepIdentity, uiDefinition} = this.props;
+        let thisParent = this;
         return (
             <React.Fragment>
                 {this.state.isOpenTodoComplexityStep ? (<TodoComplexityStepDialog uiDefinition={uiDefinition} parent={this} complexityId={this.state.complexityId} todoId={this.state.todoId} editId={this.state.editId}/>): ""}
@@ -117,7 +119,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
                                                     <div ref={provided.innerRef}
                                                          {...provided.draggableProps}
                                                          {...provided.dragHandleProps}>
-                                                        <RaExpandableCard  actions={noteActions(step)} cardTop={TaskStatusColor.statusDivider(step.status)} title={step.name} children={<TodoComplexityStepDetailsPanel stepDetails={step}/>}/>
+                                                        <RaExpandableCard cardActionMiddleChildren={<TodoComplexityStepTitlePanel parenComponent={thisParent} step={step}/>}  actions={noteActions(step)} cardTop={TaskStatusColor.statusDivider(step.status)} title={step.name} children={<TodoComplexityStepDetailsPanel stepDetails={step}/>}/>
                                                     </div>
                                                 )}
                                             </Draggable>
