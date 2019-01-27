@@ -37,7 +37,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
     componentDidMount() {
         if (Object.getOwnPropertyNames(this.props.complexity).length) {
             this.setState({complexity: this.props.complexity});
-            if (Object.getOwnPropertyNames(this.props.complexity.steps).length) {
+            if (this.props.complexity && this.props.complexity.steps && Object.getOwnPropertyNames(this.props.complexity.steps).length) {
                 this.setState({complexitySteps: this.props.complexity.steps});
             }
         }
@@ -47,12 +47,12 @@ class TodoComplexityStepPanel extends RaViewComponent {
     componentDidUpdate(prevProps) {
         if (this.props.complexity !== prevProps.complexity) {
             this.setState({complexity: this.props.complexity});
-            if (Object.getOwnPropertyNames(this.props.complexity.steps).length) {
+            if (this.props.complexity && this.props.complexity.steps &&  Object.getOwnPropertyNames(this.props.complexity.steps).length) {
                 this.setState({complexitySteps: this.props.complexity.steps});
             }
         }
 
-        if (this.props.complexity.steps !== this.state.complexitySteps && Object.getOwnPropertyNames(this.props.complexity.steps).length) {
+        if (this.props.complexity.steps !== this.state.complexitySteps && this.props.complexity.steps && Object.getOwnPropertyNames(this.props.complexity.steps).length) {
             this.setState({complexitySteps: this.props.complexity.steps});
         }
     }
