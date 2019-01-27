@@ -411,7 +411,7 @@ class TodoMainView extends RaViewComponent {
                                 <MenuItem value="SELECT">Select Status</MenuItem>
                                 {
                                     Object.entries(this.state.statusOptions).map(([objectKey, objectValue], key) => {
-                                        return (<MenuItem key={key} value={objectKey}>{objectValue}</MenuItem>)
+                                        return (<MenuItem key={key} value={objectKey}>{TaskStatusColor.statusOnText(objectValue, objectKey)}</MenuItem>)
                                     })
                                 }
                             </TextField>
