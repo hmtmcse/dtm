@@ -15,8 +15,16 @@ class TodoComplexityTitlePanel extends RaViewComponent {
 
     appRender() {
         const {complexity, uiDefinition} = this.props;
-        let complexityStep = (<React.Fragment>{uiDefinition.complexityStepPanelTitle}: {this.getValueFromObject(complexity.stepSummery, "totalStep", "0")} &nbsp;&nbsp;</React.Fragment>);
-        let estimation = (<React.Fragment>Estimation: {this.getValueFromObject(complexity.stepSummery, "estimation", "0.0")} &nbsp;&nbsp;</React.Fragment>);
+
+        let complexityStep = "";
+        let estimation = "";
+        if (uiDefinition.enableComplexityStepPanel) {
+            complexityStep = (
+                <React.Fragment>{uiDefinition.complexityStepPanelTitle}: {this.getValueFromObject(complexity.stepSummery, "totalStep", "0")} &nbsp;&nbsp;</React.Fragment>);
+            estimation = (
+                <React.Fragment>Estimation: {this.getValueFromObject(complexity.stepSummery, "estimation", "0.0")} &nbsp;&nbsp;</React.Fragment>);
+        }
+
         return (
             <Grid container spacing={8}>
                 <Grid item xs={12} >

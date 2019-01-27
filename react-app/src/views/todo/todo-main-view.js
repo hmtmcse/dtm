@@ -35,7 +35,7 @@ import TodoManOperationView from "./type-definition/todo-man-operation-view";
 import TodoQaScenarioView from "./type-definition/todo-qa-scenario-view";
 import TodoTaskTypeView from "./type-definition/todo-task-type-view";
 import TodoMeetingTypeView from "./type-definition/todo-meeting-type-view";
-import TodoRemainderTypeView from "./type-definition/todo-remainder-type-view";
+import TodoReminderTypeView from "./type-definition/todo-reminder-type-view";
 import TodoPlanTypeView from "./type-definition/todo-plan-type-view";
 import TodoNoteTypeView from "./type-definition/todo-note-type-view";
 import TodoOtherTypeView from "./type-definition/todo-other-type-view";
@@ -76,9 +76,9 @@ export const TodoOtherUrls = [
         isActive: true,
     },
     {
-        path: "/todo/remainder-type/:id",
-        name: "Remainder Type",
-        component: TodoRemainderTypeView,
+        path: "/todo/reminder-type/:id",
+        name: "Reminder Type",
+        component: TodoReminderTypeView,
         isActive: true,
     },
     {
@@ -338,8 +338,8 @@ class TodoMainView extends RaViewComponent {
                 case "MEETING":
                     allActions.meetingTopic = ActionDefinition.instance("Topics", this.allActions, SpeakerNotesIcon).setComponent(this).addAdditionalInfo(info).setUrl("/todo/meeting-type/");
                     break;
-                case "REMAINDER":
-                    allActions.remainderNote = ActionDefinition.instance("Remainder Note", this.allActions, ScheduleIcon).setComponent(this).addAdditionalInfo(info).setUrl("/todo/remainder-type/");
+                case "REMINDER":
+                    allActions.remainderNote = ActionDefinition.instance("Reminder Note", this.allActions, ScheduleIcon).setComponent(this).addAdditionalInfo(info).setUrl("/todo/reminder-type/");
                     break;
                 case "PLAN":
                     allActions.planNote = ActionDefinition.instance("Plan Note", this.allActions, BlurLinearIcon).setComponent(this).addAdditionalInfo(info).setUrl("/todo/plan-type/");

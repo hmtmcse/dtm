@@ -19,6 +19,7 @@ import TodoComplexityStepPanel from "./todo-complexity-step-panel";
 import TodoComplexityView from "../view/todo-complexity-view";
 import {TaskStatusColor} from "../../../../app/task-status-color";
 import TodoComplexityTitlePanel from "../title-panel/todo-complexity-title-panel";
+import TodoComplexityDetailsPanel from "../details-panel/todo-complexity-details-panel";
 
 
 
@@ -201,7 +202,11 @@ class TodoComplexityPanel extends RaViewComponent {
                                                         <div ref={provided.innerRef}
                                                              {...provided.draggableProps}
                                                              {...provided.dragHandleProps}>
-                                                            <RaExpandableCard key={key} cardActionMiddleChildren={<TodoComplexityTitlePanel parenComponent={thisParent} complexity={complexity} uiDefinition={uiDefinition}/>} cardTop={TaskStatusColor.statusDivider(complexity.status)} actions={noteActions(complexity)} title={complexity.name} children={<TodoComplexityStepPanel parent={thisParent} stepIdentity={key} complexity={complexity} uiDefinition={uiDefinition}/>}/>
+                                                            <RaExpandableCard key={key} cardActionMiddleChildren={<TodoComplexityTitlePanel parenComponent={thisParent} complexity={complexity} uiDefinition={uiDefinition}/>} cardTop={TaskStatusColor.statusDivider(complexity.status)} actions={noteActions(complexity)} title={complexity.name}
+                                                                              children={ uiDefinition.enableComplexityStepPanel ?
+                                                                                  (<TodoComplexityStepPanel parent={thisParent} stepIdentity={key} complexity={complexity} uiDefinition={uiDefinition}/>)
+                                                                                  : (<TodoComplexityDetailsPanel complexity={complexity}/>)
+                                                                                  }/>
                                                         </div>
                                                     )}
                                                 </Draggable>
