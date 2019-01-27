@@ -6,9 +6,7 @@ import {
     List, ListItem, ListItemText, Grid
 } from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
-import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import {ApiURL} from "../../app/api-url";
-import {AppConstant} from "../../app/app-constant";
 import {viewCommon} from "../../assets/jss/style-jss";
 import {TaskStatusColor} from "../../app/task-status-color";
 
@@ -82,7 +80,7 @@ class DashboardTodoReport extends RaViewComponent {
                             <List>
                                 {this.state.assignedTodo.map(function (todo, key) {
                                     return (
-                                        <ListItem button>
+                                        <ListItem key={key} button>
                                             <ListItemText
                                                 primary={TaskStatusColor.statusOnText(todo.name, todo.status, "subheading")}
                                                 secondary={
@@ -105,7 +103,7 @@ class DashboardTodoReport extends RaViewComponent {
                             <List>
                                 {this.state.privateTodo.map(function (todo, key) {
                                     return (
-                                        <ListItem button>
+                                        <ListItem key={key} button>
                                             <ListItemText
                                                 primary={TaskStatusColor.statusOnText(todo.name, todo.status, "subheading")}
                                                 secondary={
@@ -124,11 +122,11 @@ class DashboardTodoReport extends RaViewComponent {
                 <Grid item xs={4}>
                     <Card>
                         <CardContent>
-                            <Typography variant="title">Published Tod</Typography>
+                            <Typography variant="title">Published Todo</Typography>
                             <List>
                                 {this.state.otherTodo.map(function (todo, key) {
                                     return (
-                                        <ListItem button>
+                                        <ListItem key={key} button>
                                             <ListItemText
                                                 primary={TaskStatusColor.statusOnText(todo.name, todo.status, "subheading")}
                                                 secondary={
