@@ -2,11 +2,16 @@ package com.hmtmcse.dtm.definition
 
 import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.GsRequestParamException
+import com.hmtmcse.gs.data.ApiHelper
 import com.hmtmcse.gs.data.GsApiRequestProperty
+import com.hmtmcse.gs.data.GsApiResponseData
+import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.data.GsParamsPairData
+import com.hmtmcse.gs.model.CustomProcessor
 import com.hmtmcse.gs.model.CustomRequestParamProcessor
 import com.hmtmcse.dtm.User
 import com.hmtmcse.dtm.UserService
+import com.hmtmcse.gs.model.RequestPreProcessor
 
 
 class UserDefinitionService {
@@ -51,6 +56,24 @@ class UserDefinitionService {
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
+
+    GsApiActionDefinition resetPassword(){
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
+        gsApiActionDefinition.addRequestProperty("id").required().enableTypeCast()
+        gsApiActionDefinition.addRequestProperty("password").required()
+        gsApiActionDefinition.addRequestProperty("confirmPassword").required()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return userService.restPassword(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Successfully Password Reset.")
+        gsApiActionDefinition.successResponseAsData()
+        return gsApiActionDefinition
+    }
+
+
 
     GsApiActionDefinition delete(){
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)

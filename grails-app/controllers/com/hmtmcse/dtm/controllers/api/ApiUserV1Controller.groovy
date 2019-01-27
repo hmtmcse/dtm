@@ -32,5 +32,9 @@ class ApiUserV1Controller extends GsRestProcessor {
         return delete(userDefinitionService.delete())
     }
 
+    def postResetPassword() {
+        return customProcessor(userDefinitionService.resetPassword())
+    }
+
 
 }

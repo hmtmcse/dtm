@@ -12,6 +12,7 @@ class User {
     String userRole = TMConstant.WARRIOR
     Boolean isDeleted = false
     Boolean isActive = true
+    Boolean isExternalUser = false
 
     Date dateCreated
     Date lastUpdated
