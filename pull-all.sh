@@ -1,3 +1,4 @@
+git reset --hard
 git pull
 cd grails-swagger/
 git pull
