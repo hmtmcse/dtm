@@ -16,4 +16,5 @@ package-lock.json
 /node-js
 /grails-swagger
 /dtm.wiki
+/wiki
 /grails-app/conf/config/*
