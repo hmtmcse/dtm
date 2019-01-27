@@ -15,10 +15,14 @@ export const TaskStatusColor = {
     },
 
     statusOnText: (text, status, variant = "") => {
-        return (<Typography variant={variant} color="inherit" style={{
-            borderLeft: '5px solid ' + TaskStatusColor.allColors[status],
-            paddingLeft: '8px'
-        }}>{text}</Typography>)
+        let attributes = {
+            color: "inherit",
+            style: {borderLeft: '5px solid ' + TaskStatusColor.allColors[status], paddingLeft: '8px'}
+        };
+        if (variant !== "") {
+            attributes.variant = variant;
+        }
+        return (<Typography {...attributes}>{text}</Typography>)
     },
 
     statusDivider: (status) => {
