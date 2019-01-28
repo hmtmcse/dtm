@@ -27,8 +27,17 @@ export const RaUtil = {
         }
         return content;
     },
+
     isEmptyObject: (object) =>{
         return Object.getOwnPropertyNames(object).length === 0;
+    },
+
+    constantToHumanReadable: (text) => {
+        if (text) {
+            text = text.replace(/[_-]/g, " ").toLowerCase();
+            return text.charAt(0).toUpperCase() + text.slice(1);
+        }
+        return "";
     }
 
 

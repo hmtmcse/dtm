@@ -13,6 +13,7 @@ import {ApiURL} from "../../../../app/api-url";
 import RaMarkdown from "../../../../artifacts/ra-markdown";
 import RaFormItemView from "../../../../artifacts/ra-form-item-view";
 import {viewCommon} from "../../../../assets/jss/style-jss";
+import {RaUtil} from "../../../../artifacts/ra-util";
 
 class TodoComplexityView extends RaViewComponent {
 
@@ -92,15 +93,15 @@ class TodoComplexityView extends RaViewComponent {
                 <DialogContent>
                     <Grid container spacing={8}>
                         <Grid item xs={2}>
-                            <RaFormItemView label="Status" value={this.getFormDataValue("status")}/>
+                            <RaFormItemView label="Status" value={RaUtil.constantToHumanReadable(this.getFormDataValue("status"))}/>
                         </Grid>
 
                         <Grid item xs={3}>
-                            <RaFormItemView label="Task Type" value={this.getFormDataValue("taskType")}/>
+                            <RaFormItemView label="Task Type" value={RaUtil.constantToHumanReadable(this.getFormDataValue("taskType"))}/>
                         </Grid>
 
                         <Grid item xs={3}>
-                            <RaFormItemView label="Type" value={this.getFormDataValue("type")}/>
+                            <RaFormItemView label="Type" value={RaUtil.constantToHumanReadable(this.getFormDataValue("type"))}/>
                         </Grid>
 
                         <Grid item xs={2}>
