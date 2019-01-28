@@ -105,7 +105,6 @@ class TodoDefinitionService {
         gsApiActionDefinition.addRequestProperty("dueDate").required().setErrorMessage("Need to specify Due Date.").enableTypeCast().setDateFormat("yyyy-MM-dd")
         gsApiActionDefinition.addRequestProperty("priority")
         gsApiActionDefinition.addRequestProperty("externalId")
-        gsApiActionDefinition.addRequestProperty("todoType")
         gsApiActionDefinition.addRequestProperty("description")
         gsApiActionDefinition.addRequestProperty("reference")
         gsApiActionDefinition.addRequestProperty("jsonData")
@@ -121,6 +120,7 @@ class TodoDefinitionService {
 
     GsApiActionDefinition create() {
         GsApiActionDefinition gsApiActionDefinition = createUpdateDefinition()
+        gsApiActionDefinition.addRequestProperty("todoType")
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
             @Override
             GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {

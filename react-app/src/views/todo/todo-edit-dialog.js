@@ -73,7 +73,6 @@ export default class TodoEditDialog extends RaViewComponent {
 
     formSubmitHandler = event => {
         event.preventDefault();
-        console.log("XYZ");
         const { parent, todoObject } = this.props;
         let formData = this.state.formData;
         formData = RaGsConditionMaker.equal(formData, "id", Number(todoObject.id));
@@ -102,7 +101,7 @@ export default class TodoEditDialog extends RaViewComponent {
                     <DialogTitle id="alert-dialog-title">Edit Todo</DialogTitle>
                     <DialogContent>
                             <Grid container spacing={8}>
-                                <Grid item xs={3}>
+                                <Grid item xs={4}>
                                     <TextField label="Priority" {...this.onChangeSelectProcessor("priority")} placeholder="Priority" select fullWidth>
                                         {
                                             Object.entries(this.state.priority).map(([objectKey, objectValue], key) => {
@@ -111,16 +110,7 @@ export default class TodoEditDialog extends RaViewComponent {
                                         }
                                     </TextField>
                                 </Grid>
-                                <Grid item xs={3}>
-                                    <TextField label="Todo Type" {...this.onChangeSelectProcessor("todoType")} placeholder="Type" select fullWidth>
-                                        {
-                                            Object.entries(this.state.todoType).map(([objectKey, objectValue], key) => {
-                                                return (<MenuItem key={key} value={objectKey}>{objectValue}</MenuItem>)
-                                            })
-                                        }
-                                    </TextField>
-                                </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={4}>
                                     <TextField label="Status" {...this.onChangeSelectProcessor("status")} placeholder="Status" select fullWidth>
                                         {
                                             Object.entries(this.state.status).map(([objectKey, objectValue], key) => {
@@ -129,7 +119,7 @@ export default class TodoEditDialog extends RaViewComponent {
                                         }
                                     </TextField>
                                 </Grid>
-                                <Grid item xs={3}><TextField label="Due Date" {...this.onChangeTextFieldProcessor("dueDate")} placeholder="Due Date" type="date" fullWidth/></Grid>
+                                <Grid item xs={4}><TextField label="Due Date" {...this.onChangeTextFieldProcessor("dueDate")} placeholder="Due Date" type="date" fullWidth/></Grid>
 
                                 <Grid item xs={12}><TextField label="Name" {...this.onChangeTextFieldProcessor("name")} fullWidth/></Grid>
                                 <Grid item xs={12}><TextField multiline rows={8} label="Description (Markdown)" {...this.onChangeTextFieldProcessor("description")} onFocus={event =>{this.selectMarkdownViewer(event, "description")}} fullWidth/></Grid>
