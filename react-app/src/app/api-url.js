@@ -44,6 +44,7 @@ export const ApiURL = {
     StepGetDetailsByTodo: "api/v1/step/detailsByTodo",
     StepUpdate: "api/v1/step/update",
     StepDelete: "api/v1/step/delete",
+    StepSoftDelete: "api/v1/step/softDelete",
     StepDetails: "api/v1/step/details",
     StepSaveSort: "api/v1/step/saveSort",
 

@@ -76,7 +76,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
         let component = actionDefinition.component;
         if (additionalInformation.id) {
             let formData = RaGsConditionMaker.equal({}, "id", additionalInformation.id);
-            component.deleteJsonToApi(ApiURL.StepDelete, formData,
+            component.deleteJsonToApi(ApiURL.StepSoftDelete, formData,
                 success => {
                     component.loadComplexityStep();
                     component.showSuccessInfo("Successfully Deleted")
