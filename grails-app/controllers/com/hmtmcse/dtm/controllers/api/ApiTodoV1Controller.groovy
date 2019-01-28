@@ -19,6 +19,14 @@ class ApiTodoV1Controller extends GsRestProcessor {
         return list(todoDefinitionService.list())
     }
 
+    def deleteDelete() {
+        return delete(todoDefinitionService.delete())
+    }
+
+    def deleteSoftDelete() {
+        return customProcessor(todoDefinitionService.softDelete())
+    }
+
     def getList() {
         return list(todoDefinitionService.list())
     }

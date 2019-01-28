@@ -203,6 +203,8 @@ class TodoDefinitionService {
                     }
                 }
                 definition.addToWhereFilterProperty("privateFor")
+                definition.addToWhereFilterProperty("isDeleted")
+                gsFilteredData.where.addEqual("isDeleted", false)
                 gsFilteredData.where.addOr()
                         .addIsNull("privateFor")
                         .addEqual("privateFor", authenticationService.userInfo)
@@ -263,5 +265,28 @@ class TodoDefinitionService {
         return gsApiActionDefinition
     }
 
+
+    GsApiActionDefinition delete(){
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
+        gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Successfully Deleted")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Delete")
+        return gsApiActionDefinition
+    }
+
+
+    GsApiActionDefinition softDelete() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
+        gsApiActionDefinition.addRequestProperty("id").enableTypeCast()
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Successfully Deleted")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Delete")
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return todoService.softDelete(actionDefinition, paramData, apiHelper)
+            }
+        }
+        return gsApiActionDefinition
+    }
 
 }

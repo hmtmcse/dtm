@@ -85,3 +85,23 @@ Implementation
 16. Trash
 17. Change history check
 18. Last updates
+
+
+
+Bug Types or states
+--------------------------
+1. Invalid
+2. Bug
+2. Improvement
+2. Task
+
+Status
+3. Todo
+3. Close
+3. Development
+4. Discussion
+4. Testing
+
+
+
+

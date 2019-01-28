@@ -31,6 +31,14 @@ class ComplexityService {
         return []
     }
 
+    def softDeleteAllComplexityByTodo(Todo todo) {
+        List<Complexity> complexityList = getAllComplexityByTodo(todo)
+        complexityList.each { Complexity complexity ->
+            complexity.isDeleted = true
+            complexity.save(flush: true)
+        }
+    }
+
 
     def getComplexityById(Long id) {
         return Complexity.createCriteria().get {

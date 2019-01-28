@@ -74,6 +74,12 @@ export default class RaViewComponent extends Component {
         this.props.route.history.push(url, state)
     };
 
+
+    goToUrlWithMessage = (url, message, isSuccess = true) => {
+        RaStaticHolder.addMessageData(message, isSuccess);
+        this.goToUrl(url);
+    };
+
     getValueFromParams(key) {
         if (this.props.route && this.props.route.match){
             return this.props.route.match.params[key];

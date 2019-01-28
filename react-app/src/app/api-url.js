@@ -20,7 +20,8 @@ export const ApiURL = {
     TodoList: "api/v1/todo/list",
     TodoQuickCreate: "api/v1/todo/quickCreate",
     TodoUpdate: "api/v1/todo/update",
-    TodoDelete: "",
+    TodoDelete: "api/v1/todo/delete",
+    TodoSoftDelete: "api/v1/todo/softDelete",
     TodoDetails: "api/v1/todo/details",
     TodoAllDetails: "api/v1/todo/allDetails",
     TodoAllDetailsByCondition: "api/v1/todo/allDetailsByCondition",
@@ -34,6 +35,7 @@ export const ApiURL = {
     ComplexityGetDetailsByTodoAndType: "api/v1/complexity/detailsByTodoAndType",
     ComplexityUpdate: "api/v1/complexity/update",
     ComplexityDelete: "api/v1/complexity/delete",
+    ComplexitySoftDelete: "api/v1/complexity/softDelete",
     ComplexityDetails: "api/v1/complexity/details",
     ComplexitySaveSort: "api/v1/complexity/saveSort",
 

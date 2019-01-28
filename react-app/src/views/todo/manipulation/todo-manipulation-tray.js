@@ -52,17 +52,20 @@ class TodoManipulationTray extends RaViewComponent {
             };
             this.postJsonToApi(ApiURL.TodoAllDetailsByCondition, condition, response => {
                 let allDetails = response.data.response;
-                this.setState({allDetails: allDetails});
-                if (Object.getOwnPropertyNames(allDetails.complexity).length) {
-                    this.setState({complexityAndSteps: allDetails.complexity});
-                }
-                if (callBack){
-                    callBack();
+                if (response.data.isSuccess){
+                    this.setState({allDetails: allDetails});
+                    if (Object.getOwnPropertyNames(allDetails.complexity).length) {
+                        this.setState({complexityAndSteps: allDetails.complexity});
+                    }
+                    if (callBack){
+                        callBack();
+                    }
+                }else{
+                    this.goToUrlWithMessage("/todo", "Invalid Request", false);
                 }
             });
         } else {
-            RaStaticHolder.addMessageData("Invalid Todo Details", false);
-            this.goToUrl("/todo");
+            this.goToUrlWithMessage("/todo", "Invalid Request", false);
         }
     }
 
@@ -99,7 +102,7 @@ class TodoManipulationTray extends RaViewComponent {
             complexityPanelSpan = 12;
         }
 
-        let todoName = (this.state.allDetails.name ? this.state.allDetails.name : "");
+        let todoName =  this.getValueFromObject(this.state.allDetails, "name", "");
         return (
             <React.Fragment>
                 <Paper className={classes.againMainActionArea}>

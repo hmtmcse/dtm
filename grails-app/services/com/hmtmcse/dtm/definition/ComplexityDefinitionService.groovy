@@ -157,4 +157,16 @@ class ComplexityDefinitionService {
         return gsApiActionDefinition
     }
 
+    GsApiActionDefinition softDelete() {
+        GsApiActionDefinition gsApiActionDefinition = delete()
+        gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
+            @Override
+            GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {
+                definition.addRequestProperty("isDeleted")
+                gsFilteredData.gsParamsPairData.addToParams("isDeleted", true)
+                return gsFilteredData
+            }
+        }
+        return gsApiActionDefinition
+    }
 }

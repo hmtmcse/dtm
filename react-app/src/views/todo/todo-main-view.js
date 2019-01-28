@@ -150,6 +150,7 @@ class TodoMainView extends RaViewComponent {
 
 
     initiateForm() {
+        this.showFlashMessage();
         this.setState((state) => {
             let formData = {
                 priority: "NA",
@@ -158,7 +159,6 @@ class TodoMainView extends RaViewComponent {
             };
             return {formData: formData};
         });
-        this.showFlashMessage();
         this.loadDropDownValues();
         this.loadList();
     }
@@ -194,8 +194,13 @@ class TodoMainView extends RaViewComponent {
             condition = RaGsConditionMaker.equal(condition, "status", this.statusSelectValue);
         }
         this.postJsonToApi(ApiURL.TodoList, condition, response => {
-            this.setState({todoList: response.data.response});
-            this.setState({total: response.data.total ? response.data.total : 0});
+            if (response.data.isSuccess){
+                this.setState({todoList: response.data.response});
+                this.setState({total: response.data.total ? response.data.total : 0});
+            }else{
+                this.showErrorInfo("Invalid Request");
+                this.goToUrl("/todo");
+            }
         });
     }
 
@@ -235,16 +240,24 @@ class TodoMainView extends RaViewComponent {
     };
 
 
-    deleteAction = (event, actionDefinition) =>{
+    deleteAction = (event, actionDefinition) => {
         let additionalInformation = actionDefinition.additionalInformation;
         let component = actionDefinition.component;
         if (additionalInformation.id) {
-            let formData = RaGsConditionMaker.equal({}, "id", additionalInformation.id);
-            component.deleteJsonToApi(ApiURL.UserDelete, formData,
+            let formData = {"id": additionalInformation.id};
+            component.deleteJsonToApi(ApiURL.TodoSoftDelete, formData,
                 success => {
-                    component.processFormResponse(success.data, "/user");
-                    component.loadList();
-                    component.showSuccessInfo("Successfully Deleted")
+                    let data = success.data;
+                    if (data.isSuccess) {
+                        component.loadList();
+                        component.showSuccessInfo("Successfully Deleted")
+                    } else {
+                        parent.showErrorInfo(data.message);
+                        this.closePopup();
+                    }
+                },
+                failed => {
+                    component.showErrorInfo("Unable to Delete Data")
                 }
             )
         }

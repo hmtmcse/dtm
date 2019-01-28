@@ -32,6 +32,9 @@ class ApiStepV1Controller extends GsRestProcessor {
         return delete(stepsDefinitionService.delete())
     }
 
+    def deleteSoftDelete() {
+        return update(stepsDefinitionService.softDelete())
+    }
 
     def postSaveSort() {
         return customProcessor(stepsDefinitionService.saveSort())

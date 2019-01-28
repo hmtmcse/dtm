@@ -19,6 +19,10 @@ class TodoService {
         return Todo.createCriteria().get {
             eq("id", id)
             eq("isDeleted", false)
+            or{
+                isNull("privateFor")
+                eq("privateFor", authenticationService.userInfo)
+            }
         }
     }
 
@@ -157,5 +161,19 @@ class TodoService {
         }
     }
 
+
+    GsApiResponseData softDelete(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        Todo todo = getTodoById(paramData.filteredGrailsParameterMap.id)
+        if (!todo){
+            return GsApiResponseData.failed("Invalid Todo")
+        }
+        complexityService.softDeleteAllComplexityByTodo(todo)
+        todo.isDeleted = true
+        todo.save(flush: true)
+        if (todo.hasErrors()){
+            return GsApiResponseData.failed("Unable to Delete Todo")
+        }
+        return GsApiResponseData.successMessage("Successfully Deleted")
+    }
 
 }

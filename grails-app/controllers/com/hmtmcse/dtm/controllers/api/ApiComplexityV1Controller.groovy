@@ -39,6 +39,10 @@ class ApiComplexityV1Controller extends GsRestProcessor {
         return delete(complexityDefinitionService.delete())
     }
 
+    def deleteSoftDelete() {
+        return update(complexityDefinitionService.softDelete())
+    }
+
     def postSaveSort() {
         return customProcessor(complexityDefinitionService.saveSort())
     }
