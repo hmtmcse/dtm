@@ -66,6 +66,7 @@ class TodoService {
             processedResponse.changeLog = changeLogService.getAllChangeLogByTodoForAPI(todo)
             processedResponse.note = noteService.getAllNoteByTodoForAPI(todo)
             processedResponse.bug = bugReportService.getAllBugReportByTodoAPI(todo)
+            processedResponse.summery = processTodoSummery(todo, complexityType)
         }
         return GsApiResponseData.successResponse(processedResponse)
     }
@@ -90,8 +91,8 @@ class TodoService {
         return 0
     }
 
-    String calculateEstimation(Todo todo){
-        Map summary = processTodoSummery(todo)
+    String calculateEstimation(Todo todo, String type = null){
+        Map summary = processTodoSummery(todo, type)
         return summary.estimation
     }
 
@@ -114,7 +115,7 @@ class TodoService {
         return summery
     }
 
-    Map processTodoSummery(Todo todo){
+    Map processTodoSummery(Todo todo, String type = null){
         def summery = [
                 totalComplexity : 0,
                 totalStep : 0,
@@ -122,9 +123,12 @@ class TodoService {
                 estimation : ""
         ]
         if (todo){
-            summery.totalComplexity = todo.complexity.size()
             Map complexitySummery = [:]
             todo.complexity.each { Complexity complexity ->
+                if (type && !type.equals(complexity.type)){
+                    return
+                }
+                summery.totalComplexity += 1
                 complexitySummery = processTodoComplexity(complexity)
                 summery.estimatedHour += complexitySummery.estimatedHour
                 summery.totalStep += complexitySummery.totalStep
