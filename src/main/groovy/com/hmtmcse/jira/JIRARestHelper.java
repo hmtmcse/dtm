@@ -31,6 +31,7 @@ public class JIRARestHelper {
             jiraUserData.email = user.getEmailAddress();
             jiraUserData.name = user.getDisplayName();
             jiraUserData.isLoginSuccess = true;
+            jiraRestClient.close();
         } catch (Exception e) {
             jiraUserData.isLoginSuccess = false;
         }
