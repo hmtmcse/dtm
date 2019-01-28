@@ -7,15 +7,15 @@ import {ApiURL} from "../app/api-url";
 const login = (loginData) => {
     if (loginData !== undefined && loginData instanceof Object){
         let response = loginData.response;
-        RaBrowserStorage.addAsJSONStringInSession(AppConstant.NAVIGATION, response.navigation);
-        RaBrowserStorage.addAsJSONStringInSession(AppConstant.PREFERENCE, response.preference);
+        RaBrowserStorage.addAsJSONString(AppConstant.NAVIGATION, response.navigation);
+        RaBrowserStorage.addAsJSONString(AppConstant.PREFERENCE, response.preference);
         loginData.sessionExpire = (+ new Date());
     }
-    RaBrowserStorage.addAsJSONStringInSession(AppConstant.USER_AUTH_INFO, loginData);
+    RaBrowserStorage.addAsJSONString(AppConstant.USER_AUTH_INFO, loginData);
 };
 
 const isEnableNavigation = (name) => {
-    let navigationData = RaBrowserStorage.getAsJSONFromSession(AppConstant.NAVIGATION);
+    let navigationData = RaBrowserStorage.getAsJSON(AppConstant.NAVIGATION);
     if (navigationData === undefined || navigationData === null) {
         return false
     }
@@ -27,11 +27,11 @@ const logout = () => {
     RaHttpUtil.getRequest(ApiURL.BaseURL + ApiURL.Logout, success =>{
         RaUrlUtil.redirectTo(AppConstant.loginUrl);
     });
-    RaBrowserStorage.clearSession();
+    RaBrowserStorage.clear();
 };
 
 const isAuthenticated = () => {
-    let loginData = RaBrowserStorage.getAsJSONFromSession(AppConstant.USER_AUTH_INFO);
+    let loginData = RaBrowserStorage.getAsJSON(AppConstant.USER_AUTH_INFO);
     if (!loginData){
         return false;
     }

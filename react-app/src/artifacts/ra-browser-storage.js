@@ -19,6 +19,10 @@ export default class RaBrowserStorage {
     }
 
 
+    static clear() {
+        return localStorage.clear();
+    }
+
     static getByKey(key) {
         return localStorage.getItem(key);
     }
