@@ -9,7 +9,6 @@ import {ApiURL} from "../../../app/api-url";
 import {AppConstant} from "../../../app/app-constant";
 import {viewCommon} from "../../../assets/jss/style-jss";
 import Grid from "@material-ui/core/Grid/Grid";
-import RaStaticHolder from "../../../artifacts/ra-static-holder";
 import TodoChangeLogPanel from "./panel/todo-change-log-panel";
 import TodoNotePanel from "./panel/todo-note-panel";
 import TodoComplexityPanel from "./panel/todo-complexity-panel";

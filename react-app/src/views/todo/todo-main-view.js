@@ -25,6 +25,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import BlurLinearIcon from '@material-ui/icons/BlurLinear';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
+import NoteIcon from '@material-ui/icons/NoteAdd';
 import ClearIcon from '@material-ui/icons/Clear';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PublishIcon from '@material-ui/icons/CloudDone';
@@ -344,6 +345,7 @@ class TodoMainView extends RaViewComponent {
                     allActions.taskWarrior = ActionDefinition.instance("Task Warrior", this.taskWarrior, DeviceHubIcon).setComponent(this).addAdditionalInfo(info);
                     break;
                 case "NOTE":
+                    allActions.taskAction = ActionDefinition.instance("Notes", this.allActions, NoteIcon).setComponent(this).addAdditionalInfo(info).setUrl("/todo/note-type/");
                     break;
                 case "TASK":
                     allActions.taskAction = ActionDefinition.instance("Task Actions", this.allActions, LineStyleIcon).setComponent(this).addAdditionalInfo(info).setUrl("/todo/task-type/");

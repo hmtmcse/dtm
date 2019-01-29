@@ -142,6 +142,7 @@ class TodoService {
     List<Todo> allAssignedTodoList(Integer offset = 0, Integer max = 5) {
         return Todo.createCriteria().list([max: max, offset: offset]) {
             eq("isDeleted", false)
+            isNull("privateFor")
             assignee {
                 eq("assignTo", authenticationService.userInfo)
                 order("lastUpdated", "desc")
