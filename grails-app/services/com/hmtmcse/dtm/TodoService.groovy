@@ -72,15 +72,8 @@ class TodoService {
     }
 
     String calculateDepth(Todo todo){
-        Integer complexity = 0
-        Integer steps = 0
-        if (todo){
-            complexity = todo.complexity.size()
-            todo.complexity.each {
-                steps += it.steps.size()
-            }
-        }
-        return "${complexity}-${steps}"
+        Map summery = processTodoSummery(todo)
+        return "${summery.totalComplexity}-${summery.totalStep}"
     }
 
     Integer calculateDue(Todo todo){
@@ -104,8 +97,11 @@ class TodoService {
                 estimation : ""
         ]
         if (complexity){
-            summery.totalStep += complexity.steps.size()
             complexity.steps.each { Steps estimationStep ->
+                if (estimationStep.isDeleted){
+                    return
+                }
+                summery.totalStep += 1
                 if (estimationStep.estimatedHour){
                     summery.estimatedHour += estimationStep.estimatedHour
                 }
@@ -128,6 +124,10 @@ class TodoService {
                 if (type && !type.equals(complexity.type)){
                     return
                 }
+                if (complexity.isDeleted){
+                    return
+                }
+
                 summery.totalComplexity += 1
                 complexitySummery = processTodoComplexity(complexity)
                 summery.estimatedHour += complexitySummery.estimatedHour
