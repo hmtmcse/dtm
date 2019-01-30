@@ -52,7 +52,7 @@ class UserDefinitionService {
         gsApiActionDefinition.addRequestProperty("firstName").required()
         gsApiActionDefinition.addRequestProperty("lastName")
         gsApiActionDefinition.addResponseProperty("uuid")
-        gsApiActionDefinition.includeInWhereFilter(["id"])
+        gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
@@ -77,7 +77,7 @@ class UserDefinitionService {
 
     GsApiActionDefinition delete(){
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
-        gsApiActionDefinition.includeInWhereFilter(["id"])
+        gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
