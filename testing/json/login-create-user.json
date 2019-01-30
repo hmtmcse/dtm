@@ -1,0 +1,30 @@
+{
+  "baseUrl": "http://localhost:1122",
+  "contextType": "application/json",
+  "name": "Login & Create User to DTM",
+  "requests": [
+    {
+      "name": "Login",
+      "url": "/api/v1/authentication/login",
+      "method": "post",
+      "contextType": "application/json",
+      "params": {
+        "email": "admin@taskmanager.local",
+        "password": "123456"
+      },
+      "response": {
+        "contextType": "application/json",
+        "jsonAssertion":{
+          "equal": {
+            "isSuccess": true
+          }
+        },
+        "httpCode": 200,
+        "content": {
+          "isDeleted": true,
+          "isActive": true
+        }
+      }
+    }
+  ]
+}
