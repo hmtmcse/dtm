@@ -145,7 +145,6 @@ export default class RaViewComponent extends Component {
             },
             changeItemPerPage:(event) => {
                 this.state.max = event.target.value;
-                console.log("handleChangePage " + event.target.value)
                 this.loadList();
             },
         }

@@ -5,7 +5,6 @@ import {
     withStyles
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import LockIcon from '@material-ui/icons/LockOutlined';
 import {AuthenticationService} from "../services/authentication-service";
 import RaViewComponent from "../artifacts/ra-view-component";
 import {RaUrlUtil} from "../artifacts/ra-url-util";
