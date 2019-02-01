@@ -8,7 +8,7 @@ export const TaskStatusColor = {
     allColors: {
         "DRAFT": "black",
         "DONE": "LimeGreen",
-        "PROCESSING": "coral",
+        "PROCESSING": "Gold",
         "PENDING": "blue",
         "TODO": "cyan",
         "FAILED": "red",
@@ -26,7 +26,7 @@ export const TaskStatusColor = {
     },
 
     statusDivider: (status) => {
-        return (<Divider light={true} style={{height:'2px', background: TaskStatusColor.allColors[status]}}/>)
+        return (<Divider light={true} style={{height:'5px', background: TaskStatusColor.allColors[status]}}/>)
     }
 
 };
