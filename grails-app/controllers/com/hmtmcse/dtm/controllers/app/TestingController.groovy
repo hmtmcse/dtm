@@ -1,13 +1,16 @@
 package com.hmtmcse.dtm.controllers.app
 
-import com.hmtmcse.dtm.ComplexityService
+import com.hmtmcse.dtm.DummyDataService
+import grails.util.Environment
 
 class TestingController {
 
-    ComplexityService complexityService
+    DummyDataService dummyDataService
 
-    def index() {
-        complexityService.getComplexityListWithStepForAPI()
+    def iniDummy() {
+        if (Environment.current == Environment.DEVELOPMENT){
+            dummyDataService.init()
+        }
         render("Nice")
     }
 }
