@@ -5,8 +5,7 @@ import {
 import React from 'react';
 import TodoBugReportDialog from "../dialog/todo-bug-report-dialog";
 import AddIcon from '@material-ui/icons/Add';
-import RaExpandableCard from "../../../../artifacts/ra-expandable-card";
-import {ActionDefinition} from "../../../../artifacts/ra-table-action";
+import RaExpandableCard, {ActionDefinition} from "../../../../artifacts/ra-expandable-card";
 import RaViewComponent from "../../../../artifacts/ra-view-component";
 import {ApiURL} from "../../../../app/api-url";
 import {withStyles} from '@material-ui/core/styles';
