@@ -27,6 +27,14 @@ class ApiComplexityV1Controller extends GsRestProcessor {
         return customProcessor(complexityDefinitionService.getDetailsByTodo())
     }
 
+    def getChangeStatus() {
+        return customProcessor(complexityDefinitionService.changeStatus())
+    }
+
+    def postChangeStatus() {
+        return customProcessor(complexityDefinitionService.changeStatus())
+    }
+
     def getDetailsByTodoAndType() {
         return customProcessor(complexityDefinitionService.getDetailsByTodoAndType())
     }

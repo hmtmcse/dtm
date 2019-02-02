@@ -10,12 +10,16 @@ class TMConstant {
     public static final NA = "NA"
     public static final DEVELOPMENT = "DEVELOPMENT"
     public static final HAPPY_TESTING = "HAPPY_TESTING"
-    public static final DRAFT = "DRAFT"
+
 
     public static final WARRIOR = "WARRIOR"
     public static final COMMANDER = "COMMANDER"
 
 
+    public static final DRAFT = "DRAFT"
+    public static final DONE = "DONE"
+    public static final TODO = "TODO"
+    public static final PROCESSING = "PROCESSING"
     public static final STATUS = [
             DRAFT     : "Draft",
             DONE      : "Done",
@@ -24,6 +28,15 @@ class TMConstant {
             TODO      : "Todo",
             FAILED    : "Failed",
     ]
+    public static final getStatusCalculatorMap() {
+        return [
+                processing      : 0,
+                done            : 0,
+                other           : 0,
+                total           : 0,
+                complexityStatus: "",
+        ]
+    }
 
 
     public static final PRIORITY = [

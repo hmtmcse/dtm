@@ -29,7 +29,7 @@ export const ApiURL = {
     TodoUnpublish: "api/v1/todo/unpublish",
 
 
-    ComplexityList: "",
+    ComplexityChangeStatus: "api/v1/complexity/changeStatus",
     ComplexityCreate: "api/v1/complexity/create",
     ComplexityGetDetailsByTodo: "api/v1/complexity/detailsByTodo",
     ComplexityGetDetailsByTodoAndType: "api/v1/complexity/detailsByTodoAndType",
@@ -39,7 +39,7 @@ export const ApiURL = {
     ComplexityDetails: "api/v1/complexity/details",
     ComplexitySaveSort: "api/v1/complexity/saveSort",
 
-    StepList: "",
+    StepChangeStatus: "api/v1/step/changeStatus",
     StepCreate: "api/v1/step/create",
     StepGetDetailsByTodo: "api/v1/step/detailsByTodo",
     StepUpdate: "api/v1/step/update",

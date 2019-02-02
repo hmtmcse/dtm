@@ -68,6 +68,23 @@ class TodoManipulationTray extends RaViewComponent {
         }
     }
 
+    updateStatus(formData, url){
+        let parent = this;
+        this.postJsonToApi(url, formData, success => {
+                let data = success.data;
+                if (data.isSuccess){
+                    parent.loadAllDetails(
+                        ()=>{
+                            this.showSuccessInfo(data.message);
+                        }
+                    );
+                }else{
+                    this.showErrorInfo(data.message);
+                }
+            }
+        )
+    }
+
 
     openTodoComplexity(event) {
         this.setState(state => ({

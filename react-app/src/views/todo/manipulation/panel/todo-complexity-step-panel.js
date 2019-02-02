@@ -1,20 +1,20 @@
 import PropTypes from "prop-types";
 import {
-    Button, Card, CardActions, Typography, CardContent
+    Card, CardContent
 } from '@material-ui/core'
 import React from 'react';
-import RaExpandableCard from "../../../../artifacts/ra-expandable-card";
-import {ActionDefinition} from "../../../../artifacts/ra-table-action";
+import RaExpandableCard, {ActionDefinition} from "../../../../artifacts/ra-expandable-card";
 import RaViewComponent from "../../../../artifacts/ra-view-component";
 import {ApiURL} from "../../../../app/api-url";
 import {withStyles} from '@material-ui/core/styles';
 import {viewCommon} from "../../../../assets/jss/style-jss";
 import {RaGsConditionMaker} from "../../../../artifacts/ra-gs-condition-maker";
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import {Draggable, Droppable} from "react-beautiful-dnd";
 import TodoComplexityStepDialog from "../dialog/todo-complexity-step-dialog";
 import {TaskStatusColor} from "../../../../app/task-status-color";
 import TodoComplexityStepDetailsPanel from "../details-panel/todo-complexity-step-details-panel";
 import TodoComplexityStepTitlePanel from "../title-panel/todo-complexity-step-title-panel";
+import {TodoCommonService} from "../../../../app/todo-common-service";
 
 
 
@@ -93,14 +93,27 @@ class TodoComplexityStepPanel extends RaViewComponent {
         actionDefinition.component.openTodoComplexityStep(event, additionalInformation.id);
     };
 
+    updateStepStatus(formData){
+        const {uiDefinition, parent} = this.props;
+        parent.updateComplexityOrStepStatus(formData, ApiURL.StepChangeStatus);
+    }
+
+    changeStatus (event, actionDefinition){
+        let additionalInformation = actionDefinition.additionalInformation;
+        actionDefinition.component.updateStepStatus({id: additionalInformation.id, status:actionDefinition.params.status});
+    }
+
 
     appRender() {
         let noteActions = info => {
             let actions = ActionDefinition.commonActions(info, this);
             actions.editAction.action = this.editAction;
-            delete (actions.viewAction);
             actions.deleteAction.action = this.deleteAction;
-            return actions;
+            let actionList = {};
+            actionList.status = TodoCommonService.changeStatusAction(info,this,"", this.changeStatus);
+            actionList.editAction = actions.editAction;
+            actionList.deleteAction = actions.deleteAction;
+            return actionList;
         };
         const {stepIdentity, uiDefinition} = this.props;
         let thisParent = this;

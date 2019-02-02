@@ -31,6 +31,25 @@ class ComplexityService {
         return []
     }
 
+    GsApiResponseData changeStatus(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        def params = paramData.filteredGrailsParameterMap
+        if (!TMConstant.STATUS.containsKey(params.status)) {
+            return GsApiResponseData.failed("Invalid Status")
+        }
+        Complexity complexity = getComplexityById(params.id)
+        if (complexity) {
+            complexity.status = params.status
+            complexity.save(flush: true)
+            if (complexity.hasErrors()) {
+                return GsApiResponseData.failed("Unable to Update")
+            }
+            todoService.updateTodoStatus(complexity.todo.id)
+        } else {
+            return GsApiResponseData.failed("Invalid Complexity")
+        }
+        return GsApiResponseData.successMessage("Updated")
+    }
+
     def softDeleteAllComplexityByTodo(Todo todo) {
         List<Complexity> complexityList = getAllComplexityByTodo(todo)
         complexityList.each { Complexity complexity ->
@@ -45,6 +64,42 @@ class ComplexityService {
             eq("id", id)
             eq("isDeleted", false)
         }
+    }
+
+    Map currentComplexityStatus(Complexity complexity){
+        Map status = TMConstant.getStatusCalculatorMap()
+        if (complexity){
+            complexity.steps.each { Steps steps ->
+                if (steps.isDeleted){
+                    return
+                }else if (steps.status && steps.status.equals(TMConstant.DONE)){
+                    status.done++
+                }else if (steps.status && steps.status.equals(TMConstant.PROCESSING)){
+                    status.processing++
+                }else{
+                    status.other++
+                }
+                status.total++
+            }
+            status.complexityStatus = complexity.status
+        }
+        return status
+    }
+
+    def updateComplexityStatusById(Long id){
+        Complexity complexity = getComplexityById(id)
+        updateComplexityStatus(complexity)
+    }
+
+    def updateComplexityAndTodoStatus(Complexity complexity){
+        updateComplexityStatus(complexity)
+        todoService.updateTodoStatus(complexity.todo.id)
+    }
+
+    def updateComplexityStatus(Complexity complexity) {
+        Map status = currentComplexityStatus(complexity)
+        complexity.status = todoService.calculateStatus(status)
+        complexity.save(flush: true)
     }
 
     def getAllComplexityAPIByTodoId(Long todoId) {

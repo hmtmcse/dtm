@@ -146,4 +146,20 @@ class StepsDefinitionService {
         }
         return gsApiActionDefinition
     }
+
+
+    GsApiActionDefinition changeStatus() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Steps>(Steps)
+        gsApiActionDefinition.addRequestProperty("id", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.addRequestProperty("status", SwaggerConstant.SWAGGER_DT_STRING).required()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return stepService.changeStatus(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Update")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Update")
+        return gsApiActionDefinition
+    }
 }

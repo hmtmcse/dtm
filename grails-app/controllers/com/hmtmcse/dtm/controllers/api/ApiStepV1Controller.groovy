@@ -40,4 +40,12 @@ class ApiStepV1Controller extends GsRestProcessor {
         return customProcessor(stepsDefinitionService.saveSort())
     }
 
+    def getChangeStatus() {
+        return customProcessor(stepsDefinitionService.changeStatus())
+    }
+
+    def postChangeStatus() {
+        return customProcessor(stepsDefinitionService.changeStatus())
+    }
+
 }

@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import {
-    Button, Card, CardActions, Typography, CardContent
+    Button, Card, CardActions, Typography, CardContent, ListItemIcon, MenuItem
 } from '@material-ui/core'
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import PagesIcon from '@material-ui/icons/Pages';
 import PlaylistAdd from '@material-ui/icons/PlaylistAdd';
-import RaExpandableCard from "../../../../artifacts/ra-expandable-card";
-import {ActionDefinition} from "../../../../artifacts/ra-table-action";
+import RaExpandableCard, {ActionDefinition} from "../../../../artifacts/ra-expandable-card";
 import RaViewComponent from "../../../../artifacts/ra-view-component";
 import {ApiURL} from "../../../../app/api-url";
 import {withStyles} from '@material-ui/core/styles';
@@ -20,6 +21,7 @@ import TodoComplexityView from "../view/todo-complexity-view";
 import {TaskStatusColor} from "../../../../app/task-status-color";
 import TodoComplexityTitlePanel from "../title-panel/todo-complexity-title-panel";
 import TodoComplexityDetailsPanel from "../details-panel/todo-complexity-details-panel";
+import {TodoCommonService} from "../../../../app/todo-common-service";
 
 
 
@@ -155,6 +157,28 @@ class TodoComplexityPanel extends RaViewComponent {
         }
     }
 
+    updateComplexityOrStepStatus(formData, url){
+        const {uiDefinition, parentComponent} = this.props;
+        parentComponent.updateStatus(formData, url);
+    }
+
+    changeStatus (event, actionDefinition){
+        let additionalInformation = actionDefinition.additionalInformation;
+        actionDefinition.component.updateComplexityOrStepStatus({id: additionalInformation.id, status:actionDefinition.params.status}, ApiURL.ComplexityChangeStatus);
+    }
+
+    migrationAction (info){
+        let status = ActionDefinition.instance("Migrations", undefined, PagesIcon).setComponent(this).addAdditionalInfo(info);
+
+        let itemIcon = (
+            <React.Fragment><ListItemIcon><FileCopyIcon/></ListItemIcon>Clone</React.Fragment>
+        );
+        let statusType = ActionDefinition.instanceForMenu("Clone", itemIcon).setComponent(this).addAdditionalInfo(info);
+        status.addToMenu("clone", statusType);
+
+        return status;
+    }
+
     appRender() {
         const {classes, uiDefinition} = this.props;
         let noteActions = info => {
@@ -169,6 +193,9 @@ class TodoComplexityPanel extends RaViewComponent {
             if (uiDefinition.enableComplexityStepPanel) {
                 actionList.createStep = createStep;
             }
+            actionList.status = TodoCommonService.changeStatusAction(info,this,"", this.changeStatus);
+            // actionList.migration = thisParent.migrationAction(info);
+
             actionList.viewAction = actions.viewAction;
             actionList.editAction = actions.editAction;
             actionList.deleteAction = actions.deleteAction;

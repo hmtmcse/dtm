@@ -87,6 +87,22 @@ class ComplexityDefinitionService {
         return gsApiActionDefinition
     }
 
+    GsApiActionDefinition changeStatus() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Complexity>(Complexity)
+        gsApiActionDefinition.addRequestProperty("id", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.addRequestProperty("status", SwaggerConstant.SWAGGER_DT_STRING).required()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return complexityService.changeStatus(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Update")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Update")
+        return gsApiActionDefinition
+    }
+
+
     GsApiActionDefinition getDetailsByTodoAndType() {
         GsApiActionDefinition gsApiActionDefinition = detailsDefinition()
         gsApiActionDefinition.addRequestProperty("todoId", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()

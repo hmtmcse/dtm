@@ -26,6 +26,13 @@ class StepService {
         return []
     }
 
+    def getStepById(Long id) {
+        return Steps.createCriteria().get {
+            eq("isDeleted", false)
+            eq("id", id)
+        }
+    }
+
     GsApiResponseData saveSorting(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         def map = paramData.filteredGrailsParameterMap.itemMap
         if (paramData.filteredGrailsParameterMap.itemMap){
@@ -38,6 +45,25 @@ class StepService {
                     steps.save(flush: true)
                 }
             }
+        }
+        return GsApiResponseData.successMessage("Updated")
+    }
+
+    GsApiResponseData changeStatus(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        def params = paramData.filteredGrailsParameterMap
+        if (!TMConstant.STATUS.containsKey(params.status)) {
+            return GsApiResponseData.failed("Invalid Status")
+        }
+        Steps steps = getStepById(params.id)
+        if (steps) {
+            steps.status = params.status
+            steps.save(flush: true)
+            if (steps.hasErrors()) {
+                return GsApiResponseData.failed("Unable to Update")
+            }
+            complexityService.updateComplexityAndTodoStatus(steps.complexity)
+        } else {
+            return GsApiResponseData.failed("Invalid Steps")
         }
         return GsApiResponseData.successMessage("Updated")
     }

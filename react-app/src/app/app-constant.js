@@ -15,5 +15,12 @@ export const AppConstant = {
 
     rootUrl: "/",
     loginUrl: "/login",
-    loginSuccessUrl: "/dashboard"
+    loginSuccessUrl: "/dashboard",
+
+    DRAFT: "DRAFT",
+    DONE: "DONE",
+    PROCESSING: "PROCESSING",
+    PENDING: "PENDING",
+    TODO: "TODO",
+    FAILED: "FAILED",
 };

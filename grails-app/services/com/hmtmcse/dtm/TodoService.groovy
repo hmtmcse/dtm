@@ -26,6 +26,28 @@ class TodoService {
         }
     }
 
+    def updateTodoStatus(Long id) {
+        Todo todo = getTodoById(id)
+        if (todo) {
+            Map status = TMConstant.getStatusCalculatorMap()
+            Map complexityStatus = [:]
+            todo.complexity.each { Complexity complexity ->
+                if (complexity.isDeleted) {
+                    return
+                }
+                complexityStatus = complexityService.currentComplexityStatus(complexity)
+                status.processing += complexityStatus.processing
+                status.done += complexityStatus.done
+                status.other += complexityStatus.other
+                status.total += complexityStatus.total
+            }
+            String calculatedStatus = calculateStatus(status)
+            if (!calculatedStatus.equals(todo.status)) {
+                todo.status = calculatedStatus
+                todo.save(flush: true)
+            }
+        }
+    }
 
     GsApiResponseData publishUnpublish(GsParamsPairData paramData, User currentUser, String message){
         Todo todo = getTodoById(paramData.filteredGrailsParameterMap.todoId)
@@ -179,6 +201,16 @@ class TodoService {
             return GsApiResponseData.failed("Unable to Delete Todo")
         }
         return GsApiResponseData.successMessage("Successfully Deleted")
+    }
+
+    String calculateStatus(Map status){
+        if (status.total == status.done){
+            return TMConstant.DONE
+        }else if (status.processing){
+            return TMConstant.PROCESSING
+        }else {
+            return TMConstant.TODO
+        }
     }
 
 }

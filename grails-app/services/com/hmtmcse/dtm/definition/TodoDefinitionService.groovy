@@ -120,7 +120,7 @@ class TodoDefinitionService {
 
     GsApiActionDefinition create() {
         GsApiActionDefinition gsApiActionDefinition = createUpdateDefinition()
-        gsApiActionDefinition.addRequestProperty("todoType")
+        gsApiActionDefinition.addRequestProperty("todoType").required()
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
             @Override
             GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {
