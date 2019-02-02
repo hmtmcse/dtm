@@ -1,3 +1,10 @@
 rootProject.name = 'DTM'
 include 'grails-swagger'
+File configFile = file('other-plugins/')
+if (configFile.exists()){
+    configFile.list().each {
+        include(it)
+        project(":${it}").projectDir = file("other-plugins/${it}")
+    }
+}
 
