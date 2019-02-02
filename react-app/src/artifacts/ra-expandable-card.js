@@ -10,8 +10,9 @@ import RaAlertDialog from "./ra-alert-dialog";
 import {withStyles} from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
-    Card, CardActions, Typography, Collapse, Divider
+    Card, CardActions, Typography, Collapse, Divider, Menu, MenuItem, MenuList
 } from '@material-ui/core'
+import {RaUtil} from "./ra-util";
 
 
 const styles = theme => ({
@@ -43,6 +44,8 @@ class RaExpandableCard extends Component {
             expanded: false,
             showConfirmationDialog: false,
             confirmDialogConfig: {},
+            anchorEl: null,
+            nestedAction: {}
         };
     }
 
@@ -85,6 +88,44 @@ class RaExpandableCard extends Component {
         this.setState({expanded: !this.state.expanded})
     }
 
+    nestedActionOpen = (event, name) => {
+        event.preventDefault();
+        this.setState({anchorEl: event.currentTarget});
+        this.state.nestedAction[name] = true;
+        this.setState({nestedAction: this.state.nestedAction});
+    };
+
+    nestedActionClose = (event, name) => {
+        event.preventDefault();
+        this.setState({anchorEl: null});
+        let navs = this.state.nestedAction;
+        navs[name] = false;
+        this.setState({nestedAction: navs});
+    };
+
+    getNestedMenuAndItems(definition, navName){
+        const {anchorEl} = this.state;
+        let thisComponent = this;
+        return (
+            <Menu anchorEl={anchorEl} open={this.state.nestedAction[navName] ? this.state.nestedAction[navName] : false} onClose={event =>{this.nestedActionClose(event, navName)}}>
+                {
+                    _.map(definition.menu, (actionDefinition, key) => {
+                        return (
+                            <MenuItem title={actionDefinition.label} key={key} onClick={event => {
+                                if (actionDefinition.action) {
+                                    actionDefinition.action(event, actionDefinition)
+                                }
+                                thisComponent.nestedActionClose(event, navName)
+                            }}>
+                                {actionDefinition.menuItem ? (actionDefinition.menuItem) : ("")}
+                            </MenuItem>
+                        )
+                    })
+                }
+            </Menu>
+        )
+    }
+
     render() {
         const { classes, title, actions, children, titleVariant, cardTop, cardActionMiddleChildren } = this.props;
         let showHideButton = (this.state.expanded ? classes.expandOpen : classes.expandClose);
@@ -100,17 +141,22 @@ class RaExpandableCard extends Component {
                         <div>
                             {
                                 _.map(actions, (actionDefinition, key) => {
+                                    let navName = "nav" + key;
                                     return (
-                                        <IconButton title={actionDefinition.label}
-                                            key={key} onClick={ event => {
-                                            if (actionDefinition.confirmation) {
-                                                this.confirmationHandler(event, actionDefinition)
-                                            } else if (actionDefinition.action) {
-                                                actionDefinition.action(event, actionDefinition)
-                                            }
-                                        }}>
-                                            {actionDefinition.icon ? (<actionDefinition.icon/>) : (<ErrorIcon/>)}
-                                        </IconButton>
+                                        <React.Fragment key={key}>
+                                            <IconButton title={actionDefinition.label} onClick={event => {
+                                                if (actionDefinition.confirmation) {
+                                                    this.confirmationHandler(event, actionDefinition)
+                                                } else if (actionDefinition.action) {
+                                                    actionDefinition.action(event, actionDefinition)
+                                                } else if (RaUtil.isEmptyObject(actionDefinition.menu) === false) {
+                                                    this.nestedActionOpen(event, navName)
+                                                }
+                                            }}>
+                                                {actionDefinition.icon ? (<actionDefinition.icon/>) : (<ErrorIcon/>)}
+                                            </IconButton>
+                                            {RaUtil.isEmptyObject(actionDefinition.menu) ? "" : (this.getNestedMenuAndItems(actionDefinition, navName))}
+                                        </React.Fragment>
                                     )
                                 })
                             }
@@ -159,9 +205,12 @@ export class ActionDefinition {
     label = "";
     action = undefined;
     icon = ErrorIcon;
+    menuItem = undefined;
     confirmation = undefined;
     additionalInformation = undefined;
     component = undefined;
+    menu = {};
+    params = {};
 
     constructor(label, action, icon) {
         this.label = label;
@@ -169,8 +218,29 @@ export class ActionDefinition {
         this.icon = icon;
     }
 
+
     addAdditionalInfo(info){
         this.additionalInformation = info;
+        return this;
+    }
+
+    addAction(action){
+        this.action = action;
+        return this;
+    }
+
+    addToMenu(name, definition){
+        this.menu[name] = definition;
+        return this;
+    }
+
+    addToParam(name, value){
+        this.params[name] = value;
+        return this;
+    }
+
+    addToMenuItem(menuItem){
+        this.menuItem = menuItem;
         return this;
     }
 
@@ -202,5 +272,9 @@ export class ActionDefinition {
 
     static instance(label, action, icon) {
         return new ActionDefinition(label, action, icon)
+    }
+
+    static instanceForMenu(label, menuItem) {
+        return new ActionDefinition(label, undefined, undefined).addToMenuItem(menuItem)
     }
 }
