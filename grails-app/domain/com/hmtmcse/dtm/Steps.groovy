@@ -10,7 +10,7 @@ class Steps extends CommonTask {
     Boolean isLock = false
     Date startedMoment
     Double estimatedHour
-    String status = TMConstant.PENDING
+    String status = TMConstant.DRAFT
     String jsonData
     String otherInfo
     Boolean isDeleted = false
