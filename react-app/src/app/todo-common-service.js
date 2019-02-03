@@ -1,6 +1,3 @@
-import {
-    Typography, Divider
-} from "@material-ui/core";
 import React from "react";
 import {ActionDefinition} from "../artifacts/ra-expandable-card";
 import AcUnitIcon from '@material-ui/icons/AcUnit';

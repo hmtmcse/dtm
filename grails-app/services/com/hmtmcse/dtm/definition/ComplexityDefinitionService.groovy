@@ -7,9 +7,11 @@ import com.hmtmcse.gs.data.GsApiResponseData
 import com.hmtmcse.gs.data.GsApiResponseProperty
 import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.data.GsParamsPairData
+import com.hmtmcse.gs.data.GsResponsePostData
 import com.hmtmcse.gs.model.CustomProcessor
 import com.hmtmcse.gs.model.CustomResponseParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
+import com.hmtmcse.gs.model.ResponsePostProcessor
 import com.hmtmcse.swagger.SwaggerHelper
 import com.hmtmcse.swagger.definition.SwaggerConstant
 import com.hmtmcse.dtm.Complexity
@@ -19,6 +21,7 @@ import grails.web.servlet.mvc.GrailsParameterMap
 class ComplexityDefinitionService {
 
     ComplexityService complexityService
+    TodoService todoService
 
     GsApiActionDefinition list() {
         GsApiActionDefinition gsApiActionDefinition = detailsDefinition()
@@ -126,7 +129,6 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.addRequestProperty("reference")
         gsApiActionDefinition.addRequestProperty("startedMoment").enableTypeCast().setDateFormat("yyyy-MM-dd")
         gsApiActionDefinition.addRequestProperty("estimatedHour").enableTypeCast()
-        gsApiActionDefinition.addRequestProperty("status")
         gsApiActionDefinition.addRequestProperty("jsonData")
         gsApiActionDefinition.addRequestProperty("otherInfo")
         gsApiActionDefinition.addRequestProperty("type")
@@ -142,6 +144,15 @@ class ComplexityDefinitionService {
                 return gsFilteredData
             }
         }
+        gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
+            @Override
+            GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
+                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                    todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
+                }
+                return gsResponsePostData
+            }
+        }
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
@@ -154,12 +165,20 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.addRequestProperty("uuid").required()
         gsApiActionDefinition.addRequestProperty("startedMoment").enableTypeCast().setDateFormat("yyyy-MM-dd")
         gsApiActionDefinition.addRequestProperty("estimatedHour").enableTypeCast()
-        gsApiActionDefinition.addRequestProperty("status")
         gsApiActionDefinition.addRequestProperty("jsonData")
         gsApiActionDefinition.addRequestProperty("otherInfo")
         gsApiActionDefinition.addRequestProperty("type")
         gsApiActionDefinition.addRequestProperty("taskType")
         gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
+        gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
+            @Override
+            GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
+                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                    todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
+                }
+                return gsResponsePostData
+            }
+        }
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
@@ -181,6 +200,15 @@ class ComplexityDefinitionService {
                 definition.addRequestProperty("isDeleted")
                 gsFilteredData.gsParamsPairData.addToParams("isDeleted", true)
                 return gsFilteredData
+            }
+        }
+        gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
+            @Override
+            GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
+                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                    todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
+                }
+                return gsResponsePostData
             }
         }
         return gsApiActionDefinition

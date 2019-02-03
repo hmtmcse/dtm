@@ -165,7 +165,6 @@ class TodoDefinitionService {
 
     GsApiActionDefinition update() {
         GsApiActionDefinition gsApiActionDefinition = createUpdateDefinition()
-        gsApiActionDefinition.addRequestProperty("status").required() setErrorMessage("Please Enter Valid Status.")
         gsApiActionDefinition.addRequestProperty("assignee", SwaggerConstant.SWAGGER_DT_ARRAY_LONG)
         gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
         gsApiActionDefinition.successResponseAsData()

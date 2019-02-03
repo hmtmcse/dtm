@@ -1,6 +1,7 @@
 package com.hmtmcse.dtm.definition
 
 import com.hmtmcse.dtm.AppUtil
+import com.hmtmcse.dtm.ComplexityService
 import com.hmtmcse.dtm.TodoService
 import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.data.ApiHelper
@@ -8,9 +9,11 @@ import com.hmtmcse.gs.data.GsApiResponseData
 import com.hmtmcse.gs.data.GsApiResponseProperty
 import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.data.GsParamsPairData
+import com.hmtmcse.gs.data.GsResponsePostData
 import com.hmtmcse.gs.model.CustomProcessor
 import com.hmtmcse.gs.model.CustomResponseParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
+import com.hmtmcse.gs.model.ResponsePostProcessor
 import com.hmtmcse.swagger.SwaggerHelper
 import com.hmtmcse.swagger.definition.SwaggerConstant
 import com.hmtmcse.dtm.StepService
@@ -21,6 +24,7 @@ import grails.web.servlet.mvc.GrailsParameterMap
 class StepsDefinitionService {
 
     StepService stepService
+    ComplexityService complexityService
 
     static GsApiActionDefinition detailsDefinition() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Steps>(Steps)
@@ -73,7 +77,6 @@ class StepsDefinitionService {
         gsApiActionDefinition.addRequestProperty("description")
         gsApiActionDefinition.addRequestProperty("reference")
         gsApiActionDefinition.addRequestProperty("estimatedHour")
-        gsApiActionDefinition.addRequestProperty("status")
         gsApiActionDefinition.addRequestProperty("jsonData")
         gsApiActionDefinition.addRequestProperty("otherInfo")
         gsApiActionDefinition.addRequestProperty("complexity", SwaggerConstant.SWAGGER_DT_LONG)
@@ -90,6 +93,15 @@ class StepsDefinitionService {
                 return gsFilteredData
             }
         }
+        gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
+            @Override
+            GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
+                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                    complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
+                }
+                return gsResponsePostData
+            }
+        }
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
@@ -98,13 +110,21 @@ class StepsDefinitionService {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Steps>(Steps)
         gsApiActionDefinition.addRequestProperty("name")
         gsApiActionDefinition.addRequestProperty("description")
-        gsApiActionDefinition.addRequestProperty("status")
         gsApiActionDefinition.addRequestProperty("reference")
         gsApiActionDefinition.addRequestProperty("estimatedHour").setErrorMessage("Please Enter valid Estimation, in Hour format. (1 or 1.5)")
         gsApiActionDefinition.addRequestProperty("startedMoment").enableTypeCast().setDateFormat("yyyy-MM-dd")
         gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
         gsApiActionDefinition.allowedConditionOnlyEqual()
         gsApiActionDefinition.successResponseAsData()
+        gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
+            @Override
+            GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
+                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                    complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
+                }
+                return gsResponsePostData
+            }
+        }
         return gsApiActionDefinition
     }
 
@@ -125,6 +145,15 @@ class StepsDefinitionService {
                 definition.addRequestProperty("isDeleted")
                 gsFilteredData.gsParamsPairData.addToParams("isDeleted", true)
                 return gsFilteredData
+            }
+        }
+        gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
+            @Override
+            GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
+                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                    complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
+                }
+                return gsResponsePostData
             }
         }
         return gsApiActionDefinition
