@@ -17,6 +17,8 @@ class WarTodo extends CommonTask {
     Date lastUpdated
 
 
+    static hasMany = [milestone: WarPlan, event: WarPlan]
+
     static constraints = {
         start(nullable: true)
         end(nullable: true)
