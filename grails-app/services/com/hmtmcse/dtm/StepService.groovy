@@ -33,6 +33,23 @@ class StepService {
         }
     }
 
+    def cloneStepById(Long id){
+        Steps steps = getStepById(id)
+        cloneStep(steps)
+    }
+
+    def cloneStep(Steps steps, Boolean isUpdateStatus = true) {
+        if (steps){
+            Steps cloned = steps.clone()
+            cloned.id = null
+            cloned.status = TMConstant.DRAFT
+            cloned.save(flush: true)
+            if (!cloned.hasErrors() && isUpdateStatus){
+                complexityService.updateComplexityAndTodoStatus(cloned.complexity)
+            }
+        }
+    }
+
     GsApiResponseData saveSorting(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         def map = paramData.filteredGrailsParameterMap.itemMap
         if (paramData.filteredGrailsParameterMap.itemMap){
