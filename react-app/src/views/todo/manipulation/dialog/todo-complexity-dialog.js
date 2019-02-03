@@ -133,17 +133,7 @@ export default class TodoComplexityDialog extends RaViewComponent {
                 <DialogContent>
                     <form onSubmit={this.formSubmitHandler}>
                         <Grid container spacing={8}>
-                            <Grid item xs={2}>
-                                <TextField {...this.onChangeSelectProcessor("status")} label="Status" select fullWidth>
-                                    {
-                                        Object.entries(this.state.status).map(([objectKey, objectValue], key) => {
-                                            return (<MenuItem key={key} value={objectKey}>{TaskStatusColor.statusOnText(objectValue, objectKey)}</MenuItem>)
-                                        })
-                                    }
-                                </TextField>
-                            </Grid>
-
-                            <Grid item xs={3}>
+                            <Grid item xs={6}>
                                 <TextField {...this.onChangeSelectProcessor("taskType")} label="Task Type" select fullWidth>
                                     {
                                         Object.entries(this.state.taskType).map(([objectKey, objectValue], key) => {
@@ -152,8 +142,7 @@ export default class TodoComplexityDialog extends RaViewComponent {
                                     }
                                 </TextField>
                             </Grid>
-                            <Grid item xs={2}><TextField label="Started" disabled value={this.getFormDataValue("startedMoment")}  fullWidth/></Grid>
-                            <Grid item xs={2}><TextField label="Estimation" disabled value={this.getFormDataValue("estimatedHour")}   fullWidth/></Grid>
+                            <Grid item xs={6}><TextField label="Started" disabled value={this.getFormDataValue("startedMoment")}  fullWidth/></Grid>
 
                             <Grid item xs={12}><TextField name="" label="Name" {...this.onChangeTextFieldProcessor("name")} fullWidth/></Grid>
                             <Grid item xs={12}><TextField multiline rows={8} label="Description (Markdown)" {...this.onChangeTextFieldProcessor("description")} onFocus={event =>{this.selectMarkdownViewer(event, "description")}} fullWidth/></Grid>
