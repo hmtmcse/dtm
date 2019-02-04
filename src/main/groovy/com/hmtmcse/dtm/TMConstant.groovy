@@ -29,13 +29,17 @@ class TMConstant {
             PENDING   : "Pending",
             TODO      : "Todo",
             FAILED    : "Failed",
+            CLOSE     : "Close",
+            REOPEN    : "Reopen",
     ]
+
     public static final getStatusCalculatorMap() {
         return [
                 processing      : 0,
                 done            : 0,
                 other           : 0,
                 total           : 0,
+                todo            : 0,
                 complexityStatus: "",
         ]
     }
@@ -55,7 +59,7 @@ class TMConstant {
             QA         : "QA",
             MANAGEMENT : "MANAGEMENT",
             NOTE       : "NOTE",
-            REMINDER  : "REMINDER",
+            REMINDER   : "REMINDER",
             PLAN       : "PLAN",
             MEETING    : "MEETING",
             OTHER      : "OTHER",
@@ -71,7 +75,11 @@ class TMConstant {
             CODE_REVIEW       : "Code Review",
             FRSR              : "FRS Review",
             BA                : "Business Analysis",
+            ANALYSIS          : "Analysis",
+            ESTIMATION        : "Estimation Preparation",
+            PREPARATION       : "Preparation",
             OTHERS            : "Others",
+            TEST_SCENARIO     : "Test Scenario",
     ]
 
 
@@ -105,7 +113,7 @@ class TMConstant {
             NOTE     : "Note",
             TEAM_TASK: "Team Task",
             TASK     : "Task",
-            REMINDER: "Reminder",
+            REMINDER : "Reminder",
             PLAN     : "Plan",
             MEETING  : "Meeting",
             OTHERS   : "Others",
@@ -124,8 +132,8 @@ class TMConstant {
 
     public static final ISSUE_FILTER_BY = [
             ASSIGNED_TO_ME: "Assigned Me",
-            MY_TODO      : "My Todo",
-            ALL_TODO    : "All Todo",
+            MY_TODO       : "My Todo",
+            ALL_TODO      : "All Todo",
     ]
 
 }

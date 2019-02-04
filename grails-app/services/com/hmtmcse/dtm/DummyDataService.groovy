@@ -28,34 +28,162 @@ class DummyDataService {
 
         map = [
                 [
-                        "name": "Note Type",
+                        "name": "Writing Note",
                         "dueDate": "2020-02-20",
                         "priority": "NA",
                         "todoType": "NOTE",
                         complexity: [
-                                []
+                                [
+                                        name: "Other Note",
+                                        type: "NOTE",
+                                        taskType: "OTHERS",
+                                        todoId: 0,
+                                ],
+                                [
+                                        name: "Adjust User interface",
+                                        type: "NOTE",
+                                        taskType: "UI",
+                                        todoId: 0,
+                                ],
+                                [
+                                        name: "Reviewing Code",
+                                        type: "NOTE",
+                                        taskType: "CODE_REVIEW",
+                                        todoId: 0,
+                                ],
+                                [
+                                        name: "Waiting for Business Analysis",
+                                        type: "NOTE",
+                                        taskType: "BA",
+                                        todoId: 0,
+                                ]
                         ]
                 ],
                 [
-                        "name": "Task Type",
+                        "name": "There is Lot's of Task",
                         "dueDate": "2020-02-20",
                         "priority": "NA",
                         "todoType": "TASK",
+                        complexity: [
+                                [
+                                        name: "Work With API",
+                                        type: "TASK",
+                                        taskType: "API",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Find API End Point",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Authentication Mechanism",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Find The Data Type",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Don't Forgot About External App",
+                                        type: "TASK",
+                                        taskType: "EXTERNAL_APP",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Installation Process",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Push Notification Available",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "App OS Version",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "UI Depending on Coding",
+                                        type: "TASK",
+                                        taskType: "UI_AND_PROGRAMMING",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "After Coding Need to Call Designer",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Need to See The FRS",
+                                        type: "TASK",
+                                        taskType: "FRSR",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Review Full FRS and Try to Understand",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Send Question To BA",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ]
+                        ]
                 ],
                 [
-                        "name": "Reminder Type",
+                        "name": "Remind Me",
                         "dueDate": "2020-02-20",
                         "priority": "NA",
                         "todoType": "REMINDER",
+                        complexity: [
+                                [
+                                        name: "Call Designer for Mock-up",
+                                        type: "REMINDER",
+                                        taskType: "UI",
+                                        todoId: 0,
+                                ],
+                                [
+                                        name: "Review All Codes for new Release",
+                                        type: "REMINDER",
+                                        taskType: "CODE_REVIEW",
+                                        todoId: 0,
+                                ],
+                                [
+                                        name: "Feed need to sent Developer",
+                                        type: "REMINDER",
+                                        taskType: "CODE_REVIEW",
+                                        todoId: 0,
+                                ],
+                                [
+                                        name: "Today BA Will not Available",
+                                        type: "REMINDER",
+                                        taskType: "BA",
+                                        todoId: 0,
+                                ]
+                        ]
                 ],
                 [
-                        "name": "Plan Type",
+                        "name": "Weekend Plan",
                         "dueDate": "2020-02-20",
                         "priority": "NA",
                         "todoType": "PLAN",
                 ],
                 [
-                        "name": "Meeting Type",
+                        "name": "Next Meeting Will be",
                         "dueDate": "2020-02-20",
                         "priority": "NA",
                         "todoType": "MEETING",
@@ -71,6 +199,232 @@ class DummyDataService {
                         "dueDate": "2020-02-20",
                         "priority": "NA",
                         "todoType": "TEAM_TASK",
+                        complexity: [
+                                [
+                                        name: "Prepare FRS",
+                                        type: "MANAGEMENT",
+                                        taskType: "FRSR",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Call BA for FRS",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Copy and Read the FRS",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Prepare Questions set for BA",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Prepare Step for Development Complexity",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Code Review",
+                                        type: "MANAGEMENT",
+                                        taskType: "CODE_REVIEW",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Check the Coding Structure",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Check Naming Convention",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Check UI Guide lines",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Send Feedback to Developer",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Code Marge",
+                                        type: "MANAGEMENT",
+                                        taskType: "CODE_REVIEW",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Check Code conflict",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Merge with master",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Read FRS and Find-out All Complexity",
+                                        type: "DEVELOPMENT",
+                                        taskType: "ANALYSIS",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Note All Logical Complexity",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Prepare Flow Chart",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Find out Language Complexity",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Estimation Preparation",
+                                        type: "DEVELOPMENT",
+                                        taskType: "ESTIMATION",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Check current implementation",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "UI Complexity",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "New and Complex Implementation",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Share Estimation With Team Lead",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Adjust Estimation",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Background",
+                                        type: "QA",
+                                        taskType: "PREPARATION",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Read & Understand FRS",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Environment Preparation",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Check Development Note & Change log",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                        ]
+                                ],
+                                [
+                                        name: "White Box Test",
+                                        type: "QA",
+                                        taskType: "TEST_SCENARIO",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Login with username and password",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Check the dashboard & navigation",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                                ,
+                                                [
+                                                        name: "Logout",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ],
+                                [
+                                        name: "Validation Testing",
+                                        type: "QA",
+                                        taskType: "TEST_SCENARIO",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Invalid Email test",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Authentication Session test",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Password Complexity Testing",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "Uniq email testing",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ]
+                                ,
+                                [
+                                        name: "Integration Testing",
+                                        type: "QA",
+                                        taskType: "TEST_SCENARIO",
+                                        todoId: 0,
+                                        steps: [
+                                                [
+                                                        name: "Reset and Login test",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ],
+                                                [
+                                                        name: "New User create and Login",
+                                                        todoId: 0,
+                                                        complexityId: 0,
+                                                ]
+                                        ]
+                                ]
+                        ]
                 ],
         ]
         map.each {
