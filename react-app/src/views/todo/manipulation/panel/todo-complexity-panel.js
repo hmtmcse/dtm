@@ -189,7 +189,9 @@ class TodoComplexityPanel extends RaViewComponent {
             if (uiDefinition.enableComplexityStepPanel) {
                 actionList.createStep = createStep;
             }
-            actionList.status = TodoCommonService.changeStatusAction(info, this, "", this.changeStatus);
+            if (!info.steps || info.steps.length === 0){
+                actionList.status = TodoCommonService.changeStatusAction(info, this, "", this.changeStatus);
+            }
             actionList.quickAction = TodoCommonService.quickAction(info, this, ApiURL.ComplexityClone, this.cloneComplexity);
 
             actionList.viewAction = actions.viewAction;

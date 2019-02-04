@@ -67,17 +67,12 @@ class TodoService {
         Todo todo = getTodoById(id)
         if (todo) {
             Map status = TMConstant.getStatusCalculatorMap()
-            Map complexityStatus = [:]
             todo.complexity.each { Complexity complexity ->
                 if (complexity.isDeleted) {
                     return
                 }
-                complexityStatus = complexityService.currentComplexityStatus(complexity)
-                status.processing += complexityStatus.processing
-                status.done += complexityStatus.done
-                status.other += complexityStatus.other
-                status.total += complexityStatus.total
-                status.todo += complexityStatus.todo
+                status = countStatus(complexity, status)
+                status = complexityService.currentComplexityStatus(complexity, status)
             }
             String calculatedStatus = calculateStatus(status)
             if (!calculatedStatus.equals(todo.status)) {
@@ -253,6 +248,24 @@ class TodoService {
         } else {
             return TMConstant.DRAFT
         }
+    }
+
+    Map countStatus(def data, Map status = TMConstant.getStatusCalculatorMap()){
+        if (data){
+            if (data.isDeleted){
+                return
+            }else if (data.status && data.status.equals(TMConstant.DONE)){
+                status.done++
+            }else if (data.status && data.status.equals(TMConstant.TODO)){
+                status.todo++
+            }else if (data.status && data.status.equals(TMConstant.PROCESSING)){
+                status.processing++
+            }else{
+                status.other++
+            }
+            status.total++
+        }
+        return status
     }
 
 }

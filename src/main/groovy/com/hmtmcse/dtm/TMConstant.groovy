@@ -35,12 +35,11 @@ class TMConstant {
 
     static final getStatusCalculatorMap() {
         return [
-                processing      : 0,
-                done            : 0,
-                other           : 0,
-                total           : 0,
-                todo            : 0,
-                complexityStatus: "",
+                processing     : 0,
+                done           : 0,
+                other          : 0,
+                total          : 0,
+                todo           : 0
         ]
     }
 
