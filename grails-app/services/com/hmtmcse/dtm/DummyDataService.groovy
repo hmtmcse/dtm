@@ -32,6 +32,9 @@ class DummyDataService {
                         "dueDate": "2020-02-20",
                         "priority": "NA",
                         "todoType": "NOTE",
+                        complexity: [
+                                []
+                        ]
                 ],
                 [
                         "name": "Task Type",
