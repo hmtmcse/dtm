@@ -213,4 +213,19 @@ class ComplexityDefinitionService {
         }
         return gsApiActionDefinition
     }
+
+
+    GsApiActionDefinition getCloneComplexity() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Complexity>(Complexity)
+        gsApiActionDefinition.addRequestProperty("id", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return complexityService.cloneComplexityAPI(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Cloned")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Clone")
+        return gsApiActionDefinition
+    }
 }

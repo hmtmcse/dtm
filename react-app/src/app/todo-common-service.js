@@ -3,6 +3,9 @@ import {ActionDefinition} from "../artifacts/ra-expandable-card";
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import {TaskStatusColor} from "./task-status-color";
 import {AppConstant} from "./app-constant";
+import PagesIcon from '@material-ui/icons/Pages';
+import {ListItemIcon} from "@material-ui/core";
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 export const TodoCommonService = {
 
@@ -34,6 +37,16 @@ export const TodoCommonService = {
         status.addToMenu("failed", statusType);
 
         return status;
+    },
+
+    quickAction: (info, component, url, action) => {
+        let quick = ActionDefinition.instance("Quick Action", undefined, PagesIcon).setComponent(this).addAdditionalInfo(info);
+
+        let itemIcon = ( <React.Fragment><ListItemIcon><FileCopyIcon/></ListItemIcon>Clone</React.Fragment>);
+        let clone = ActionDefinition.instanceForMenu("Clone", itemIcon).setComponent(component).addAdditionalInfo(info).setUrl(url).addAction(action);;
+        quick.addToMenu("clone", clone);
+
+        return quick;
     }
 
 };

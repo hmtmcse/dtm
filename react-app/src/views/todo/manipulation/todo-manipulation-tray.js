@@ -13,8 +13,7 @@ import TodoChangeLogPanel from "./panel/todo-change-log-panel";
 import TodoNotePanel from "./panel/todo-note-panel";
 import TodoComplexityPanel from "./panel/todo-complexity-panel";
 import TodoBugReportPanel from "./panel/todo-bug-report-panel";
-import RaExpandableCard from "../../../artifacts/ra-expandable-card";
-import {ActionDefinition} from "../../../artifacts/ra-table-action";
+import RaExpandableCard, {ActionDefinition} from "../../../artifacts/ra-expandable-card";
 import PropTypes from "prop-types";
 import TodoMainDetailsPanel from "./details-panel/todo-main-details-panel";
 
@@ -84,6 +83,23 @@ class TodoManipulationTray extends RaViewComponent {
             }
         )
     }
+
+    clone (event, actionDefinition){
+        let parent = this;
+        let additionalInformation = actionDefinition.additionalInformation;
+        actionDefinition.component.getToApi(actionDefinition.url + "?id=" + additionalInformation.id,  response => {
+            let data = response.data;
+            if (data.isSuccess) {
+                parent.loadAllDetails(
+                    ()=>{
+                        this.showSuccessInfo(data.message);
+                    }
+                );
+            } else {
+                actionDefinition.component.showErrorInfo(data.message);
+            }
+        });
+    };
 
 
     openTodoComplexity(event) {

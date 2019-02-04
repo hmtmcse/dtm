@@ -211,6 +211,7 @@ export class ActionDefinition {
     component = undefined;
     menu = {};
     params = {};
+    url = undefined;
 
     constructor(label, action, icon) {
         this.label = label;
@@ -218,6 +219,10 @@ export class ActionDefinition {
         this.icon = icon;
     }
 
+    setUrl(url){
+        this.url = url;
+        return this;
+    }
 
     addAdditionalInfo(info){
         this.additionalInformation = info;

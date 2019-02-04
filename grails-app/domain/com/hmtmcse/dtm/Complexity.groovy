@@ -11,7 +11,7 @@ class Complexity extends CommonTask {
     Boolean isDeleted = false
     Date startedMoment
     Double estimatedHour
-    String status = TMConstant.PENDING
+    String status = TMConstant.DRAFT
     String jsonData
     String otherInfo
     String type = TMConstant.OTHERS

@@ -51,7 +51,7 @@ class StepService {
             cloned.status = TMConstant.DRAFT
             cloned.save(flush: true)
             if (!cloned.hasErrors() && isUpdateStatus){
-                complexityService.updateComplexityAndTodoStatus(cloned.complexity)
+                complexityService.updateComplexityStatusById(cloned.complexity.id)
             }
         }
     }

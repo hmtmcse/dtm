@@ -1,11 +1,9 @@
 import PropTypes from "prop-types";
 import {
-    Button, Card, CardActions, Typography, CardContent, ListItemIcon, MenuItem
+    Button, Card, CardActions, Typography, CardContent
 } from '@material-ui/core'
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import PagesIcon from '@material-ui/icons/Pages';
 import PlaylistAdd from '@material-ui/icons/PlaylistAdd';
 import RaExpandableCard, {ActionDefinition} from "../../../../artifacts/ra-expandable-card";
 import RaViewComponent from "../../../../artifacts/ra-view-component";
@@ -22,8 +20,6 @@ import {TaskStatusColor} from "../../../../app/task-status-color";
 import TodoComplexityTitlePanel from "../title-panel/todo-complexity-title-panel";
 import TodoComplexityDetailsPanel from "../details-panel/todo-complexity-details-panel";
 import {TodoCommonService} from "../../../../app/todo-common-service";
-
-
 
 
 class TodoComplexityPanel extends RaViewComponent {
@@ -62,18 +58,18 @@ class TodoComplexityPanel extends RaViewComponent {
         parentComponent.loadAllDetails(callBack);
     }
 
-    loadComplexityStep(callBack){
+    loadComplexityStep(callBack) {
         this.loadComplexity(callBack);
     }
 
-    openTodoComplexity(event, editId = undefined){
+    openTodoComplexity(event, editId = undefined) {
         this.setState(state => ({
             isOpenTodoComplexity: true,
             editId: editId,
         }));
     }
 
-    openTodoComplexityStep(event, complexityId = undefined){
+    openTodoComplexityStep(event, complexityId = undefined) {
         this.setState(state => ({
             isOpenTodoComplexityStep: true,
             complexityId: complexityId,
@@ -81,52 +77,52 @@ class TodoComplexityPanel extends RaViewComponent {
         }));
     }
 
-    viewTodoComplexity(event, viewId = undefined){
+    viewTodoComplexity(event, viewId = undefined) {
         this.setState(state => ({
             isViewTodoComplexity: true,
             viewId: viewId,
         }));
     }
 
-    addStepAction(event, actionDefinition){
+    addStepAction(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
         actionDefinition.component.openTodoComplexityStep(event, additionalInformation.id);
     };
 
-    deleteAction = (event, actionDefinition) =>{
+    deleteAction = (event, actionDefinition) => {
         let additionalInformation = actionDefinition.additionalInformation;
         let component = actionDefinition.component;
         if (additionalInformation.id) {
             let formData = RaGsConditionMaker.equal({}, "id", additionalInformation.id);
-            component.deleteJsonToApi(ApiURL.ComplexitySoftDelete, formData,success => {
+            component.deleteJsonToApi(ApiURL.ComplexitySoftDelete, formData, success => {
                     let data = success.data;
-                    if(data.isSuccess){
+                    if (data.isSuccess) {
                         component.loadComplexity();
                         component.showSuccessInfo("Successfully Deleted")
-                    }else{
+                    } else {
                         parent.showErrorInfo(data.message);
                         this.closePopup();
                     }
                 },
-                failed =>{
+                failed => {
                     component.showErrorInfo("Unable to Delete Data")
                 }
             )
         }
     };
 
-    editAction (event, actionDefinition){
+    editAction(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
         actionDefinition.component.openTodoComplexity(event, additionalInformation.id);
     };
 
-    viewAction (event, actionDefinition){
+    viewAction(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
         actionDefinition.component.viewTodoComplexity(event, additionalInformation.id);
     };
 
 
-    sortComplexityAndSteps(result, data, url){
+    sortComplexityAndSteps(result, data, url) {
         const [removed] = data.splice(result.source.index, 1);
         data.splice(result.destination.index, 0, removed);
         let dbUpdateData = [];
@@ -145,10 +141,10 @@ class TodoComplexityPanel extends RaViewComponent {
         if (!result.destination) {
             return;
         }
-        if (result.type === "complexity"){
+        if (result.type === "complexity") {
             const data = this.sortComplexityAndSteps(result, Array.from(this.state.complexityAndSteps), ApiURL.ComplexitySaveSort);
             this.setState({complexityAndSteps: data});
-        }else{
+        } else {
             const data = this.sortComplexityAndSteps(result, Array.from(this.state.complexityAndSteps[Number(result.source.droppableId)].steps), ApiURL.StepSaveSort);
             this.setState({complexityAndSteps: data});
             let oldData = this.state.complexityAndSteps;
@@ -157,26 +153,26 @@ class TodoComplexityPanel extends RaViewComponent {
         }
     }
 
-    updateComplexityOrStepStatus(formData, url){
-        const {uiDefinition, parentComponent} = this.props;
+    updateComplexityOrStepStatus(formData, url) {
+        const {parentComponent} = this.props;
         parentComponent.updateStatus(formData, url);
     }
 
-    changeStatus (event, actionDefinition){
+    changeStatus(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
-        actionDefinition.component.updateComplexityOrStepStatus({id: additionalInformation.id, status:actionDefinition.params.status}, ApiURL.ComplexityChangeStatus);
+        actionDefinition.component.updateComplexityOrStepStatus({
+            id: additionalInformation.id,
+            status: actionDefinition.params.status
+        }, ApiURL.ComplexityChangeStatus);
     }
 
-    migrationAction (info){
-        let status = ActionDefinition.instance("Migrations", undefined, PagesIcon).setComponent(this).addAdditionalInfo(info);
+    clone(event, actionDefinition) {
+        const {parentComponent} = this.props;
+        parentComponent.clone(event, actionDefinition);
+    }
 
-        let itemIcon = (
-            <React.Fragment><ListItemIcon><FileCopyIcon/></ListItemIcon>Clone</React.Fragment>
-        );
-        let statusType = ActionDefinition.instanceForMenu("Clone", itemIcon).setComponent(this).addAdditionalInfo(info);
-        status.addToMenu("clone", statusType);
-
-        return status;
+    cloneComplexity(event, actionDefinition) {
+        actionDefinition.component.clone(event, actionDefinition)
     }
 
     appRender() {
@@ -193,8 +189,8 @@ class TodoComplexityPanel extends RaViewComponent {
             if (uiDefinition.enableComplexityStepPanel) {
                 actionList.createStep = createStep;
             }
-            actionList.status = TodoCommonService.changeStatusAction(info,this,"", this.changeStatus);
-            // actionList.migration = thisParent.migrationAction(info);
+            actionList.status = TodoCommonService.changeStatusAction(info, this, "", this.changeStatus);
+            actionList.quickAction = TodoCommonService.quickAction(info, this, ApiURL.ComplexityClone, this.cloneComplexity);
 
             actionList.viewAction = actions.viewAction;
             actionList.editAction = actions.editAction;
@@ -204,20 +200,28 @@ class TodoComplexityPanel extends RaViewComponent {
         let thisParent = this;
         return (
             <React.Fragment>
-                {this.state.isViewTodoComplexity ? (<TodoComplexityView parent={this} viewId={this.state.viewId} uiDefinition={uiDefinition}/>): ""}
-                {this.state.isOpenTodoComplexity ? (<TodoComplexityDialog parent={this} editId={this.state.editId} uiDefinition={uiDefinition}/>): ""}
-                {this.state.isOpenTodoComplexityStep ? (<TodoComplexityStepDialog parent={this} complexityId={this.state.complexityId} todoId={this.state.todoId} uiDefinition={uiDefinition}/>): ""}
+                {this.state.isViewTodoComplexity ? (
+                    <TodoComplexityView parent={this} viewId={this.state.viewId} uiDefinition={uiDefinition}/>) : ""}
+                {this.state.isOpenTodoComplexity ? (
+                    <TodoComplexityDialog parent={this} editId={this.state.editId} uiDefinition={uiDefinition}/>) : ""}
+                {this.state.isOpenTodoComplexityStep ? (
+                    <TodoComplexityStepDialog parent={this} complexityId={this.state.complexityId}
+                                              todoId={this.state.todoId} uiDefinition={uiDefinition}/>) : ""}
                 <Card>
                     <CardActions className={classes.mainActionArea}>
                         <div>
-                            <Typography variant="headline" >{uiDefinition.complexityPanelTitle}</Typography>
+                            <Typography variant="headline">{uiDefinition.complexityPanelTitle}</Typography>
                         </div>
                         <div>
-                            <Button onClick={(e) => {this.openTodoComplexity(e)}}><AddIcon/></Button>
+                            <Button onClick={(e) => {
+                                this.openTodoComplexity(e)
+                            }}><AddIcon/></Button>
                         </div>
                     </CardActions>
                     <CardContent>
-                        <DragDropContext onDragEnd={(result)=>{this.complexityAndStepOnDragEnd(result)}}>
+                        <DragDropContext onDragEnd={(result) => {
+                            this.complexityAndStepOnDragEnd(result)
+                        }}>
                             <Droppable droppableId="complexityDropAble" type="complexity">
                                 {(provided, snapshot) => (
                                     <div ref={provided.innerRef}>
@@ -228,11 +232,22 @@ class TodoComplexityPanel extends RaViewComponent {
                                                         <div ref={provided.innerRef}
                                                              {...provided.draggableProps}
                                                              {...provided.dragHandleProps}>
-                                                            <RaExpandableCard key={key} cardActionMiddleChildren={<TodoComplexityTitlePanel parenComponent={thisParent} complexity={complexity} uiDefinition={uiDefinition}/>} cardTop={TaskStatusColor.statusDivider(complexity.status)} actions={noteActions(complexity)} title={complexity.name}
-                                                                              children={ uiDefinition.enableComplexityStepPanel ?
-                                                                                  (<TodoComplexityStepPanel parent={thisParent} stepIdentity={key} complexity={complexity} uiDefinition={uiDefinition}/>)
-                                                                                  : (<TodoComplexityDetailsPanel complexity={complexity}/>)
-                                                                                  }/>
+                                                            <RaExpandableCard key={key} cardActionMiddleChildren={
+                                                                <TodoComplexityTitlePanel parenComponent={thisParent}
+                                                                                          complexity={complexity}
+                                                                                          uiDefinition={uiDefinition}/>}
+                                                                              cardTop={TaskStatusColor.statusDivider(complexity.status)}
+                                                                              actions={noteActions(complexity)}
+                                                                              title={complexity.name}
+                                                                              children={uiDefinition.enableComplexityStepPanel ?
+                                                                                  (<TodoComplexityStepPanel
+                                                                                      parent={thisParent}
+                                                                                      stepIdentity={key}
+                                                                                      complexity={complexity}
+                                                                                      uiDefinition={uiDefinition}/>)
+                                                                                  : (<TodoComplexityDetailsPanel
+                                                                                      complexity={complexity}/>)
+                                                                              }/>
                                                         </div>
                                                     )}
                                                 </Draggable>
@@ -249,6 +264,7 @@ class TodoComplexityPanel extends RaViewComponent {
         );
     }
 }
+
 export default withStyles(viewCommon)(TodoComplexityPanel);
 
 TodoComplexityPanel.propTypes = {

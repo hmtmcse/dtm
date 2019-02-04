@@ -17,8 +17,6 @@ import TodoComplexityStepTitlePanel from "../title-panel/todo-complexity-step-ti
 import {TodoCommonService} from "../../../../app/todo-common-service";
 
 
-
-
 class TodoComplexityStepPanel extends RaViewComponent {
 
 
@@ -48,7 +46,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
     componentDidUpdate(prevProps) {
         if (this.props.complexity !== prevProps.complexity) {
             this.setState({complexity: this.props.complexity});
-            if (this.props.complexity && this.props.complexity.steps &&  Object.getOwnPropertyNames(this.props.complexity.steps).length) {
+            if (this.props.complexity && this.props.complexity.steps && Object.getOwnPropertyNames(this.props.complexity.steps).length) {
                 this.setState({complexitySteps: this.props.complexity.steps});
             }
         }
@@ -63,7 +61,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
         parent.loadComplexityStep(callBack);
     }
 
-    openTodoComplexityStep(event, editId = undefined){
+    openTodoComplexityStep(event, editId = undefined) {
         console.log(editId);
         this.setState(state => ({
             isOpenTodoComplexityStep: true,
@@ -71,7 +69,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
         }));
     }
 
-    deleteAction = (event, actionDefinition) =>{
+    deleteAction = (event, actionDefinition) => {
         let additionalInformation = actionDefinition.additionalInformation;
         let component = actionDefinition.component;
         if (additionalInformation.id) {
@@ -81,28 +79,36 @@ class TodoComplexityStepPanel extends RaViewComponent {
                     component.loadComplexityStep();
                     component.showSuccessInfo("Successfully Deleted")
                 },
-                failed =>{
+                failed => {
                     component.showErrorInfo("Unable to Delete Data");
                 }
             )
         }
     };
 
-    editAction (event, actionDefinition){
+    editAction(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
         actionDefinition.component.openTodoComplexityStep(event, additionalInformation.id);
     };
 
-    updateStepStatus(formData){
+    updateStepStatus(formData) {
         const {uiDefinition, parent} = this.props;
         parent.updateComplexityOrStepStatus(formData, ApiURL.StepChangeStatus);
     }
 
-    changeStatus (event, actionDefinition){
+    changeStatus(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
-        actionDefinition.component.updateStepStatus({id: additionalInformation.id, status:actionDefinition.params.status});
+        actionDefinition.component.updateStepStatus({
+            id: additionalInformation.id,
+            status: actionDefinition.params.status
+        });
     }
 
+
+    clone(event, actionDefinition) {
+        const {parent} = actionDefinition.component.props;
+        parent.clone(event, actionDefinition);
+    }
 
     appRender() {
         let noteActions = info => {
@@ -110,7 +116,8 @@ class TodoComplexityStepPanel extends RaViewComponent {
             actions.editAction.action = this.editAction;
             actions.deleteAction.action = this.deleteAction;
             let actionList = {};
-            actionList.status = TodoCommonService.changeStatusAction(info,this,"", this.changeStatus);
+            actionList.status = TodoCommonService.changeStatusAction(info, this, "", this.changeStatus);
+            actionList.quickAction = TodoCommonService.quickAction(info, this, ApiURL.StepClone, this.clone);
             actionList.editAction = actions.editAction;
             actionList.deleteAction = actions.deleteAction;
             return actionList;
@@ -119,7 +126,10 @@ class TodoComplexityStepPanel extends RaViewComponent {
         let thisParent = this;
         return (
             <React.Fragment>
-                {this.state.isOpenTodoComplexityStep ? (<TodoComplexityStepDialog uiDefinition={uiDefinition} parent={this} complexityId={this.state.complexityId} todoId={this.state.todoId} editId={this.state.editId}/>): ""}
+                {this.state.isOpenTodoComplexityStep ? (
+                    <TodoComplexityStepDialog uiDefinition={uiDefinition} parent={this}
+                                              complexityId={this.state.complexityId} todoId={this.state.todoId}
+                                              editId={this.state.editId}/>) : ""}
                 <Card>
                     <CardContent>
                         <Droppable droppableId={stepIdentity + ""} type={"steps-" + stepIdentity}>
@@ -132,7 +142,13 @@ class TodoComplexityStepPanel extends RaViewComponent {
                                                     <div ref={provided.innerRef}
                                                          {...provided.draggableProps}
                                                          {...provided.dragHandleProps}>
-                                                        <RaExpandableCard cardActionMiddleChildren={<TodoComplexityStepTitlePanel parenComponent={thisParent} step={step}/>}  actions={noteActions(step)} cardTop={TaskStatusColor.statusDivider(step.status)} title={step.name} children={<TodoComplexityStepDetailsPanel stepDetails={step}/>}/>
+                                                        <RaExpandableCard
+                                                            cardActionMiddleChildren={<TodoComplexityStepTitlePanel
+                                                                parenComponent={thisParent} step={step}/>}
+                                                            actions={noteActions(step)}
+                                                            cardTop={TaskStatusColor.statusDivider(step.status)}
+                                                            title={step.name} children={<TodoComplexityStepDetailsPanel
+                                                            stepDetails={step}/>}/>
                                                     </div>
                                                 )}
                                             </Draggable>
