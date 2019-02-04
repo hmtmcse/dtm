@@ -107,6 +107,8 @@ class ComplexityService {
                     return
                 }else if (steps.status && steps.status.equals(TMConstant.DONE)){
                     status.done++
+                }else if (steps.status && steps.status.equals(TMConstant.TODO)){
+                    status.todo++
                 }else if (steps.status && steps.status.equals(TMConstant.PROCESSING)){
                     status.processing++
                 }else{

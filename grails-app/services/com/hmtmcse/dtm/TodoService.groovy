@@ -77,6 +77,7 @@ class TodoService {
                 status.done += complexityStatus.done
                 status.other += complexityStatus.other
                 status.total += complexityStatus.total
+                status.todo += complexityStatus.todo
             }
             String calculatedStatus = calculateStatus(status)
             if (!calculatedStatus.equals(todo.status)) {
@@ -240,13 +241,17 @@ class TodoService {
         return GsApiResponseData.successMessage("Successfully Deleted")
     }
 
-    String calculateStatus(Map status){
-        if (status.total == status.done){
+    String calculateStatus(Map status) {
+        if (status.total == 0) {
+            return TMConstant.DRAFT
+        } else if (status.total == status.done) {
             return TMConstant.DONE
-        }else if (status.processing){
+        } else if (status.processing) {
             return TMConstant.PROCESSING
-        }else {
+        }else if (status.todo) {
             return TMConstant.TODO
+        } else {
+            return TMConstant.DRAFT
         }
     }
 
