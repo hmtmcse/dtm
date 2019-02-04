@@ -95,7 +95,7 @@ class StepsDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.complexity){
                     complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
                 }
                 return gsResponsePostData
@@ -120,7 +120,7 @@ class StepsDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.complexity){
                     complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
                 }
                 return gsResponsePostData
@@ -151,7 +151,7 @@ class StepsDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.complexity){
                     complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
                 }
                 return gsResponsePostData

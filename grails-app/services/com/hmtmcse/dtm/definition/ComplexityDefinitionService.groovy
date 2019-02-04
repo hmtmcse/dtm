@@ -147,7 +147,7 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult?.todo?.id && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult?.todo?.id){
                     todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
                 }
                 return gsResponsePostData
@@ -175,7 +175,7 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.todo.id){
                     todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
                 }
                 return gsResponsePostData
@@ -207,7 +207,7 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.todo.id){
                     todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
                 }
                 return gsResponsePostData

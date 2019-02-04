@@ -33,7 +33,7 @@ class TMConstant {
             REOPEN    : "Reopen",
     ]
 
-    public static final getStatusCalculatorMap() {
+    static final getStatusCalculatorMap() {
         return [
                 processing      : 0,
                 done            : 0,
