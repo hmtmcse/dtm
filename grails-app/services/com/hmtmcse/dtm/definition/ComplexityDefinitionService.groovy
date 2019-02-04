@@ -147,12 +147,14 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.queryResult?.todo?.id && gsResponsePostData.isSuccess){
                     todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
                 }
                 return gsResponsePostData
             }
         }
+        gsApiActionDefinition.addResponseProperty("id")
+        gsApiActionDefinition.addResponseProperty("uuid")
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }

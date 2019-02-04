@@ -101,6 +101,8 @@ class StepsDefinitionService {
                 return gsResponsePostData
             }
         }
+        gsApiActionDefinition.addResponseProperty("id")
+        gsApiActionDefinition.addResponseProperty("uuid")
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
