@@ -27,6 +27,7 @@ export const ApiURL = {
     TodoAllDetailsByCondition: "api/v1/todo/allDetailsByCondition",
     TodoPublish: "api/v1/todo/publish",
     TodoUnpublish: "api/v1/todo/unpublish",
+    TodoClone: "api/v1/todo/clone",
 
 
     ComplexityChangeStatus: "api/v1/complexity/changeStatus",

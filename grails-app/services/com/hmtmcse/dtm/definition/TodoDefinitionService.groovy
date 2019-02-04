@@ -288,4 +288,19 @@ class TodoDefinitionService {
         return gsApiActionDefinition
     }
 
+
+    GsApiActionDefinition getCloneTodo() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Todo>(Todo)
+        gsApiActionDefinition.addRequestProperty("id", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return todoService.cloneTodoAPI(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Cloned")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Clone")
+        return gsApiActionDefinition
+    }
+
 }

@@ -19,6 +19,28 @@ class ComplexityService {
         return getAllComplexityByTodo(todo)
     }
 
+    def cloneComplexity(Complexity complexity, Todo todo = null, Boolean isUpdateStatus = true) {
+        if (complexity){
+            Complexity cloned = new Complexity(complexity.properties)
+            cloned.id = null
+            if (todo){
+                cloned.todo = todo
+            }else{
+                cloned.name = TMConstant.COPY_OF + cloned.name
+            }
+            cloned.status = TMConstant.DRAFT
+            cloned.uuid = null
+            cloned.steps = null
+            cloned.save(flush: true)
+            complexity.steps.each { Steps steps ->
+                stepService.cloneStep(steps, cloned, false)
+            }
+            if (!cloned.hasErrors() && isUpdateStatus){
+                todoService.updateTodoStatus(cloned.todo.id)
+            }
+        }
+    }
+
 
     def getAllComplexityByTodo(Todo todo) {
         if (todo) {
@@ -29,6 +51,17 @@ class ComplexityService {
             }
         }
         return []
+    }
+
+    GsApiResponseData cloneComplexityAPI(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        def params = paramData.filteredGrailsParameterMap
+        Complexity complexity = getComplexityById(params.id)
+        if (complexity) {
+            cloneComplexity(complexity)
+        } else {
+            return GsApiResponseData.failed("Invalid Complexity")
+        }
+        return GsApiResponseData.successMessage("Cloned")
     }
 
     GsApiResponseData changeStatus(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {

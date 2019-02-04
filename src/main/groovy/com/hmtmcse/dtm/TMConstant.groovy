@@ -11,6 +11,8 @@ class TMConstant {
     public static final DEVELOPMENT = "DEVELOPMENT"
     public static final HAPPY_TESTING = "HAPPY_TESTING"
 
+    public static final COPY_OF = "Copy of "
+
 
     public static final WARRIOR = "WARRIOR"
     public static final COMMANDER = "COMMANDER"

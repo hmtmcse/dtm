@@ -55,4 +55,12 @@ class ApiTodoV1Controller extends GsRestProcessor {
     def getUnpublish() {
         return customProcessor(todoDefinitionService.unpublish())
     }
+
+    def getClone() {
+        return customProcessor(todoDefinitionService.getCloneTodo())
+    }
+
+    def postClone() {
+        return customProcessor(todoDefinitionService.getCloneTodo())
+    }
 }

@@ -38,10 +38,16 @@ class StepService {
         cloneStep(steps)
     }
 
-    def cloneStep(Steps steps, Boolean isUpdateStatus = true) {
+    def cloneStep(Steps steps, Complexity complexity = null, Boolean isUpdateStatus = true) {
         if (steps){
-            Steps cloned = steps.clone()
+            Steps cloned = new Steps(steps.properties)
             cloned.id = null
+            cloned.uuid = null
+            if (complexity){
+                cloned.complexity = complexity
+            }else{
+                cloned.name = TMConstant.COPY_OF + cloned.name
+            }
             cloned.status = TMConstant.DRAFT
             cloned.save(flush: true)
             if (!cloned.hasErrors() && isUpdateStatus){
@@ -49,6 +55,18 @@ class StepService {
             }
         }
     }
+
+    GsApiResponseData cloneStepAPI(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        def params = paramData.filteredGrailsParameterMap
+        Steps steps = getStepById(params.id)
+        if (steps) {
+            cloneStep(steps)
+        } else {
+            return GsApiResponseData.failed("Invalid Step")
+        }
+        return GsApiResponseData.successMessage("Cloned")
+    }
+
 
     GsApiResponseData saveSorting(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         def map = paramData.filteredGrailsParameterMap.itemMap
