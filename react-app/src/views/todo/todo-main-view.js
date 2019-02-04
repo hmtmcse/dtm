@@ -28,6 +28,7 @@ import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import NoteIcon from '@material-ui/icons/NoteAdd';
 import ClearIcon from '@material-ui/icons/Clear';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PublishIcon from '@material-ui/icons/CloudDone';
 import UnpublishIcon from '@material-ui/icons/CloudDownload';
 import TodoDevComplexityView from "./type-definition/todo-dev-complexity-view";
@@ -330,6 +331,19 @@ class TodoMainView extends RaViewComponent {
         this.setState({search: event.target.value});
     }
 
+    clone (event, actionDefinition){
+        let additionalInformation = actionDefinition.additionalInformation;
+        actionDefinition.component.getToApi(actionDefinition.url + "?id=" + additionalInformation.id,  response => {
+            let data = response.data;
+            if (data.isSuccess) {
+                actionDefinition.component.showSuccessInfo(data.message);
+                actionDefinition.component.loadList();
+            } else {
+                actionDefinition.component.showErrorInfo(data.message);
+            }
+        });
+    };
+
     appRender() {
         const {classes} = this.props;
 
@@ -377,6 +391,8 @@ class TodoMainView extends RaViewComponent {
             if (allActions.taskWarrior === undefined){
                 allActions.taskWarrior = ActionDefinition.instance("Assign To", this.generalWarrior, AssignmentIcon).setComponent(this).addAdditionalInfo(info);
             }
+
+            allActions.cloneToDo = ActionDefinition.instance("Clone", this.clone, FileCopyIcon).setComponent(this).addAdditionalInfo(info).setUrl(ApiURL.TodoClone);
 
 
             let actions = ActionDefinition.commonActions(info, this);

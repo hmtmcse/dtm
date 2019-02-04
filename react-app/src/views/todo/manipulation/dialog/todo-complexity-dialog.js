@@ -34,8 +34,6 @@ export default class TodoComplexityDialog extends RaViewComponent {
         this.showFlashMessage();
         this.setState((state) => {
             let formData = {
-                status: "DRAFT",
-                type: "OTHERS",
                 taskType: "OTHERS",
             };
             return {formData: formData};

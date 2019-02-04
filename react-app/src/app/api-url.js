@@ -27,6 +27,7 @@ export const ApiURL = {
     TodoAllDetailsByCondition: "api/v1/todo/allDetailsByCondition",
     TodoPublish: "api/v1/todo/publish",
     TodoUnpublish: "api/v1/todo/unpublish",
+    TodoClone: "api/v1/todo/clone",
 
 
     ComplexityChangeStatus: "api/v1/complexity/changeStatus",
@@ -38,6 +39,7 @@ export const ApiURL = {
     ComplexitySoftDelete: "api/v1/complexity/softDelete",
     ComplexityDetails: "api/v1/complexity/details",
     ComplexitySaveSort: "api/v1/complexity/saveSort",
+    ComplexityClone: "api/v1/complexity/clone",
 
     StepChangeStatus: "api/v1/step/changeStatus",
     StepCreate: "api/v1/step/create",
@@ -47,6 +49,7 @@ export const ApiURL = {
     StepSoftDelete: "api/v1/step/softDelete",
     StepDetails: "api/v1/step/details",
     StepSaveSort: "api/v1/step/saveSort",
+    StepClone: "api/v1/step/clone",
 
     ChangeLogList: "",
     ChangeLogCreate: "api/v1/changeLog/create",

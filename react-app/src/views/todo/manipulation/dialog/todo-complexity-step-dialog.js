@@ -4,14 +4,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from "prop-types";
 import {
-    Button, TextField, Grid, MenuItem
+    Button, TextField, Grid
 } from '@material-ui/core'
 import React from 'react';
 import RaViewComponent from "../../../../artifacts/ra-view-component";
 import {RaGsConditionMaker} from "../../../../artifacts/ra-gs-condition-maker";
 import {ApiURL} from "../../../../app/api-url";
 import RaMarkdown from "../../../../artifacts/ra-markdown";
-import {TaskStatusColor} from "../../../../app/task-status-color";
 
 export default class TodoComplexityStepDialog extends RaViewComponent {
 
@@ -30,12 +29,6 @@ export default class TodoComplexityStepDialog extends RaViewComponent {
 
     componentDidMount() {
         this.showFlashMessage();
-        this.setState((state) => {
-            let formData = {
-                status: "DRAFT"
-            };
-            return {formData: formData};
-        });
         this.loadDropDownValues();
         this.loadEditData();
     }

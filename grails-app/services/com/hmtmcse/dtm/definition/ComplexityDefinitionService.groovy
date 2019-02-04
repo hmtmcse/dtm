@@ -147,12 +147,14 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult?.todo?.id){
                     todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
                 }
                 return gsResponsePostData
             }
         }
+        gsApiActionDefinition.addResponseProperty("id")
+        gsApiActionDefinition.addResponseProperty("uuid")
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
@@ -173,7 +175,7 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.todo.id){
                     todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
                 }
                 return gsResponsePostData
@@ -205,12 +207,27 @@ class ComplexityDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.todo.id && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.todo.id){
                     todoService.updateTodoStatus(gsResponsePostData.queryResult.todo.id)
                 }
                 return gsResponsePostData
             }
         }
+        return gsApiActionDefinition
+    }
+
+
+    GsApiActionDefinition getCloneComplexity() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Complexity>(Complexity)
+        gsApiActionDefinition.addRequestProperty("id", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return complexityService.cloneComplexityAPI(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Cloned")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Clone")
         return gsApiActionDefinition
     }
 }

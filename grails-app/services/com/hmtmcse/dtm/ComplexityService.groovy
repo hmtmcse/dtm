@@ -19,6 +19,28 @@ class ComplexityService {
         return getAllComplexityByTodo(todo)
     }
 
+    def cloneComplexity(Complexity complexity, Todo todo = null, Boolean isUpdateStatus = true) {
+        if (complexity){
+            Complexity cloned = new Complexity(complexity.properties)
+            cloned.id = null
+            if (todo){
+                cloned.todo = todo
+            }else{
+                cloned.name = TMConstant.COPY_OF + cloned.name
+            }
+            cloned.status = TMConstant.DRAFT
+            cloned.uuid = null
+            cloned.steps = null
+            cloned.save(flush: true)
+            complexity.steps.each { Steps steps ->
+                stepService.cloneStep(steps, cloned, false)
+            }
+            if (!cloned.hasErrors() && isUpdateStatus){
+                todoService.updateTodoStatus(cloned.todo.id)
+            }
+        }
+    }
+
 
     def getAllComplexityByTodo(Todo todo) {
         if (todo) {
@@ -31,6 +53,17 @@ class ComplexityService {
         return []
     }
 
+    GsApiResponseData cloneComplexityAPI(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        def params = paramData.filteredGrailsParameterMap
+        Complexity complexity = getComplexityById(params.id)
+        if (complexity) {
+            cloneComplexity(complexity)
+        } else {
+            return GsApiResponseData.failed("Invalid Complexity")
+        }
+        return GsApiResponseData.successMessage("Cloned")
+    }
+
     GsApiResponseData changeStatus(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         def params = paramData.filteredGrailsParameterMap
         if (!TMConstant.STATUS.containsKey(params.status)) {
@@ -38,10 +71,14 @@ class ComplexityService {
         }
         Complexity complexity = getComplexityById(params.id)
         if (complexity) {
-            complexity.status = params.status
-            complexity.save(flush: true)
-            if (complexity.hasErrors()) {
-                return GsApiResponseData.failed("Unable to Update")
+            if (complexity.steps){
+                updateComplexityStatus(complexity)
+            }else{
+                complexity.status = params.status
+                complexity.save(flush: true)
+                if (complexity.hasErrors()) {
+                    return GsApiResponseData.failed("Unable to Update")
+                }
             }
             todoService.updateTodoStatus(complexity.todo.id)
         } else {
@@ -66,22 +103,11 @@ class ComplexityService {
         }
     }
 
-    Map currentComplexityStatus(Complexity complexity){
-        Map status = TMConstant.getStatusCalculatorMap()
-        if (complexity){
+    Map currentComplexityStatus(Complexity complexity, Map status = TMConstant.getStatusCalculatorMap()){
+        if (complexity && complexity.steps){
             complexity.steps.each { Steps steps ->
-                if (steps.isDeleted){
-                    return
-                }else if (steps.status && steps.status.equals(TMConstant.DONE)){
-                    status.done++
-                }else if (steps.status && steps.status.equals(TMConstant.PROCESSING)){
-                    status.processing++
-                }else{
-                    status.other++
-                }
-                status.total++
+                status = todoService.countStatus(steps, status)
             }
-            status.complexityStatus = complexity.status
         }
         return status
     }

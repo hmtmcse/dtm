@@ -2,7 +2,6 @@ package com.hmtmcse.dtm.definition
 
 import com.hmtmcse.dtm.AppUtil
 import com.hmtmcse.dtm.ComplexityService
-import com.hmtmcse.dtm.TodoService
 import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.data.ApiHelper
 import com.hmtmcse.gs.data.GsApiResponseData
@@ -96,12 +95,14 @@ class StepsDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.complexity){
                     complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
                 }
                 return gsResponsePostData
             }
         }
+        gsApiActionDefinition.addResponseProperty("id")
+        gsApiActionDefinition.addResponseProperty("uuid")
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
@@ -119,7 +120,7 @@ class StepsDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.complexity){
                     complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
                 }
                 return gsResponsePostData
@@ -150,7 +151,7 @@ class StepsDefinitionService {
         gsApiActionDefinition.responsePostProcessor = new ResponsePostProcessor() {
             @Override
             GsResponsePostData process(GsApiActionDefinition definition, GsResponsePostData gsResponsePostData) {
-                if (gsResponsePostData.queryResult.complexity && gsResponsePostData.isSuccess){
+                if (gsResponsePostData.isSuccess && gsResponsePostData.queryResult.complexity){
                     complexityService.updateComplexityAndTodoStatus(gsResponsePostData.queryResult.complexity)
                 }
                 return gsResponsePostData
@@ -189,6 +190,20 @@ class StepsDefinitionService {
         }
         gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Update")
         gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Update")
+        return gsApiActionDefinition
+    }
+
+    GsApiActionDefinition getCloneStep() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Steps>(Steps)
+        gsApiActionDefinition.addRequestProperty("id", SwaggerConstant.SWAGGER_DT_LONG).required().enableTypeCast()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return stepService.cloneStepAPI(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Cloned")
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Clone")
         return gsApiActionDefinition
     }
 }

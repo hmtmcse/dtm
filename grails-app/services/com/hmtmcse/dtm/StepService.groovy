@@ -33,6 +33,41 @@ class StepService {
         }
     }
 
+    def cloneStepById(Long id){
+        Steps steps = getStepById(id)
+        cloneStep(steps)
+    }
+
+    def cloneStep(Steps steps, Complexity complexity = null, Boolean isUpdateStatus = true) {
+        if (steps){
+            Steps cloned = new Steps(steps.properties)
+            cloned.id = null
+            cloned.uuid = null
+            if (complexity){
+                cloned.complexity = complexity
+            }else{
+                cloned.name = TMConstant.COPY_OF + cloned.name
+            }
+            cloned.status = TMConstant.DRAFT
+            cloned.save(flush: true)
+            if (!cloned.hasErrors() && isUpdateStatus){
+                complexityService.updateComplexityStatusById(cloned.complexity.id)
+            }
+        }
+    }
+
+    GsApiResponseData cloneStepAPI(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        def params = paramData.filteredGrailsParameterMap
+        Steps steps = getStepById(params.id)
+        if (steps) {
+            cloneStep(steps)
+        } else {
+            return GsApiResponseData.failed("Invalid Step")
+        }
+        return GsApiResponseData.successMessage("Cloned")
+    }
+
+
     GsApiResponseData saveSorting(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         def map = paramData.filteredGrailsParameterMap.itemMap
         if (paramData.filteredGrailsParameterMap.itemMap){

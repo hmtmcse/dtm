@@ -48,4 +48,13 @@ class ApiStepV1Controller extends GsRestProcessor {
         return customProcessor(stepsDefinitionService.changeStatus())
     }
 
+
+    def getClone() {
+        return customProcessor(stepsDefinitionService.getCloneStep())
+    }
+
+    def postClone() {
+        return customProcessor(stepsDefinitionService.getCloneStep())
+    }
+
 }
