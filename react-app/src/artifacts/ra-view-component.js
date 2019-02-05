@@ -202,14 +202,22 @@ export default class RaViewComponent extends Component {
     }
 
 
-    onChangeReactSelectProcessor(fieldName) {
+    onChangeRaSelectProcessor(fieldName, options, defaultValue) {
         let onChangeProcessor = this._onChangeInputProcessor(fieldName);
-        onChangeProcessor.onChange = value => {
-            console.log(value);
-            // this.setInputValue(fieldName, value.value);
-            this._onChangeSetInputValue(fieldName, value.value);
+        this.state.selectData = {};
+        onChangeProcessor.onChange = data => {
+            if (data){
+                this.setInputValue(fieldName, data.value);
+                this._onChangeSetInputValue(fieldName, data.value);
+                this.setState((state) => {
+                    let selectData = {...state.selectData};
+                    selectData[fieldName] = data;
+                    return {selectData: selectData};
+                });
+            }
         };
-        onChangeProcessor.value = this.state.formData[fieldName] !== undefined ? String() : "";
+        onChangeProcessor.options = options;
+        onChangeProcessor.value = this.state.selectData[fieldName] ? this.state.selectData[fieldName] : (this.state.formData[fieldName] ? (options.filter(option => option.value === this.state.formData[fieldName])[0]) : defaultValue);
         return onChangeProcessor;
     }
 
