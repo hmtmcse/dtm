@@ -13,6 +13,8 @@
     "react-dom": "^16.7.0",
     "react-markdown": "^4.0.6",
     "react-scripts": "1.1.4",
+    "react-select": "^2.3.0",
+    "react-select-material-ui": "^1.1.2",
     "react-sortable-tree": "^2.6.0",
     "typeface-roboto": "0.0.54",
     "yarn": "^1.9.4"

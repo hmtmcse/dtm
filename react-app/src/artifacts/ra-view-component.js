@@ -96,7 +96,7 @@ export default class RaViewComponent extends Component {
 
     isInputValue(fieldName) {
         if (this.state.formData && this.state.formData[fieldName]) {
-            return this.state.formData[fieldName]
+            return this.state.formData[fieldName];
         }
     }
 
@@ -164,6 +164,19 @@ export default class RaViewComponent extends Component {
         return false
     }
 
+    _onChangeSetInputValue(name, value) {
+        if (this.state.formData !== undefined) {
+            this.state.formData[name] = value;
+        }
+        this.setState((state) => {
+            let formError = {...state.formError};
+            if (formError[name] !== undefined) {
+                delete formError[name];
+            }
+            return {formError: formError};
+        });
+    }
+
     _onChangeInputProcessor(fieldName, onChangeCallBack) {
         return {
             error: this.state.formError[fieldName] !== undefined ? this._isInputError(fieldName) : false,
@@ -174,16 +187,7 @@ export default class RaViewComponent extends Component {
                 const target = event.target;
                 const value = target.type === 'checkbox' ? target.checked : target.value;
                 const name = target.name;
-                if (this.state.formData !== undefined) {
-                    this.state.formData[name] = value;
-                }
-                this.setState((state) => {
-                    let formError = {...state.formError};
-                    if (formError[fieldName] !== undefined) {
-                        delete formError[fieldName];
-                    }
-                    return {formError: formError};
-                });
+                this._onChangeSetInputValue(name, value);
                 if (onChangeCallBack !== undefined) {
                     onChangeCallBack(event, fieldName, value);
                 }
@@ -195,6 +199,18 @@ export default class RaViewComponent extends Component {
         let onChangeData = this._onChangeInputProcessor(fieldName, onChangeCallBack);
         onChangeData.helperText = this.state.formError[fieldName] !== undefined ? this._isInputErrorMessage(fieldName) : "";
         return onChangeData;
+    }
+
+
+    onChangeReactSelectProcessor(fieldName) {
+        let onChangeProcessor = this._onChangeInputProcessor(fieldName);
+        onChangeProcessor.onChange = value => {
+            console.log(value);
+            // this.setInputValue(fieldName, value.value);
+            this._onChangeSetInputValue(fieldName, value.value);
+        };
+        onChangeProcessor.value = this.state.formData[fieldName] !== undefined ? String() : "";
+        return onChangeProcessor;
     }
 
     onChangeSelectProcessor(fieldName, onChangeCallBack) {
