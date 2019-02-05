@@ -245,7 +245,9 @@ class TodoService {
             return TMConstant.PROCESSING
         }else if (status.todo) {
             return TMConstant.TODO
-        } else {
+        }else if (status.done) {
+            return TMConstant.TODO
+        }else {
             return TMConstant.DRAFT
         }
     }
