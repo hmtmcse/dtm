@@ -10,6 +10,8 @@ import React from 'react';
 import RaViewComponent from "../../../../artifacts/ra-view-component";
 import {ApiURL} from "../../../../app/api-url";
 import {RaUtil} from "../../../../artifacts/ra-util";
+import {SingleSelect} from "react-select-material-ui";
+import Select from 'react-select';
 
 export default class TodoAssignToDialog extends RaViewComponent {
 
@@ -23,6 +25,7 @@ export default class TodoAssignToDialog extends RaViewComponent {
             formData: {},
             formError: {},
             users: {},
+            assigneeSelect: [],
         };
     }
 
@@ -45,7 +48,13 @@ export default class TodoAssignToDialog extends RaViewComponent {
         this.getToApi(ApiURL.CommonAllUserDropDownContent, response => {
             let data = response.data.response;
             if (data) {
-                this.setState({users: data})
+                this.setState({users: data});
+                let select = [];
+                select.push({value: "SELECT", label: "Not Assigned"});
+                Object.entries(data).map(([objectKey, user], key) => {
+                    select.push({label: RaUtil.concatStringWithSpace(user.firstName, user.lastName), value: user.id});
+                });
+                this.setState({assigneeSelect: select});
             }
         });
     }
@@ -181,17 +190,10 @@ export default class TodoAssignToDialog extends RaViewComponent {
             dropDown = (
                 <React.Fragment>
                     <Grid item xs={12}>
-                        <TextField {...this.onChangeSelectProcessor("management")} label="Management" select
-                                   fullWidth>
-                            <MenuItem value="SELECT">Not Assigned</MenuItem>
-                            {
-                                Object.entries(this.state.users).map(([objectKey, user], key) => {
-                                    return (<MenuItem key={key}
-                                                      value={user.id}>{RaUtil.concatStringWithSpace(user.firstName, user.lastName)}</MenuItem>)
-                                })
-                            }
-                        </TextField>
+                        <Select value={{value: "SELECT", label: "Not Assigned"}}  label="Management"  options={this.state.assigneeSelect} />
+                        <SingleSelect  {...this.onChangeReactSelectProcessor("management")}  label="Management"  options={this.state.assigneeSelect} />
                     </Grid>
+
                     <Grid item xs={12}>
                         <TextField {...this.onChangeSelectProcessor("development")} label="Development" select
                                    fullWidth>
