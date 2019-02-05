@@ -253,7 +253,7 @@ class TodoService {
     Map countStatus(def data, Map status = TMConstant.getStatusCalculatorMap()){
         if (data){
             if (data.isDeleted){
-                return
+                return status
             }else if (data.status && data.status.equals(TMConstant.DONE)){
                 status.done++
             }else if (data.status && data.status.equals(TMConstant.TODO)){
