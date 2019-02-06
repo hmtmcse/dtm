@@ -164,11 +164,70 @@ const components = {
     ValueContainer,
 };
 
+export const RaSelectUtil = {
+
+    getAllValues: (value) => {
+        let values = [];
+        if (value){
+            value.filter(option => {
+               values.push(option.value);
+            });
+            return values;
+        }
+        return null;
+    },
+
+    getSingleValue: (value) => {
+        if (value){
+            return value.value;
+        }
+        return null;
+    },
+
+    getValue:(value) => {
+        if (Array.isArray(value)){
+            return RaSelectUtil.getAllValues(value);
+        }
+        return RaSelectUtil.getSingleValue(value);
+    }
+};
 
 class RaSelect extends Component {
 
+    singleSelectFromOptions(options, value){
+        console.log(options.filter(option => option.value === value));
+        if (value){
+            return options.filter(option => option.value === value)
+        }
+        return null;
+    }
+
+    multipleSelectFromOptions(options, value){
+        let values = [];
+        if (value){
+            options.filter(option => {
+                if (value.includes(option.value)){
+                    values.push(option);
+                }
+                return values;
+            })
+        }
+        return null;
+    }
+
+    selectFromOptions(options, value) {
+        if (!options) {
+            return null;
+        }
+        if (Array.isArray(value)) {
+            return this.multipleSelectFromOptions(options, value);
+        } else {
+            return this.singleSelectFromOptions(options, value);
+        }
+    }
+
     render() {
-        const {classes, theme, options, label, isMulti, placeholder, isClearable, onChange, value} = this.props;
+        const {classes, theme, options, label, isMulti, placeholder, isClearable, onChange, value, defaultSelect, isClearVaule} = this.props;
         const selectStyles = {
             menu: provided => ({ ...provided, zIndex: 9999 }),
             input: base => ({
@@ -184,11 +243,11 @@ class RaSelect extends Component {
             classes: classes,
             styles: selectStyles,
             options: options,
-            value: value,
             onChange: onChange,
             isMulti: isMulti,
             isClearable: isClearable,
         };
+        attrs.defaultValue = defaultSelect;
 
         if (placeholder) {
             attrs.placeholder = placeholder;
@@ -215,6 +274,7 @@ RaSelect.propTypes = {
     theme: PropTypes.object.isRequired,
     options: PropTypes.array.isRequired,
     value: PropTypes.any,
+    defaultSelect: PropTypes.any,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.node,
     isClearable: PropTypes.bool,

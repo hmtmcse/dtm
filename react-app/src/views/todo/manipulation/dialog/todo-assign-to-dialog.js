@@ -191,7 +191,7 @@ export default class TodoAssignToDialog extends RaViewComponent {
             dropDown = (
                 <React.Fragment>
                     <Grid item xs={12}>
-                        <RaSelect {...this.onChangeRaSelectProcessor("management", this.state.assigneeSelect,  defaultSelectData)} label="Management"/>
+                        <RaSelect {...this.onChangeRaSelectProcessor("management", this.state.assigneeSelect,  defaultSelectData)} label="Management" isClearable isMulti/>
                     </Grid>
                     <Grid item xs={12}>
                         <RaSelect {...this.onChangeRaSelectProcessor("development", this.state.assigneeSelect,  defaultSelectData)} label="Development"/>
