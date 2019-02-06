@@ -11,6 +11,7 @@ class WarPlan extends CommonTask {
     String status
     String type
     WarPlan parent
+    Boolean isDeleted = false
 
     Date start
     Date end

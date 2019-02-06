@@ -9,6 +9,7 @@ class WarTodo extends CommonTask {
     String possibleStatus
     WarPlan parent
     Todo todo
+    Boolean isDeleted = false
 
     Date start
     Date end

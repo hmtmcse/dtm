@@ -53,6 +53,12 @@ class TMConstant {
     ]
 
 
+    public static final WAR_PLAN = [
+            MASTER_PLAN: "Master Plan",
+            DAILY_PLAN : "Daily Plan",
+            WEEKLY_PLAN: "Weekly Plan"
+    ]
+
     public static final COMPLEXITY_TYPE = [
             DEVELOPMENT: "DEVELOPMENT",
             QA         : "QA",
