@@ -195,7 +195,6 @@ export const RaSelectUtil = {
 class RaSelect extends Component {
 
     singleSelectFromOptions(options, value){
-        console.log(options.filter(option => option.value === value));
         if (value){
             return options.filter(option => option.value === value)
         }
@@ -209,8 +208,8 @@ class RaSelect extends Component {
                 if (value.includes(option.value)){
                     values.push(option);
                 }
-                return values;
-            })
+            });
+            return values;
         }
         return null;
     }
@@ -248,6 +247,7 @@ class RaSelect extends Component {
             isClearable: isClearable,
         };
         attrs.defaultValue = defaultSelect;
+        attrs.value = this.selectFromOptions(options, value);
 
         if (placeholder) {
             attrs.placeholder = placeholder;
