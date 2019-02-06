@@ -96,7 +96,7 @@ export default class TodoChangeLogDialog extends RaViewComponent {
     appRender() {
         const {classes, uiDefinition} = this.props;
         return (
-            <Dialog open={this.state.open}>
+            <Dialog open={this.state.open} maxWidth="sm" fullWidth>
                 <DialogTitle>{this.state.formTitle}{uiDefinition.changeLogPanelTitle}</DialogTitle>
                 <DialogContent>
                     <form onSubmit={this.formSubmitHandler}>
