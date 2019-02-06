@@ -6,7 +6,7 @@ import {
 import {withStyles} from '@material-ui/core/styles';
 import RaTableHeader, {RaTableHeaderDefinition} from './../../artifacts/ra-table-header';
 import RaPagination from './../../artifacts/ra-pagination';
-import UserCreateUpdateView from './user-create-update-view';
+import WingCreateUpdateView from './wing-create-update-view';
 import RaTableAction, {ActionDefinition} from "../../artifacts/ra-table-action";
 import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import {ApiURL} from "../../app/api-url";
@@ -16,15 +16,15 @@ import {viewCommon} from "../../assets/jss/style-jss";
 
 export const WingOtherUrls = [
     {
-        path: "/user/create-update",
+        path: "/wing/create-update",
         name: "Create Update",
-        component: UserCreateUpdateView,
+        component: WingCreateUpdateView,
         isActive: true,
     },
     {
-        path: "/user/create-update/:id",
+        path: "/wing/create-update/:id",
         name: "Create Update",
-        component: UserCreateUpdateView,
+        component: WingCreateUpdateView,
         isActive: true,
     }
 ];

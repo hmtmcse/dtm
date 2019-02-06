@@ -21,6 +21,7 @@ class WingCreateUpdateView extends RaViewComponent {
     }
 
 
+
     componentDidMount() {
         this.showFlashMessage();
         let id = this.getValueFromParams("id");
