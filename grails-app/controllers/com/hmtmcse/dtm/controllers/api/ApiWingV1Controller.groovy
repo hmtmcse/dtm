@@ -22,7 +22,7 @@ class ApiWingV1Controller extends GsRestProcessor {
     }
 
     def deleteSoftDelete() {
-        return customProcessor(wingDefinitionService.softDelete())
+        return updateOnly(wingDefinitionService.softDelete())
     }
 
     def postUpdate() {
