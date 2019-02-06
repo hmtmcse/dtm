@@ -209,7 +209,6 @@ export default class RaViewComponent extends Component {
             let value = RaSelectUtil.getValue(data);
             this.setInputValue(fieldName, value);
             this._onChangeSetInputValue(fieldName, value);
-            console.log(value);
         };
         onChangeProcessor.options = options;
         onChangeProcessor.defaultSelect = defaultValue;
