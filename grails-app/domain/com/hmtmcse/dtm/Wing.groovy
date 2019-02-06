@@ -7,9 +7,10 @@ class Wing extends CommonTask {
     User wingLead
     String description
     Boolean isDeleted = false
-    Integer sortOrder
+    Integer sortOrder = 0
 
     User createdBy
+    User updatedBy
     String uuid
 
     Date dateCreated
