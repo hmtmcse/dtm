@@ -262,7 +262,7 @@ class RaSelect extends Component {
             };
         }
         return (
-            <NoSsr><Select {...attrs} components={components}/></NoSsr>
+            <NoSsr><Select {...attrs} components={components}  styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} menuPortalTarget={document.body}/></NoSsr>
         );
     }
 }

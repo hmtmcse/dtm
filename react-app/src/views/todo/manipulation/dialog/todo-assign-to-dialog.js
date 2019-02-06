@@ -209,7 +209,7 @@ export default class TodoAssignToDialog extends RaViewComponent {
                 </React.Fragment>);
         }
         return (
-            <Dialog open={true}>
+            <Dialog open={true} fullWidth>
                 <DialogTitle>Assign Warrior</DialogTitle>
                 <DialogContent>
                     <form onSubmit={this.formSubmitHandler}>
