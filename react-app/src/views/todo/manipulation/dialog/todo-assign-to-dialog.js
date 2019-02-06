@@ -4,7 +4,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from "prop-types";
 import {
-    Button, TextField, Grid, MenuItem
+    Button, Grid
 } from '@material-ui/core'
 import React from 'react';
 import RaViewComponent from "../../../../artifacts/ra-view-component";
@@ -191,7 +191,7 @@ export default class TodoAssignToDialog extends RaViewComponent {
             dropDown = (
                 <React.Fragment>
                     <Grid item xs={12}>
-                        <RaSelect {...this.onChangeRaSelectProcessor("management", this.state.assigneeSelect,  defaultSelectData)} label="Management" isClearable isMulti/>
+                        <RaSelect {...this.onChangeRaSelectProcessor("management", this.state.assigneeSelect,  defaultSelectData)} label="Management"/>
                     </Grid>
                     <Grid item xs={12}>
                         <RaSelect {...this.onChangeRaSelectProcessor("development", this.state.assigneeSelect,  defaultSelectData)} label="Development"/>
