@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import {emphasize} from '@material-ui/core/styles/colorManipulator';
+import {RaUtil} from "./ra-util";
 
 const styles = theme => ({
     root: {
@@ -189,6 +190,17 @@ export const RaSelectUtil = {
             return RaSelectUtil.getAllValues(value);
         }
         return RaSelectUtil.getSingleValue(value);
+    },
+
+    objectListToSelect:(data, labelKey, valueKey, defaultValue) => {
+        let select = [];
+        Object.entries(data).map((object, key) => {
+            select.push({label: object[labelKey], value: object[valueKey]});
+        });
+        if (defaultValue){
+            select.push(defaultValue);
+        }
+        return select;
     }
 };
 
