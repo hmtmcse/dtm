@@ -7,6 +7,7 @@ import RaStaticHolder from "../artifacts/ra-static-holder";
 import {AppConstant} from "../app/app-constant";
 import {ApiURL} from "../app/api-url";
 import {RaGsConditionMaker} from "./ra-gs-condition-maker";
+import {RaSelectUtil} from "./ra-select";
 
 
 export default class RaViewComponent extends Component {
@@ -204,20 +205,14 @@ export default class RaViewComponent extends Component {
 
     onChangeRaSelectProcessor(fieldName, options, defaultValue) {
         let onChangeProcessor = this._onChangeInputProcessor(fieldName);
-        this.state.selectData = {};
         onChangeProcessor.onChange = data => {
-            if (data){
-                this.setInputValue(fieldName, data.value);
-                this._onChangeSetInputValue(fieldName, data.value);
-                this.setState((state) => {
-                    let selectData = {...state.selectData};
-                    selectData[fieldName] = data;
-                    return {selectData: selectData};
-                });
-            }
+            let value = RaSelectUtil.getValue(data);
+            this.setInputValue(fieldName, value);
+            this._onChangeSetInputValue(fieldName, value);
+            console.log(value);
         };
         onChangeProcessor.options = options;
-        onChangeProcessor.value = this.state.selectData[fieldName] ? this.state.selectData[fieldName] : (this.state.formData[fieldName] ? (options.filter(option => option.value === this.state.formData[fieldName])[0]) : defaultValue);
+        onChangeProcessor.defaultSelect = defaultValue;
         return onChangeProcessor;
     }
 
