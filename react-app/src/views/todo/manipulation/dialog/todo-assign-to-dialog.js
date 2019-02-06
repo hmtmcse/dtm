@@ -4,12 +4,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from "prop-types";
 import {
-    Button, TextField, Grid, MenuItem
+    Button, Grid
 } from '@material-ui/core'
 import React from 'react';
 import RaViewComponent from "../../../../artifacts/ra-view-component";
 import {ApiURL} from "../../../../app/api-url";
 import {RaUtil} from "../../../../artifacts/ra-util";
+import RaSelect from "../../../../artifacts/ra-select";
+
+const defaultSelectData = {value: "SELECT", label: "Not Assigned"};
 
 export default class TodoAssignToDialog extends RaViewComponent {
 
@@ -23,6 +26,7 @@ export default class TodoAssignToDialog extends RaViewComponent {
             formData: {},
             formError: {},
             users: {},
+            assigneeSelect: [],
         };
     }
 
@@ -45,7 +49,13 @@ export default class TodoAssignToDialog extends RaViewComponent {
         this.getToApi(ApiURL.CommonAllUserDropDownContent, response => {
             let data = response.data.response;
             if (data) {
-                this.setState({users: data})
+                this.setState({users: data});
+                let select = [];
+                select.push(defaultSelectData);
+                Object.entries(data).map(([objectKey, user], key) => {
+                    select.push({label: RaUtil.concatStringWithSpace(user.firstName, user.lastName), value: user.id});
+                });
+                this.setState({assigneeSelect: select});
             }
         });
     }
@@ -181,60 +191,25 @@ export default class TodoAssignToDialog extends RaViewComponent {
             dropDown = (
                 <React.Fragment>
                     <Grid item xs={12}>
-                        <TextField {...this.onChangeSelectProcessor("management")} label="Management" select
-                                   fullWidth>
-                            <MenuItem value="SELECT">Not Assigned</MenuItem>
-                            {
-                                Object.entries(this.state.users).map(([objectKey, user], key) => {
-                                    return (<MenuItem key={key}
-                                                      value={user.id}>{RaUtil.concatStringWithSpace(user.firstName, user.lastName)}</MenuItem>)
-                                })
-                            }
-                        </TextField>
+                        <RaSelect {...this.onChangeRaSelectProcessor("management", this.state.assigneeSelect,  defaultSelectData)} label="Management"/>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField {...this.onChangeSelectProcessor("development")} label="Development" select
-                                   fullWidth>
-                            <MenuItem value="SELECT">Not Assigned</MenuItem>
-                            {
-                                Object.entries(this.state.users).map(([objectKey, user], key) => {
-                                    return (<MenuItem key={key}
-                                                      value={user.id}>{RaUtil.concatStringWithSpace(user.firstName, user.lastName)}</MenuItem>)
-                                })
-                            }
-                        </TextField>
+                        <RaSelect {...this.onChangeRaSelectProcessor("development", this.state.assigneeSelect,  defaultSelectData)} label="Development"/>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField {...this.onChangeSelectProcessor("qa")} label="Quality Assurance" select
-                                   fullWidth>
-                            <MenuItem value="SELECT">Not Assigned</MenuItem>
-                            {
-                                Object.entries(this.state.users).map(([objectKey, user], key) => {
-                                    return (<MenuItem key={key}
-                                                      value={user.id}>{RaUtil.concatStringWithSpace(user.firstName, user.lastName)}</MenuItem>)
-                                })
-                            }
-                        </TextField>
+                        <RaSelect {...this.onChangeRaSelectProcessor("qa", this.state.assigneeSelect,  defaultSelectData)} label="Quality Assurance"/>
                     </Grid>
                 </React.Fragment>);
         }else if (definition.complexityType === "OTHERS"){
             dropDown = (
                 <React.Fragment>
                     <Grid item xs={12}>
-                        <TextField {...this.onChangeSelectProcessor("assignee")} label="Assignee" select
-                                   fullWidth>
-                            <MenuItem value="SELECT">Not Assigned</MenuItem>
-                            {
-                                Object.entries(this.state.users).map(([objectKey, user], key) => {
-                                    return (<MenuItem key={key} value={user.id}>{RaUtil.concatStringWithSpace(user.firstName, user.lastName)}</MenuItem>)
-                                })
-                            }
-                        </TextField>
+                        <RaSelect {...this.onChangeRaSelectProcessor("assignee", this.state.assigneeSelect,  defaultSelectData)} label="Assignee"/>
                     </Grid>
                 </React.Fragment>);
         }
         return (
-            <Dialog open={true}>
+            <Dialog open={true} fullWidth>
                 <DialogTitle>Assign Warrior</DialogTitle>
                 <DialogContent>
                     <form onSubmit={this.formSubmitHandler}>
@@ -270,4 +245,3 @@ TodoAssignToDialog.propTypes = {
     todoObject: PropTypes.object.isRequired,
     definition: PropTypes.object.isRequired,
 };
-

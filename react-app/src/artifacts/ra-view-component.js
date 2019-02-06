@@ -7,6 +7,7 @@ import RaStaticHolder from "../artifacts/ra-static-holder";
 import {AppConstant} from "../app/app-constant";
 import {ApiURL} from "../app/api-url";
 import {RaGsConditionMaker} from "./ra-gs-condition-maker";
+import {RaSelectUtil} from "./ra-select";
 
 
 export default class RaViewComponent extends Component {
@@ -96,7 +97,7 @@ export default class RaViewComponent extends Component {
 
     isInputValue(fieldName) {
         if (this.state.formData && this.state.formData[fieldName]) {
-            return this.state.formData[fieldName]
+            return this.state.formData[fieldName];
         }
     }
 
@@ -164,6 +165,19 @@ export default class RaViewComponent extends Component {
         return false
     }
 
+    _onChangeSetInputValue(name, value) {
+        if (this.state.formData !== undefined) {
+            this.state.formData[name] = value;
+        }
+        this.setState((state) => {
+            let formError = {...state.formError};
+            if (formError[name] !== undefined) {
+                delete formError[name];
+            }
+            return {formError: formError};
+        });
+    }
+
     _onChangeInputProcessor(fieldName, onChangeCallBack) {
         return {
             error: this.state.formError[fieldName] !== undefined ? this._isInputError(fieldName) : false,
@@ -174,16 +188,7 @@ export default class RaViewComponent extends Component {
                 const target = event.target;
                 const value = target.type === 'checkbox' ? target.checked : target.value;
                 const name = target.name;
-                if (this.state.formData !== undefined) {
-                    this.state.formData[name] = value;
-                }
-                this.setState((state) => {
-                    let formError = {...state.formError};
-                    if (formError[fieldName] !== undefined) {
-                        delete formError[fieldName];
-                    }
-                    return {formError: formError};
-                });
+                this._onChangeSetInputValue(name, value);
                 if (onChangeCallBack !== undefined) {
                     onChangeCallBack(event, fieldName, value);
                 }
@@ -195,6 +200,19 @@ export default class RaViewComponent extends Component {
         let onChangeData = this._onChangeInputProcessor(fieldName, onChangeCallBack);
         onChangeData.helperText = this.state.formError[fieldName] !== undefined ? this._isInputErrorMessage(fieldName) : "";
         return onChangeData;
+    }
+
+
+    onChangeRaSelectProcessor(fieldName, options, defaultValue) {
+        let onChangeProcessor = this._onChangeInputProcessor(fieldName);
+        onChangeProcessor.onChange = data => {
+            let value = RaSelectUtil.getValue(data);
+            this.setInputValue(fieldName, value);
+            this._onChangeSetInputValue(fieldName, value);
+        };
+        onChangeProcessor.options = options;
+        onChangeProcessor.defaultSelect = defaultValue;
+        return onChangeProcessor;
     }
 
     onChangeSelectProcessor(fieldName, onChangeCallBack) {
