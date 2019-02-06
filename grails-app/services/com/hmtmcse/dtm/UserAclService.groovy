@@ -9,6 +9,7 @@ class UserAclService {
                 "user"     : true,
                 "todo"     : true,
                 "note"     : true,
+                "wing"     : true,
         ]
     }
 
@@ -18,6 +19,7 @@ class UserAclService {
         switch (userRole) {
             case TMConstant.WARRIOR:
                 navigation.user = false
+                navigation.wing = false
                 return navigation
             case TMConstant.COMMANDER:
                 return navigation

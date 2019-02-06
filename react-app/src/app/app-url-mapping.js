@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import TodoMainView, {TodoOtherUrls} from "../views/todo/todo-main-view";
 import UserMainView, {UserOtherUrls} from "../views/user/user-main-view";
+import WingMainView, {WingOtherUrls} from "../views/wing/wing-main-view";
 import PublicLayout from "../views/layouts/public-layout";
 import PrivateLayout from "../views/layouts/private-layout";
 import {AuthenticationService} from "../services/authentication-service";
@@ -45,6 +46,15 @@ const PrivateLayoutViews = [
         isLeftNav: AuthenticationService.isEnableNavigation("todo"),
         isActive: true,
         routes: TodoOtherUrls,
+    },
+    {
+        path: "/wing",
+        name: "Wing",
+        icon: EventNoteIcon,
+        component: WingMainView,
+        isLeftNav: AuthenticationService.isEnableNavigation("wing"),
+        isActive: true,
+        routes: WingOtherUrls,
     },
     {
         path: "/user",
