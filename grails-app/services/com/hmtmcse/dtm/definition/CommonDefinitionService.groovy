@@ -23,7 +23,6 @@ class CommonDefinitionService {
                 map.put("priority", TMConstant.PRIORITY)
                 map.put("complexityType", TMConstant.COMPLEXITY_TYPE)
                 map.put("complexityTaskType", TMConstant.COMPLEXITY_TASK_TYPE)
-                map.put("workLogType", TMConstant.WORK_LOG_TYPE)
                 map.put("bugReportType", TMConstant.BUG_REPORT_TYPE)
                 return GsApiResponseData.successResponse(map)
             }
@@ -33,7 +32,6 @@ class CommonDefinitionService {
         gsApiActionDefinition.addResponseProperty("priority").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
         gsApiActionDefinition.addResponseProperty("complexityType").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
         gsApiActionDefinition.addResponseProperty("complexityTaskType").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
-        gsApiActionDefinition.addResponseProperty("workLogType").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
         gsApiActionDefinition.addResponseProperty("bugReportType").setDataType(SwaggerConstant.SWAGGER_DT_OBJECT)
 
 

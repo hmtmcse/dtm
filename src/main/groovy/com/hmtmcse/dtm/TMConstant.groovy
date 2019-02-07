@@ -83,10 +83,11 @@ class TMConstant {
 
 
     public static final WORK_LOG_TYPE = [
-            TESTING    : "Testing",
-            DEVELOPMENT: "Development",
-            ANALYSIS   : "Analysis",
-            OTHERS     : "Others",
+            COMPLEXITY : "COMPLEXITY",
+            STEP       : "STEP",
+            MEETING    : "MEETING",
+            SESSION    : "SESSION",
+            OUT_OF_TASK: "OUT_OF_TASK",
     ]
 
 
