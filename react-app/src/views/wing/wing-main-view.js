@@ -1,7 +1,7 @@
 import React from 'react'
 import RaViewComponent from "./../../artifacts/ra-view-component";
 import {
-    TableRow, TableCell, TableBody, Paper, Table, Typography,Button,TextField
+    TableRow, TableCell, TableBody, Paper, Table, Typography, Button, TextField, Grid, Avatar, Card, CardHeader
 } from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import RaTableHeader, {RaTableHeaderDefinition} from './../../artifacts/ra-table-header';
@@ -109,7 +109,7 @@ class WingMainView extends RaViewComponent {
         return (<React.Fragment>
             <Paper className={classes.mainActionArea}>
                 <div>
-                    <Typography variant="headline">Users</Typography>
+                    <Typography variant="headline">Team Wings</Typography>
                 </div>
                 <div>
                     <form className={classes.displayInline}>
@@ -131,8 +131,15 @@ class WingMainView extends RaViewComponent {
                             {this.state.users.map(function (user, key) {
                                 return (
                                     <TableRow key={key}>
-                                        <TableCell>{user.firstName} {user.lastName}</TableCell>
-                                        <TableCell>{user.email}</TableCell>
+                                        <TableCell align="center"><Typography variant="title" align="center">{user.email}</Typography></TableCell>
+                                        <TableCell>
+                                            <Grid container spacing={8} align="center">
+                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Designations"/></Card></Grid>
+                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Designations"/></Card></Grid>
+                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Designations"/></Card></Grid>
+                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Manager System & Research"/></Card></Grid>
+                                            </Grid>
+                                        </TableCell>
                                         <TableCell numeric><RaTableAction tableActions={tableActions(user)}/></TableCell>
                                     </TableRow>
                                 )
