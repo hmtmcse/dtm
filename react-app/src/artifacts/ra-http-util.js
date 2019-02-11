@@ -22,4 +22,33 @@ export default class RaHttpUtil {
         };
         this.callToApiByAxios(dataSet, success, failed);
     }
+
+    static postRequest(url, data, success, failed) {
+        let dataSet = {
+            method: 'post',
+            url: url,
+            data: data
+        };
+        this.callToApiByAxios(dataSet, success, failed);
+    }
+
+    static postJsonRequest(url, data, success, failed) {
+        let dataSet = {
+            method: 'post',
+            url: url,
+            data: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}
+        };
+        this.callToApiByAxios(dataSet, success, failed);
+    }
+
+    static deleteJsonRequest(url, data, success, failed) {
+        let dataSet = {
+            method: 'delete',
+            url: url,
+            data: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}
+        };
+        this.callToApiByAxios(dataSet, success, failed);
+    }
 }
