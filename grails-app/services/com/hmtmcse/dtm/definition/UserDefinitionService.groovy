@@ -41,6 +41,7 @@ class UserDefinitionService {
         }
         gsApiActionDefinition.addRequestProperty("password").required()
         gsApiActionDefinition.addResponseProperty("uuid")
+        gsApiActionDefinition.addResponseProperty("id")
         gsApiActionDefinition.successResponseAsData()
         return gsApiActionDefinition
     }
