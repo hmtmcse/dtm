@@ -62,7 +62,6 @@ class TodoComplexityStepPanel extends RaViewComponent {
     }
 
     openTodoComplexityStep(event, editId = undefined) {
-        console.log(editId);
         this.setState(state => ({
             isOpenTodoComplexityStep: true,
             editId: editId,
