@@ -487,7 +487,7 @@ class DummyDataService {
         ]
 
         map.each { Map user ->
-            httpUtil.jsonPost(getURL("api/v1/user/create"), mapToJsonString(user, "complexity"))
+            httpUtil.jsonPost(getURL("api/v1/user/create"), mapToJsonString(user))
             httpResponse = httpUtil.send()
             responseMap = JSON.parse(httpResponse.content)
             user.id = responseMap.response.id
@@ -502,11 +502,10 @@ class DummyDataService {
                 [wingLeadId: map[10]?.id, name: "Management", members: map[10..11]*.id],
         ]
 
-        wing.each { Map user ->
-            httpUtil.jsonPost(getURL("api/v1/wing/create"), mapToJsonString(user, "complexity"))
+        wing.each { Map wingEntry ->
+            httpUtil.jsonPost(getURL("api/v1/wing/create"), mapToJsonString(wingEntry))
             httpResponse = httpUtil.send()
             responseMap = JSON.parse(httpResponse.content)
-            user.id = responseMap.response.id
 
         }
 

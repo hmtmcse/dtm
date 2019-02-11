@@ -25,7 +25,6 @@ export default class WingCreateUpdateDialog extends RaViewComponent {
             formButton: "Save",
             formData: {},
             formError: {},
-            status: {},
             teamLead: [],
             members: [],
         };
@@ -33,12 +32,6 @@ export default class WingCreateUpdateDialog extends RaViewComponent {
 
     componentDidMount() {
         this.showFlashMessage();
-        this.setState((state) => {
-            let formData = {
-                status: "DRAFT"
-            };
-            return {formData: formData};
-        });
         this.loadDropDownValues();
         this.loadEditData();
     }

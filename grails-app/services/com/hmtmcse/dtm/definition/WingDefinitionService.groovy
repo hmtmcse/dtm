@@ -41,8 +41,6 @@ class WingDefinitionService {
             GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {
                 definition.addToWhereFilterProperty("isDeleted")
                 gsFilteredData.where.addEqual("isDeleted", false)
-                definition.addToWhereFilterProperty("sortOrder")
-                gsFilteredData.where.addOrderBy("sortOrder", "desc")
                 return gsFilteredData
             }
         }
