@@ -8,6 +8,7 @@ import {AppConstant} from "../app/app-constant";
 import {ApiURL} from "../app/api-url";
 import {RaGsConditionMaker} from "./ra-gs-condition-maker";
 import {RaSelectUtil} from "./ra-select";
+import LoginDialog from "../views/authentication/login-dialog";
 
 
 export default class RaViewComponent extends Component {
@@ -17,6 +18,8 @@ export default class RaViewComponent extends Component {
         this.state = {
             isSystemProgressBarEnabled: false,
             showSystemSnackBar: false,
+            showLoginPopup: false,
+            loginSuccessData: {},
             systemSnackBarVariant: "success",
             systemSnackBarMessage: "Empty Message",
             formData: {},
@@ -295,7 +298,9 @@ export default class RaViewComponent extends Component {
 
     callToApiByAxios(dataSet, success, failed) {
         this.showProgressbar();
+        let onlyUrl = "";
         if (dataSet !== undefined && dataSet.url !== undefined) {
+            onlyUrl = dataSet.url;
             dataSet.url = ApiURL.BaseURL + dataSet.url
         }
         axios(dataSet).then((response) => {
@@ -304,7 +309,9 @@ export default class RaViewComponent extends Component {
             }
         }).catch((error) => {
             if (error.response && error.response.status === 401) {
-                AuthenticationService.logout();
+                dataSet.url = onlyUrl;
+                this.setState({loginSuccessData: {dataSet: dataSet, success: success, failed: failed}});
+                this.setState({showLoginPopup: true});
             } else if (failed !== undefined) {
                 failed(error);
             } else {
@@ -378,6 +385,7 @@ export default class RaViewComponent extends Component {
     render() {
         return (
             <React.Fragment>
+                {this.state.showLoginPopup ? (<LoginDialog parent={this}/>) : ""}
                 {RaUtil.showLoader(this.state.isSystemProgressBarEnabled)}
                 <RaSnackBar variant={this.state.systemSnackBarVariant ? this.state.systemSnackBarVariant : "error"}
                             isOpen={this.state.showSystemSnackBar}

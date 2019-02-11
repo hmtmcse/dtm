@@ -9,7 +9,7 @@ class Steps extends CommonTask {
     String uuid
     Boolean isLock = false
     Date startedMoment
-    Double estimatedHour
+    Double estimatedHour = 0
     String status = TMConstant.DRAFT
     String jsonData
     String otherInfo
