@@ -16,6 +16,8 @@ class Wing extends CommonTask {
     Date dateCreated
     Date lastUpdated
 
+    Collection<User> members = []
+
     static hasMany = [members: User]
 
     static constraints = {

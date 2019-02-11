@@ -4,7 +4,9 @@ import com.hmtmcse.dtm.AuthenticationService
 import com.hmtmcse.dtm.Wing
 import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.data.GsApiResponseData
+import com.hmtmcse.gs.data.GsApiResponseProperty
 import com.hmtmcse.gs.data.GsFilteredData
+import com.hmtmcse.gs.model.CustomResponseParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
 import com.hmtmcse.swagger.definition.SwaggerConstant
 
@@ -15,7 +17,7 @@ class WingDefinitionService {
 
     GsApiActionDefinition createUpdate() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Wing>(Wing)
-        gsApiActionDefinition.addRequestProperty("wingLeadId").required()
+        gsApiActionDefinition.addRequestProperty("wingLead").setAlias("wingLeadId").required()
         gsApiActionDefinition.addRequestProperty("name").required()
         gsApiActionDefinition.addRequestProperty("members", SwaggerConstant.SWAGGER_DT_ARRAY_LONG)
         gsApiActionDefinition.addRequestProperty("description")
@@ -44,7 +46,8 @@ class WingDefinitionService {
                 return gsFilteredData
             }
         }
-        gsApiActionDefinition.includeInWhereFilter(["name", "id"])
+        gsApiActionDefinition.includeInWhereFilter(["name"])
+        gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
 
         gsApiActionDefinition.addRelationalEntityResponse("wingLead")
         gsApiActionDefinition.reResponseData().addResponseProperty("firstName")
@@ -86,13 +89,30 @@ class WingDefinitionService {
 
     GsApiActionDefinition details() {
         GsApiActionDefinition gsApiActionDefinition = read()
+        gsApiActionDefinition.addResponseProperty("wingLead").setAlias("wingLeadId").customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                def id = domainRow["wingLead"]?.id
+                return id
+            }
+        }
+        gsApiActionDefinition.addResponseProperty("members").customResponseParamProcessor = new CustomResponseParamProcessor() {
+            @Override
+            Object process(String fieldName, Object domainRow, GsApiResponseProperty propertyDefinition) {
+                def list = []
+                domainRow["members"]?.each {
+                    list.add(it.id)
+                }
+                return list
+            }
+        }
         return gsApiActionDefinition
     }
 
 
     GsApiActionDefinition softDelete() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<Wing>(Wing)
-        gsApiActionDefinition.addRequestProperty("id").enableTypeCast()
+        gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
         gsApiActionDefinition.successResponseFormat = GsApiResponseData.successMessage("Successfully Deleted")
         gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Unable to Delete")
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
@@ -111,7 +131,7 @@ class WingDefinitionService {
 
     GsApiActionDefinition update() {
         GsApiActionDefinition gsApiActionDefinition = createUpdate()
-        gsApiActionDefinition.includeInWhereFilter(["id"])
+        gsApiActionDefinition.addToWhereFilterProperty("id").enableTypeCast()
         return gsApiActionDefinition
     }
 

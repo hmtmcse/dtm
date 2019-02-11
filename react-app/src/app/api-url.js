@@ -80,9 +80,17 @@ export const ApiURL = {
 
     DashboardTodoReport: "api/v1/dashboard/dashboardTodoReport",
 
-    XXXList: "",
-    XXXXCreate: "",
-    XXXXUpdate: "",
-    XXXXDelete: "",
-    XXXXDetails: "",
+    WingList: "api/v1/wing/list",
+    WingSoftDelete: "api/v1/wing/softDelete",
+    WingUpdate: "api/v1/wing/update",
+    WingDelete: "api/v1/wing/delete",
+    WingDetails: "api/v1/wing/details",
+    WingCreate: "api/v1/wing/create",
+
+    XXXList: "api/v1/xxxxx/list",
+    XXXXCreate: "api/v1/xxxxx/create",
+    XXXXUpdate: "api/v1/xxxxx/update",
+    XXXXDelete: "api/v1/xxxxx/delete",
+    XXXXSoftDelete: "api/v1/xxxxx/softDelete",
+    XXXXDetails: "api/v1/xxxxx/details",
 };

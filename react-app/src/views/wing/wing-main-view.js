@@ -6,33 +6,19 @@ import {
 import {withStyles} from '@material-ui/core/styles';
 import RaTableHeader, {RaTableHeaderDefinition} from './../../artifacts/ra-table-header';
 import RaPagination from './../../artifacts/ra-pagination';
-import WingCreateUpdateView from './wing-create-update-view';
 import RaTableAction, {ActionDefinition} from "../../artifacts/ra-table-action";
 import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import {ApiURL} from "../../app/api-url";
 import {AppConstant} from "../../app/app-constant";
 import {viewCommon} from "../../assets/jss/style-jss";
-
-
-export const WingOtherUrls = [
-    {
-        path: "/wing/create-update",
-        name: "Create Update",
-        component: WingCreateUpdateView,
-        isActive: true,
-    },
-    {
-        path: "/wing/create-update/:id",
-        name: "Create Update",
-        component: WingCreateUpdateView,
-        isActive: true,
-    }
-];
+import WingCreateUpdateDialog from "./dialog/wing-create-update-dialog";
+import {RaUtil} from "../../artifacts/ra-util";
+import {CommonService} from "../../app/common-service";
 
 
 const tableHeaderDefinition = [
-    RaTableHeaderDefinition.instance('firstName', 'Name'),
-    RaTableHeaderDefinition.instance('email', 'Email'),
+    RaTableHeaderDefinition.instance('name', 'Wing & Lead Name'),
+    RaTableHeaderDefinition.instance('members', 'Wing Warriors', false),
 ];
 
 class WingMainView extends RaViewComponent {
@@ -42,8 +28,10 @@ class WingMainView extends RaViewComponent {
         this.state = {
             orderBy: "id",
             order: "desc",
-            users: [],
+            wings: [],
             total: 0,
+            editId: undefined,
+            showCreateEditPopup: false,
             max: AppConstant.rowsPerPage,
             offset: AppConstant.defaultOffset,
         };
@@ -55,12 +43,19 @@ class WingMainView extends RaViewComponent {
         this.loadList();
     }
 
-    loadList(condition = {}){
+    loadList(condition = {}, callback){
         condition = this.loadOffsetMax(condition);
-        this.postJsonToApi(ApiURL.UserList, condition, response => {
-            this.setState({users:response.data.response});
+        this.postJsonToApi(ApiURL.WingList, condition, response => {
+            this.setState({wings:response.data.response});
             this.setState({total: response.data.total ? response.data.total : 0});
+            if (callback){
+                callback(response);
+            }
         });
+    }
+
+    loadListAfterAction(callback){
+        this.loadList({}, callback);
     }
 
 
@@ -80,9 +75,9 @@ class WingMainView extends RaViewComponent {
         let component = actionDefinition.component;
         if (additionalInformation.id) {
             let formData = RaGsConditionMaker.equal({}, "id", additionalInformation.id);
-            component.deleteJsonToApi(ApiURL.UserDelete, formData,
+            component.deleteJsonToApi(ApiURL.WingSoftDelete, formData,
                 success => {
-                    component.processFormResponse(success.data, "/user");
+                    component.processFormResponse(success.data, "/wing");
                     component.loadList();
                     component.showSuccessInfo("Successfully Deleted")
                 }
@@ -90,9 +85,15 @@ class WingMainView extends RaViewComponent {
         }
     };
 
-    editAction (event, actionDefinition){
+    editAction(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
-        actionDefinition.component.goToUrl("/user/create-update/" + additionalInformation.id)
+        actionDefinition.component.setState({editId: additionalInformation.id});
+        actionDefinition.component.setState({showCreateEditPopup: true});
+    };
+
+    createAction(event) {
+        this.setState({editId: undefined});
+        this.setState({showCreateEditPopup: true});
     };
 
     appRender() {
@@ -107,15 +108,13 @@ class WingMainView extends RaViewComponent {
         };
 
         return (<React.Fragment>
+            {this.state.showCreateEditPopup ? (<WingCreateUpdateDialog parent={this} editId={this.state.editId}/>): ""}
             <Paper className={classes.mainActionArea}>
                 <div>
                     <Typography variant="headline">Team Wings</Typography>
                 </div>
                 <div>
-                    <form className={classes.displayInline}>
-                        <TextField placeholder="search" name="search"/>
-                    </form>
-                    <Button className={classes.marginToLeft} onClick={event =>{this.goToUrl("/user/create-update", event)}} variant="contained" color="primary">Create</Button>
+                    <Button className={classes.marginToLeft} onClick={event =>{this.createAction(event)}} variant="contained" color="primary">Create</Button>
                     <Button className={classes.marginToLeft} onClick={this.reload} variant="contained" color="primary">Reload</Button>
                 </div>
             </Paper>
@@ -128,19 +127,21 @@ class WingMainView extends RaViewComponent {
                             order={this.state.order}
                             orderBy={this.state.orderBy}/>
                         <TableBody>
-                            {this.state.users.map(function (user, key) {
+                            {this.state.wings.map(function (wing, key) {
                                 return (
                                     <TableRow key={key}>
-                                        <TableCell align="center"><Typography variant="title" align="center">{user.email}</Typography></TableCell>
+                                        <TableCell align="center">
+                                            <Typography variant="title" align="center">{wing.name}</Typography>
+                                            <Typography variant="caption" align="center">{RaUtil.concatStringWithSpace(wing.wingLead.firstName, wing.wingLead.lastName)}</Typography>
+                                        </TableCell>
                                         <TableCell>
-                                            <Grid container spacing={8} align="center">
-                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Designations"/></Card></Grid>
-                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Designations"/></Card></Grid>
-                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Designations"/></Card></Grid>
-                                                <Grid item xs={4}><Card><CardHeader avatar={<Avatar>R</Avatar>} title={user.firstName + " " + user.lastName} subheader="Manager System & Research"/></Card></Grid>
+                                            <Grid container spacing={8} align="left">
+                                                {wing.members.map(function (member, key) {
+                                                    return(<Grid item xs={4} key={key}><Card><CardHeader avatar={<Avatar>{CommonService.nameToLatter(member.firstName, member.lastName)}</Avatar>} title={RaUtil.concatStringWithSpace(member.firstName, member.lastName)} subheader="Designation"/></Card></Grid>);
+                                                })};
                                             </Grid>
                                         </TableCell>
-                                        <TableCell numeric><RaTableAction tableActions={tableActions(user)}/></TableCell>
+                                        <TableCell numeric><RaTableAction tableActions={tableActions(wing)}/></TableCell>
                                     </TableRow>
                                 )
                             })}

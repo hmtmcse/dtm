@@ -11,10 +11,6 @@ import {emphasize} from '@material-ui/core/styles/colorManipulator';
 import {RaUtil} from "./ra-util";
 
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        height: 250,
-    },
     input: {
         display: 'flex',
         padding: 0,
