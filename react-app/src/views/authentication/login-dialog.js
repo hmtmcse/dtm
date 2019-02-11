@@ -1,21 +1,18 @@
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from "prop-types";
-import {
-    Button
-} from '@material-ui/core'
 import LoginFormProcessor from "./login-form-processor";
 import React, {Component} from 'react';
+import {withStyles} from "@material-ui/core";
+import {LoginLayoutJss} from "../../assets/jss/login-layout-jss";
 
-export default class LoginDialog extends Component {
+class LoginDialog extends Component {
 
     render() {
-        const {parent} = this.props;
+        const {parent, classes} = this.props;
         return (
             <Dialog open={true} fullWidth>
-                <DialogContent>
+                <DialogContent className={classes.marginBottomForPopup} >
                     <LoginFormProcessor parent={parent}/>
                 </DialogContent>
             </Dialog>
@@ -24,6 +21,8 @@ export default class LoginDialog extends Component {
 }
 
 LoginDialog.propTypes = {
+    classes: PropTypes.object.isRequired,
     parent: PropTypes.object.isRequired,
 };
+export default withStyles(LoginLayoutJss)(LoginDialog);
 

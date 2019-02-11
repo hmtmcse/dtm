@@ -9,6 +9,9 @@ export const LoginLayoutJss = theme => ({
             marginRight: 'auto',
         },
     },
+    marginBottomForPopup: {
+        marginBottom: theme.spacing.unit * 8,
+    },
     paper: {
         marginTop: theme.spacing.unit * 8,
         display: 'flex',
