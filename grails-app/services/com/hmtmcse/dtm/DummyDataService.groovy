@@ -466,5 +466,48 @@ class DummyDataService {
             }
 
         }
+
+        map = [
+                [firstName: "Dev", lastName: "One", email: "dev1@taskmanager.local", password: "123456"],
+                [firstName: "Dev", lastName: "Tow", email: "dev2@taskmanager.local", password: "123456"],
+                [firstName: "Dev", lastName: "Three", email: "dev3@taskmanager.local", password: "123456"],
+                [firstName: "Dev", lastName: "Four", email: "dev4@taskmanager.local", password: "123456"],
+                [firstName: "Dev", lastName: "Five", email: "dev5@taskmanager.local", password: "123456"],
+                [firstName: "QA", lastName: "One", email: "qa1@taskmanager.local", password: "123456"],
+                [firstName: "QA", lastName: "Tow", email: "qa2@taskmanager.local", password: "123456"],
+                [firstName: "QA", lastName: "Three", email: "qa3@taskmanager.local", password: "123456"],
+                [firstName: "QA", lastName: "Four", email: "qa4@taskmanager.local", password: "123456"],
+                [firstName: "QA", lastName: "Five", email: "qa5@taskmanager.local", password: "123456"],
+                [firstName: "Team", lastName: "Lead", email: "team-lead@taskmanager.local", password: "123456"],
+                [firstName: "Scrum", lastName: "Master", email: "scrum-master@taskmanager.local", password: "123456"],
+                [firstName: "Designer", lastName: "One", email: "designer1@taskmanager.local", password: "123456"],
+                [firstName: "Designer", lastName: "Tow", email: "designer2@taskmanager.local", password: "123456"],
+                [firstName: "BA", lastName: "One", email: "ba1@taskmanager.local", password: "123456"],
+                [firstName: "BA", lastName: "Tow", email: "ba2@taskmanager.local", password: "123456"],
+        ]
+
+        map.each { Map user ->
+            httpUtil.jsonPost(getURL("api/v1/user/create"), mapToJsonString(user))
+            httpResponse = httpUtil.send()
+            responseMap = JSON.parse(httpResponse.content)
+            user.id = responseMap.response.id
+
+        }
+
+        def wing = [
+                [wingLeadId: map[0]?.id, name: "Development", members: map[0..4]*.id],
+                [wingLeadId: map[5]?.id, name: "Quality Assurance", members: map[5..9]*.id],
+                [wingLeadId: map[12]?.id, name: "Designer", members: map[12..13]*.id],
+                [wingLeadId: map[14]?.id, name: "Business Team", members: map[14..15]*.id],
+                [wingLeadId: map[10]?.id, name: "Management", members: map[10..11]*.id],
+        ]
+
+        wing.each { Map wingEntry ->
+            httpUtil.jsonPost(getURL("api/v1/wing/create"), mapToJsonString(wingEntry))
+            httpResponse = httpUtil.send()
+            responseMap = JSON.parse(httpResponse.content)
+
+        }
+
     }
 }

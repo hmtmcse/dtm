@@ -3,10 +3,13 @@ import DashboardView from '../views/dashboard/dashboard-view';
 import NotFoundView from './../views/not-found-view';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EventNoteIcon from '@material-ui/icons/EventNote';
+import CallSplitIcon from '@material-ui/icons/CallSplit';
+import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import React, { Component } from 'react'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import TodoMainView, {TodoOtherUrls} from "../views/todo/todo-main-view";
 import UserMainView, {UserOtherUrls} from "../views/user/user-main-view";
+import WingMainView, {WingOtherUrls} from "../views/wing/wing-main-view";
 import PublicLayout from "../views/layouts/public-layout";
 import PrivateLayout from "../views/layouts/private-layout";
 import {AuthenticationService} from "../services/authentication-service";
@@ -47,9 +50,17 @@ const PrivateLayoutViews = [
         routes: TodoOtherUrls,
     },
     {
+        path: "/wing",
+        name: "Wing",
+        icon: CallSplitIcon,
+        component: WingMainView,
+        isLeftNav: AuthenticationService.isEnableNavigation("wing"),
+        isActive: true,
+    },
+    {
         path: "/user",
         name: "User",
-        icon: DashboardIcon,
+        icon: BubbleChartIcon,
         component: UserMainView,
         isLeftNav: AuthenticationService.isEnableNavigation("user"),
         isActive: AuthenticationService.isEnableNavigation("user"),
