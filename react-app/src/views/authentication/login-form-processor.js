@@ -90,6 +90,6 @@ class LoginFormProcessor extends Component {
 LoginFormProcessor.propTypes = {
     classes: PropTypes.object.isRequired,
     parent: PropTypes.object.isRequired,
-    callBack: PropTypes.object,
+    callBack: PropTypes.func,
 };
 export default withStyles(LoginLayoutJss)(LoginFormProcessor);

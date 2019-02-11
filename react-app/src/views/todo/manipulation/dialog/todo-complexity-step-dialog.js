@@ -127,7 +127,8 @@ export default class TodoComplexityStepDialog extends RaViewComponent {
                 <DialogContent>
                     <form onSubmit={this.formSubmitHandler}>
                         <Grid container spacing={8}>
-                            <Grid item xs={12}><TextField label="Started" disabled value={this.getFormDataValue("startedMoment")}  fullWidth/></Grid>
+                            <Grid item xs={8}><TextField type="number" label="Estimated Hour" {...this.onChangeTextFieldProcessor("estimatedHour")}   fullWidth/></Grid>
+                            <Grid item xs={4}><TextField label="Started" disabled value={this.getFormDataValue("startedMoment")}  fullWidth/></Grid>
                             <Grid item xs={12}><TextField name="" label="Name" {...this.onChangeTextFieldProcessor("name")} fullWidth/></Grid>
                             <Grid item xs={12}><TextField multiline rows={8} label="Description (Markdown)" {...this.onChangeTextFieldProcessor("description")} onFocus={event =>{this.selectMarkdownViewer(event, "description")}} fullWidth/></Grid>
                             <Grid item xs={12}><TextField multiline rows={8} label="Reference (Markdown)" {...this.onChangeTextFieldProcessor("reference")} onFocus={event =>{this.selectMarkdownViewer(event, "reference")}} fullWidth/></Grid>
