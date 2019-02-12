@@ -1,9 +1,11 @@
 package com.hmtmcse.dtm.controllers.api
 
-import com.hmtmcse.gs.GsRestProcessor
 import com.hmtmcse.dtm.definition.WorkLogDefinitionService
+import com.hmtmcse.gs.GsRestProcessor
+
 
 class ApiWorkLogV1Controller extends GsRestProcessor {
+
 
     WorkLogDefinitionService workLogDefinitionService
 
@@ -11,20 +13,20 @@ class ApiWorkLogV1Controller extends GsRestProcessor {
         return create(workLogDefinitionService.create())
     }
 
+    def deleteSoftDelete() {
+        return updateOnly(workLogDefinitionService.softDelete())
+    }
+
     def postUpdate() {
         return update(workLogDefinitionService.update())
     }
 
-    def getList() {
+    def postList() {
         return list(workLogDefinitionService.list())
     }
 
-    def getDetails() {
-        return details(workLogDefinitionService.list())
-    }
-
-    def deleteDelete() {
-        return delete(workLogDefinitionService.delete())
+    def getList() {
+        return list(workLogDefinitionService.list())
     }
 
 }

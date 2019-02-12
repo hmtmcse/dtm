@@ -4,12 +4,14 @@ class WorkLog extends CommonTask {
 
     Long id
     User workedBy
+    User updatedBy
     Double workedHour
     String logType
+    Boolean isDeleted = false
     String description
     Todo todo
     Complexity complexity
-    Steps Steps
+    Steps steps
 
     Date dateCreated
     Date lastUpdated
@@ -20,7 +22,7 @@ class WorkLog extends CommonTask {
         description(nullable: true)
         todo(nullable: true)
         complexity(nullable: true)
-        Steps(nullable: true)
+        steps(nullable: true)
     }
 
     static mapping = {
