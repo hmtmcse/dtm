@@ -5,11 +5,13 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import CallSplitIcon from '@material-ui/icons/CallSplit';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import DomainIcon from '@material-ui/icons/Domain';
 import React, { Component } from 'react'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import TodoMainView, {TodoOtherUrls} from "../views/todo/todo-main-view";
 import UserMainView, {UserOtherUrls} from "../views/user/user-main-view";
-import WingMainView, {WingOtherUrls} from "../views/wing/wing-main-view";
+import WingMainView from "../views/wing/wing-main-view";
+import MySpaceMainView from "../views/my-space/my-space-main-view";
 import PublicLayout from "../views/layouts/public-layout";
 import PrivateLayout from "../views/layouts/private-layout";
 import {AuthenticationService} from "../services/authentication-service";
@@ -55,6 +57,14 @@ const PrivateLayoutViews = [
         icon: CallSplitIcon,
         component: WingMainView,
         isLeftNav: AuthenticationService.isEnableNavigation("wing"),
+        isActive: true,
+    },
+    {
+        path: "/my-space",
+        name: "My Space",
+        icon: DomainIcon,
+        component: MySpaceMainView,
+        isLeftNav: AuthenticationService.isEnableNavigation("mySpace"),
         isActive: true,
     },
     {

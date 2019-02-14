@@ -10,6 +10,7 @@ class UserAclService {
                 "todo"     : true,
                 "note"     : true,
                 "wing"     : true,
+                "mySpace"  : true,
         ]
     }
 
