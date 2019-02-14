@@ -5,6 +5,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import CallSplitIcon from '@material-ui/icons/CallSplit';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import PetsIcon from '@material-ui/icons/Pets';
 import DomainIcon from '@material-ui/icons/Domain';
 import React, { Component } from 'react'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
@@ -12,6 +13,7 @@ import TodoMainView, {TodoOtherUrls} from "../views/todo/todo-main-view";
 import UserMainView, {UserOtherUrls} from "../views/user/user-main-view";
 import WingMainView from "../views/wing/wing-main-view";
 import MySpaceMainView from "../views/my-space/my-space-main-view";
+import ActivityMainView from "../views/activity/activity-main-view";
 import PublicLayout from "../views/layouts/public-layout";
 import PrivateLayout from "../views/layouts/private-layout";
 import {AuthenticationService} from "../services/authentication-service";
@@ -57,6 +59,14 @@ const PrivateLayoutViews = [
         icon: CallSplitIcon,
         component: WingMainView,
         isLeftNav: AuthenticationService.isEnableNavigation("wing"),
+        isActive: true,
+    },
+    {
+        path: "/activity",
+        name: "Activity",
+        icon: PetsIcon,
+        component: ActivityMainView,
+        isLeftNav: AuthenticationService.isEnableNavigation("activity"),
         isActive: true,
     },
     {

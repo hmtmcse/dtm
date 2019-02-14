@@ -16,6 +16,7 @@ import {RaUtil} from "../../artifacts/ra-util";
 import {CommonService} from "../../app/common-service";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import PetsIcon from '@material-ui/icons/Pets';
+import InsertChartIcon from '@material-ui/icons/InsertChart';
 import RaTabView, {RaTabViewDefinition} from "../../artifacts/ra-tab-view";
 
 
@@ -24,7 +25,7 @@ const tableHeaderDefinition = [
     RaTableHeaderDefinition.instance('members', 'Wing Warriors', false),
 ];
 
-class MySpaceMainView extends RaViewComponent {
+class ActivityMainView extends RaViewComponent {
 
     constructor(props) {
         super(props);
@@ -158,4 +159,4 @@ class MySpaceMainView extends RaViewComponent {
         </React.Fragment>);
     }
 }
-export default withStyles(viewCommon)(MySpaceMainView);
+export default withStyles(viewCommon)(ActivityMainView);

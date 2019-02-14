@@ -11,6 +11,7 @@ class UserAclService {
                 "note"     : true,
                 "wing"     : true,
                 "mySpace"  : true,
+                "activity"  : true,
         ]
     }
 
@@ -21,6 +22,7 @@ class UserAclService {
             case TMConstant.WARRIOR:
                 navigation.user = false
                 navigation.wing = false
+                navigation.activity = false
                 return navigation
             case TMConstant.COMMANDER:
                 return navigation
