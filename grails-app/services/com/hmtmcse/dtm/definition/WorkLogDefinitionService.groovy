@@ -14,10 +14,9 @@ class WorkLogDefinitionService {
 
     GsApiActionDefinition createUpdate() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<WorkLog>(WorkLog)
-        gsApiActionDefinition.addRequestProperty("complexity").setAlias("complexityId")
-        gsApiActionDefinition.addRequestProperty("todo").setAlias("todoId")
-        gsApiActionDefinition.addRequestProperty("steps").setAlias("stepId")
         gsApiActionDefinition.addRequestProperty("logType").required()
+        gsApiActionDefinition.addRequestProperty("searchId").enableTypeCast().required()
+        gsApiActionDefinition.addRequestProperty("searchUuid").required()
         gsApiActionDefinition.addRequestProperty("workedHour").required()
         gsApiActionDefinition.addRequestProperty("description")
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
@@ -54,19 +53,10 @@ class WorkLogDefinitionService {
         gsApiActionDefinition.reResponseData().addResponseProperty("lastName")
         gsApiActionDefinition.reResponseData().addResponseProperty("id")
 
-        gsApiActionDefinition.addRelationalEntityResponse("complexity")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
-        gsApiActionDefinition.reResponseData().addResponseProperty("id")
-
-        gsApiActionDefinition.addRelationalEntityResponse("steps")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
-        gsApiActionDefinition.reResponseData().addResponseProperty("id")
-
-        gsApiActionDefinition.addRelationalEntityResponse("todo")
-        gsApiActionDefinition.reResponseData().addResponseProperty("name")
-        gsApiActionDefinition.reResponseData().addResponseProperty("id")
 
 
+        gsApiActionDefinition.addResponseProperty("searchUuid")
+        gsApiActionDefinition.addResponseProperty("searchId")
         gsApiActionDefinition.addResponseProperty("workedHour")
         gsApiActionDefinition.addResponseProperty("description")
         gsApiActionDefinition.addResponseProperty("logType")
