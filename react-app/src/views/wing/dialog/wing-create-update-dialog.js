@@ -13,6 +13,7 @@ import {ApiURL} from "../../../app/api-url";
 import RaMarkdown from "../../../artifacts/ra-markdown";
 import {CommonService} from "../../../app/common-service";
 import RaSelect from "../../../artifacts/ra-select";
+import RaWysiwygEditor from "../../../artifacts/ra-wysiwyg-editor";
 
 export default class WingCreateUpdateDialog extends RaViewComponent {
 
@@ -119,6 +120,7 @@ export default class WingCreateUpdateDialog extends RaViewComponent {
                             <Grid item xs={3}><RaSelect {...this.onChangeRaSelectProcessor("wingLeadId", this.state.teamLead)} label="Wing Lead" /></Grid>
                             <Grid item xs={12}><RaSelect {...this.onChangeRaSelectProcessor("members", this.state.teamLead)} label="Warriors" isMulti/></Grid>
                             <Grid item xs={12}><TextField multiline rows={10} label="Description" {...this.onChangeTextFieldProcessor("description")} fullWidth/></Grid>
+                            <Grid item xs={12}><RaWysiwygEditor multiline rows={10} label="Description" {...this.onChangeTextFieldProcessor("description")} fullWidth/></Grid>
                             <Grid item xs={12}>
                                 <RaMarkdown content={this.getFormDataValue("description")}/>
                             </Grid>
