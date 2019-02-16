@@ -136,6 +136,10 @@ class TodoComplexityPanel extends RaViewComponent {
         }));
     }
 
+    loadAfterWorkLog(response){
+        this.loadComplexity();
+    }
+
     sortComplexityAndSteps(result, data, url) {
         const [removed] = data.splice(result.source.index, 1);
         data.splice(result.destination.index, 0, removed);

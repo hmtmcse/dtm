@@ -12,8 +12,6 @@ import {RaGsConditionMaker} from "../../../artifacts/ra-gs-condition-maker";
 import {ApiURL} from "../../../app/api-url";
 import RaMarkdown from "../../../artifacts/ra-markdown";
 import {CommonService} from "../../../app/common-service";
-import RaSelect from "../../../artifacts/ra-select";
-import ErrorIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 export default class WorkLogDialog extends RaViewComponent {
 
@@ -80,25 +78,28 @@ export default class WorkLogDialog extends RaViewComponent {
 
     formSubmitHandler = event => {
         event.preventDefault();
-        const { parent, editId } = this.props;
+        const { parent, editId, definition, logType } = this.props;
         let formData = this.state.formData;
-        let url = ApiURL.WingCreate;
+        let url = ApiURL.WorkLogCreate;
         let successMessage = "Successfully Created.";
         if (editId !== undefined){
-            url = ApiURL.WingUpdate;
+            url = ApiURL.WorkLogUpdate;
             successMessage = "Successfully Updated.";
             formData = RaGsConditionMaker.equal(formData, "id", Number(editId))
+        }else{
+            formData.logType = logType;
+            formData.searchId = definition.searchId;
+            formData.searchUuid = definition.searchUuid;
         }
 
         this.postJsonToApi(url, formData, success => {
                 let data = success.data;
                 if (data.isSuccess){
-                    parent.loadListAfterAction(
-                        ()=>{
-                            this.closePopup();
-                            parent.showSuccessInfo(successMessage);
-                        }
-                    );
+                    this.closePopup();
+                    parent.showSuccessInfo(successMessage);
+                    if (parent.loadAfterWorkLog){
+                        parent.loadAfterWorkLog(success);
+                    }
                 }else{
                     this.showErrorInfo(response.message);
                     this.responseErrorProcessor(data);

@@ -15,6 +15,9 @@ import {TaskStatusColor} from "../../../../app/task-status-color";
 import TodoComplexityStepDetailsPanel from "../details-panel/todo-complexity-step-details-panel";
 import TodoComplexityStepTitlePanel from "../title-panel/todo-complexity-step-title-panel";
 import {TodoCommonService} from "../../../../app/todo-common-service";
+import {WorkLogDialogDefinition} from "../../../work-log/dialog/work-log-dialog";
+import {AppConstant} from "../../../../app/app-constant";
+import WorkLogDialog from "../../../work-log/dialog/work-log-dialog";
 
 
 class TodoComplexityStepPanel extends RaViewComponent {
@@ -29,6 +32,8 @@ class TodoComplexityStepPanel extends RaViewComponent {
             complexity: {},
             isOpenTodoComplexityStep: false,
             editId: undefined,
+            isOpenWorkLogDialog: false,
+            workLogDefinition: {},
         };
     }
 
@@ -109,6 +114,21 @@ class TodoComplexityStepPanel extends RaViewComponent {
         parent.clone(event, actionDefinition);
     }
 
+    addWorkLog(event, actionDefinition) {
+        let additionalInformation = actionDefinition.additionalInformation;
+        let workLogDefinition = new WorkLogDialogDefinition();
+        workLogDefinition.setSearchUuid(additionalInformation.uuid);
+        workLogDefinition.setSearchId(additionalInformation.id);
+        actionDefinition.component.setState(state => ({
+            isOpenWorkLogDialog: true,
+            workLogDefinition: workLogDefinition
+        }));
+    }
+
+    loadAfterWorkLog(response){
+        this.loadComplexityStep();
+    }
+
     appRender() {
         let noteActions = info => {
             let actions = ActionDefinition.commonActions(info, this);
@@ -116,6 +136,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
             actions.deleteAction.action = this.deleteAction;
             let actionList = {};
             actionList.status = TodoCommonService.changeStatusAction(info, this, "", this.changeStatus);
+            actionList.workLog = TodoCommonService.addWorkLog(info, this, this.addWorkLog);
             actionList.quickAction = TodoCommonService.quickAction(info, this, ApiURL.StepClone, this.clone);
             actionList.editAction = actions.editAction;
             actionList.deleteAction = actions.deleteAction;
@@ -125,6 +146,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
         let thisParent = this;
         return (
             <React.Fragment>
+                {this.state.isOpenWorkLogDialog ? ( <WorkLogDialog parent={this} logType={AppConstant.STEP} definition={this.state.workLogDefinition}/>) : ""}
                 {this.state.isOpenTodoComplexityStep ? (
                     <TodoComplexityStepDialog uiDefinition={uiDefinition} parent={this}
                                               complexityId={this.state.complexityId} todoId={this.state.todoId}

@@ -87,6 +87,13 @@ export const ApiURL = {
     WingDetails: "api/v1/wing/details",
     WingCreate: "api/v1/wing/create",
 
+    WorkLogList: "api/v1/workLog/list",
+    WorkLogCreate: "api/v1/workLog/create",
+    WorkLogUpdate: "api/v1/workLog/update",
+    WorkLogDelete: "api/v1/workLog/delete",
+    WorkLogSoftDelete: "api/v1/workLog/softDelete",
+    WorkLogDetails: "api/v1/workLog/details",
+
     XXXList: "api/v1/xxxxx/list",
     XXXXCreate: "api/v1/xxxxx/create",
     XXXXUpdate: "api/v1/xxxxx/update",
