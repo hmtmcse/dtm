@@ -6,6 +6,7 @@ import {AppConstant} from "./app-constant";
 import PagesIcon from '@material-ui/icons/Pages';
 import {ListItemIcon} from "@material-ui/core";
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 
 export const TodoCommonService = {
 
@@ -40,13 +41,16 @@ export const TodoCommonService = {
     },
 
     quickAction: (info, component, url, action) => {
-        let quick = ActionDefinition.instance("Quick Action", undefined, PagesIcon).setComponent(this).addAdditionalInfo(info);
-
+        let quick = ActionDefinition.instance("Quick Action", undefined, PagesIcon).setComponent(component).addAdditionalInfo(info);
         let itemIcon = ( <React.Fragment><ListItemIcon><FileCopyIcon/></ListItemIcon>Clone</React.Fragment>);
-        let clone = ActionDefinition.instanceForMenu("Clone", itemIcon).setComponent(component).addAdditionalInfo(info).setUrl(url).addAction(action);;
+        let clone = ActionDefinition.instanceForMenu("Clone", itemIcon).setComponent(component).addAdditionalInfo(info).setUrl(url).addAction(action);
         quick.addToMenu("clone", clone);
 
         return quick;
+    },
+
+    addWorkLog: (info, component, action) => {
+        return ActionDefinition.instance("Work Log", action, ReceiptIcon).setComponent(component).addAdditionalInfo(info);
     }
 
 };

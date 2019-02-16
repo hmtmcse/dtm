@@ -23,4 +23,10 @@ export const AppConstant = {
     PENDING: "PENDING",
     TODO: "TODO",
     FAILED: "FAILED",
+
+    COMPLEXITY: "COMPLEXITY",
+    STEP: "STEP",
+    MEETING: "MEETING",
+    SESSION: "FAILED",
+    OUT_OF_TASK: "FAILED",
 };
