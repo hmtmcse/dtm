@@ -20,7 +20,7 @@ class BugReport extends CommonTask {
     Date lastUpdated
 
 
-    static hasMany = [assignee: User, workLog: BugWorkLog]
+    static hasMany = [assignee: User]
 
     static constraints = {
         jsonData(nullable: true)
