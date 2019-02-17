@@ -119,6 +119,7 @@ class TodoComplexityStepPanel extends RaViewComponent {
         let workLogDefinition = new WorkLogDialogDefinition();
         workLogDefinition.setSearchUuid(additionalInformation.uuid);
         workLogDefinition.setSearchId(additionalInformation.id);
+        workLogDefinition.setStepsId(additionalInformation.id);
         actionDefinition.component.setState(state => ({
             isOpenWorkLogDialog: true,
             workLogDefinition: workLogDefinition

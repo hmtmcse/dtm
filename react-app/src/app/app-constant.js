@@ -28,5 +28,7 @@ export const AppConstant = {
     STEP: "STEP",
     MEETING: "MEETING",
     SESSION: "FAILED",
+    BUG_REPORT: "BUG_REPORT",
+    OTHER: "OTHER",
     OUT_OF_TASK: "FAILED",
 };

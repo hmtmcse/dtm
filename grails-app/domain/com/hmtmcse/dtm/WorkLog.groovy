@@ -11,6 +11,11 @@ class WorkLog extends CommonTask {
     Boolean isDeleted = false
     Long searchId
 
+    Complexity complexity
+    Todo todo
+    Steps steps
+    BugReport bugReport
+
     String searchUuid
     String uuid
 
@@ -20,6 +25,10 @@ class WorkLog extends CommonTask {
 
 
     static constraints = {
+        complexity(nullable: true)
+        todo(nullable: true)
+        steps(nullable: true)
+        bugReport(nullable: true)
         description(nullable: true)
     }
 

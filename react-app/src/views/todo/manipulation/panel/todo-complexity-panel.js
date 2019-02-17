@@ -127,9 +127,11 @@ class TodoComplexityPanel extends RaViewComponent {
 
     addWorkLog(event, actionDefinition) {
         let additionalInformation = actionDefinition.additionalInformation;
+        console.log(additionalInformation);
         let workLogDefinition = new WorkLogDialogDefinition();
         workLogDefinition.setSearchUuid(additionalInformation.uuid);
         workLogDefinition.setSearchId(additionalInformation.id);
+        workLogDefinition.setComplexityId(additionalInformation.id);
         actionDefinition.component.setState(state => ({
             isOpenWorkLogDialog: true,
             workLogDefinition: workLogDefinition

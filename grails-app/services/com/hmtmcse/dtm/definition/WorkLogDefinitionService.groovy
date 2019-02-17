@@ -19,6 +19,10 @@ class WorkLogDefinitionService {
         gsApiActionDefinition.addRequestProperty("searchUuid").required()
         gsApiActionDefinition.addRequestProperty("workedHour").required()
         gsApiActionDefinition.addRequestProperty("description")
+        gsApiActionDefinition.addRequestProperty("complexity").setAlias("complexityId")
+        gsApiActionDefinition.addRequestProperty("todo").setAlias("todoId")
+        gsApiActionDefinition.addRequestProperty("steps").setAlias("stepsId")
+        gsApiActionDefinition.addRequestProperty("bugReport").setAlias("bugReportId")
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
             @Override
             GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {

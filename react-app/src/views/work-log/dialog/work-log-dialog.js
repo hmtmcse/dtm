@@ -82,14 +82,19 @@ export default class WorkLogDialog extends RaViewComponent {
         let formData = this.state.formData;
         let url = ApiURL.WorkLogCreate;
         let successMessage = "Successfully Created.";
-        if (editId !== undefined){
+        if (editId !== undefined) {
             url = ApiURL.WorkLogUpdate;
             successMessage = "Successfully Updated.";
             formData = RaGsConditionMaker.equal(formData, "id", Number(editId))
-        }else{
+        } else {
             formData.logType = logType;
             formData.searchId = definition.searchId;
             formData.searchUuid = definition.searchUuid;
+
+            if (definition.complexityId) { formData.complexityId = definition.complexityId; }
+            if (definition.todoId) { formData.todoId = definition.todoId; }
+            if (definition.stepsId) { formData.stepsId = definition.stepsId; }
+            if (definition.bugReportId) { formData.bugReportId = definition.bugReportId; }
         }
 
         this.postJsonToApi(url, formData, success => {
@@ -148,6 +153,32 @@ export class WorkLogDialogDefinition {
     estimatedHour = 0;
     remainingHour = 0;
     editId = 0;
+    complexityId = undefined;
+    todoId = undefined;
+    stepsId = undefined;
+    bugReportId = undefined;
+
+    setComplexityId(complexityId){
+        this.complexityId = complexityId;
+        return this;
+    }
+
+    setTodoId(todoId){
+        this.todoId = todoId;
+        return this;
+    }
+
+    setStepsId(stepsId){
+        this.stepsId = stepsId;
+        return this;
+    }
+
+
+    setBugReportId(bugReportId){
+        this.bugReportId = bugReportId;
+        return this;
+    }
+
 
     setSearchUuid(searchUuid){
         this.searchUuid = searchUuid;
