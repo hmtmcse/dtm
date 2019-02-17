@@ -1,11 +1,4 @@
 import React from "react";
-import {ActionDefinition} from "../artifacts/ra-expandable-card";
-import AcUnitIcon from '@material-ui/icons/AcUnit';
-import {TaskStatusColor} from "./task-status-color";
-import {AppConstant} from "./app-constant";
-import PagesIcon from '@material-ui/icons/Pages';
-import {ListItemIcon} from "@material-ui/core";
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 import {RaUtil} from "../artifacts/ra-util";
 
 export const CommonService = {

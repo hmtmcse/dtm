@@ -96,15 +96,6 @@ class ActivityMainView extends RaViewComponent {
         actionDefinition.component.setState({showCreateEditPopup: true});
     };
 
-    createAction(event) {
-        this.setState({editId: undefined});
-        this.setState({showCreateEditPopup: true});
-    };
-
-    handleChange(event, newValue){
-        console.log(newValue);
-        this.setState({value: newValue});
-    }
 
     appRender() {
         const {classes} = this.props;

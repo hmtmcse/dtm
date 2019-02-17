@@ -17,12 +17,22 @@ import {CommonService} from "../../app/common-service";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import PetsIcon from '@material-ui/icons/Pets';
 import RaTabView, {RaTabViewDefinition} from "../../artifacts/ra-tab-view";
+import {TaskStatusColor} from "../../app/task-status-color";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Divider from "@material-ui/core/Divider";
 
 
 const tableHeaderDefinition = [
     RaTableHeaderDefinition.instance('name', 'Wing & Lead Name'),
     RaTableHeaderDefinition.instance('members', 'Wing Warriors', false),
 ];
+
+const styles = theme => ({
+    spaceInBottom : {
+        marginBottom: "8px"
+    },
+});
 
 class MySpaceMainView extends RaViewComponent {
 
@@ -147,15 +157,84 @@ class MySpaceMainView extends RaViewComponent {
             </div>
             <RaPagination {...this.paginationProcessor()}/></React.Fragment>);
 
+
+        let activityPanel = (
+            <React.Fragment>
+                <CardContent>
+                    <CardActions>
+                        <Grid container spacing={8}>
+                            <Grid item xs={8}>Description</Grid>
+                            <Grid item xs={1}>Estimation</Grid>
+                            <Grid item xs={1}>Worked</Grid>
+                            <Grid item xs={1}>Remaining</Grid>
+                            <Grid item xs={1}>Status</Grid>
+                        </Grid>
+                    </CardActions>
+
+                    <Card className={classes.spaceInBottom}>
+                        {TaskStatusColor.statusDivider("DRAFT")}
+                        <CardActions>
+                            <Grid container spacing={8} align="left">
+                                <Grid item xs={8}>Description</Grid>
+                                <Grid item xs={1}>Estimation</Grid>
+                                <Grid item xs={1}>Worked</Grid>
+                                <Grid item xs={1}>Remaining</Grid>
+                                <Grid item xs={1}>Status</Grid>
+                            </Grid>
+                        </CardActions>
+                    </Card>
+
+                    <Card className={classes.spaceInBottom}>
+                        {TaskStatusColor.statusDivider("DONE")}
+                        <CardActions>
+                            <Grid container spacing={8} align="left">
+                                <Grid item xs={8}>Description</Grid>
+                                <Grid item xs={1}>Estimation</Grid>
+                                <Grid item xs={1}>Worked</Grid>
+                                <Grid item xs={1}>Remaining</Grid>
+                                <Grid item xs={1}>Status</Grid>
+                            </Grid>
+                        </CardActions>
+                    </Card>
+
+                    <Card className={classes.spaceInBottom}>
+                        {TaskStatusColor.statusDivider("PENDING")}
+                        <CardActions>
+                            <Grid container spacing={8} align="left">
+                                <Grid item xs={8}>Description</Grid>
+                                <Grid item xs={1}>Estimation</Grid>
+                                <Grid item xs={1}>Worked</Grid>
+                                <Grid item xs={1}>Remaining</Grid>
+                                <Grid item xs={1}>Status</Grid>
+                            </Grid>
+                        </CardActions>
+                    </Card>
+
+                    <Card className={classes.spaceInBottom}>
+                        {TaskStatusColor.statusDivider("PROCESSING")}
+                        <CardActions>
+                            <Grid container spacing={8} align="left">
+                                <Grid item xs={8}>Description</Grid>
+                                <Grid item xs={1}>Estimation</Grid>
+                                <Grid item xs={1}>Worked</Grid>
+                                <Grid item xs={1}>Remaining</Grid>
+                                <Grid item xs={1}>Status</Grid>
+                            </Grid>
+                        </CardActions>
+                    </Card>
+                </CardContent>
+            </React.Fragment>
+        );
+
         let raTabView = [];
-        raTabView.push(RaTabViewDefinition.instance('Activity', PetsIcon, viewOne));
+        raTabView.push(RaTabViewDefinition.instance('Activity', PetsIcon, activityPanel));
         raTabView.push(RaTabViewDefinition.instance('Profile', AccountBoxIcon, viewOne));
 
         return (<React.Fragment>
-            <Paper className={classes.root} square>
+            <Paper square>
                 <RaTabView tebItems={raTabView}/>
             </Paper>
         </React.Fragment>);
     }
 }
-export default withStyles(viewCommon)(MySpaceMainView);
+export default withStyles(styles)(MySpaceMainView);
