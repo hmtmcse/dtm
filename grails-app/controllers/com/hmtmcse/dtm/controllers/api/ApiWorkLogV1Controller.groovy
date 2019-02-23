@@ -29,8 +29,8 @@ class ApiWorkLogV1Controller extends GsRestProcessor {
         return list(workLogDefinitionService.list())
     }
 
-    def myWorkLog() {
-        return list(workLogDefinitionService.list())
+    def postMyWorkLog() {
+        return customProcessor(workLogDefinitionService.myWorkLog())
     }
 
 }

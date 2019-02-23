@@ -120,8 +120,8 @@ class WorkLogDefinitionService {
 
     GsApiActionDefinition myWorkLog() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<WorkLog>(WorkLog)
-        gsApiActionDefinition.addRequestProperty("start", SwaggerConstant.SWAGGER_DT_STRING_DATE)
-        gsApiActionDefinition.addRequestProperty("end", SwaggerConstant.SWAGGER_DT_STRING_DATE)
+        gsApiActionDefinition.addRequestProperty("start", SwaggerConstant.SWAGGER_DT_STRING_DATE).setErrorMessage("Need to specify Due Date.").enableTypeCast().setDateFormat("yyyy-MM-dd")
+        gsApiActionDefinition.addRequestProperty("end", SwaggerConstant.SWAGGER_DT_STRING_DATE).setErrorMessage("Need to specify Due Date.").enableTypeCast().setDateFormat("yyyy-MM-dd")
 
 
         gsApiActionDefinition.addResponseProperty("firstName").setDataType(SwaggerConstant.SWAGGER_DT_STRING)
@@ -142,7 +142,7 @@ class WorkLogDefinitionService {
         swaggerHelper.addProperties("extraWork", SwaggerConstant.SWAGGER_DT_DOUBLE)
         swaggerHelper.addProperties("type", SwaggerConstant.SWAGGER_DT_STRING)
         gsApiActionDefinition.addResponseProperty("log").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).setPropertyMap(swaggerHelper.getAllProperties())
-
+        gsApiActionDefinition.successResponseAsData()
 
         return gsApiActionDefinition
     }
