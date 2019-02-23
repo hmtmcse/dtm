@@ -11,16 +11,15 @@ import RaTableAction, {ActionDefinition} from "../../artifacts/ra-table-action";
 import {RaGsConditionMaker} from "../../artifacts/ra-gs-condition-maker";
 import {ApiURL} from "../../app/api-url";
 import {AppConstant} from "../../app/app-constant";
-import {viewCommon} from "../../assets/jss/style-jss";
 import {RaUtil} from "../../artifacts/ra-util";
 import {CommonService} from "../../app/common-service";
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import PetsIcon from '@material-ui/icons/Pets';
 import RaTabView, {RaTabViewDefinition} from "../../artifacts/ra-tab-view";
 import {TaskStatusColor} from "../../app/task-status-color";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Divider from "@material-ui/core/Divider";
+import MyActivityReport from "./my-activity-report";
+
 
 
 const tableHeaderDefinition = [
@@ -223,12 +222,13 @@ class MySpaceMainView extends RaViewComponent {
                         </CardActions>
                     </Card>
                 </CardContent>
+                <MyActivityReport/>
             </React.Fragment>
         );
 
         let raTabView = [];
-        raTabView.push(RaTabViewDefinition.instance('Activity', PetsIcon, activityPanel));
-        raTabView.push(RaTabViewDefinition.instance('Profile', AccountBoxIcon, viewOne));
+        raTabView.push(RaTabViewDefinition.instance('Activity', PetsIcon,  <MyActivityReport/>));
+        // raTabView.push(RaTabViewDefinition.instance('Profile', AccountBoxIcon, viewOne));
 
         return (<React.Fragment>
             <Paper square>

@@ -6,7 +6,8 @@ class TMConstant {
 
     public static final PENDING = "PENDING"
     public static final NOTE = "NOTE"
-    public static final OTHERS = "PENDING"
+    public static final OTHERS = "OTHERS"
+    public static final OTHER = "OTHER"
     public static final NA = "NA"
     public static final DEVELOPMENT = "DEVELOPMENT"
     public static final HAPPY_TESTING = "HAPPY_TESTING"
@@ -30,6 +31,7 @@ class TMConstant {
             TODO      : "Todo",
             FAILED    : "Failed",
             CLOSE     : "Close",
+            REOPEN    : "Reopen",
             REOPEN    : "Reopen",
     ]
 
@@ -85,7 +87,8 @@ class TMConstant {
     public static final WORK_LOG_TYPE = [
             COMPLEXITY : "COMPLEXITY",
             STEP       : "STEP",
-            BUG_REPORT : "BUG_REPORT",
+            TODO       : "TODO",
+            BUG_TASK   : "BUG_TASK",
             OTHER      : "OTHER",
             MEETING    : "MEETING",
             SESSION    : "SESSION",
