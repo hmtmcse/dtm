@@ -6,6 +6,8 @@ import com.hmtmcse.gs.GsApiActionDefinition
 import com.hmtmcse.gs.data.GsApiResponseData
 import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.model.RequestPreProcessor
+import com.hmtmcse.swagger.SwaggerHelper
+import com.hmtmcse.swagger.definition.SwaggerConstant
 
 
 class WorkLogDefinitionService {
@@ -113,6 +115,35 @@ class WorkLogDefinitionService {
 
     GsApiActionDefinition list() {
         GsApiActionDefinition gsApiActionDefinition = read()
+        return gsApiActionDefinition
+    }
+
+    GsApiActionDefinition myWorkLog() {
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<WorkLog>(WorkLog)
+        gsApiActionDefinition.addRequestProperty("start", SwaggerConstant.SWAGGER_DT_STRING_DATE)
+        gsApiActionDefinition.addRequestProperty("end", SwaggerConstant.SWAGGER_DT_STRING_DATE)
+
+
+        gsApiActionDefinition.addResponseProperty("firstName").setDataType(SwaggerConstant.SWAGGER_DT_STRING)
+        gsApiActionDefinition.addResponseProperty("lastName").setDataType(SwaggerConstant.SWAGGER_DT_STRING)
+        gsApiActionDefinition.addResponseProperty("id").setDataType(SwaggerConstant.SWAGGER_DT_LONG)
+        gsApiActionDefinition.addResponseProperty("start").setDataType(SwaggerConstant.SWAGGER_DT_STRING_DATE)
+        gsApiActionDefinition.addResponseProperty("end").setDataType(SwaggerConstant.SWAGGER_DT_STRING_DATE)
+
+
+        SwaggerHelper swaggerHelper = new SwaggerHelper()
+        swaggerHelper.initItem(SwaggerConstant.SWAGGER_DT_OBJECT, SwaggerConstant.IN_BODY)
+        swaggerHelper.addProperties("name", SwaggerConstant.SWAGGER_DT_STRING)
+        swaggerHelper.addProperties("remaining", SwaggerConstant.SWAGGER_DT_STRING)
+        swaggerHelper.addProperties("status", SwaggerConstant.SWAGGER_DT_STRING)
+        swaggerHelper.addProperties("estimation", SwaggerConstant.SWAGGER_DT_DOUBLE)
+        swaggerHelper.addProperties("worked", SwaggerConstant.SWAGGER_DT_DOUBLE)
+        swaggerHelper.addProperties("totalWorkedHour", SwaggerConstant.SWAGGER_DT_DOUBLE)
+        swaggerHelper.addProperties("extraWork", SwaggerConstant.SWAGGER_DT_DOUBLE)
+        swaggerHelper.addProperties("type", SwaggerConstant.SWAGGER_DT_STRING)
+        gsApiActionDefinition.addResponseProperty("log").setDataType(SwaggerConstant.SWAGGER_DT_ARRAY_MAP).setPropertyMap(swaggerHelper.getAllProperties())
+
+
         return gsApiActionDefinition
     }
 
