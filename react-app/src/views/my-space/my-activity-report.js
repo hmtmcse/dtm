@@ -18,6 +18,8 @@ const tableHeaderDefinition = [
     RaTableHeaderDefinition.instance('estimation', 'Estimation', false),
     RaTableHeaderDefinition.instance('worked', 'Worked', false),
     RaTableHeaderDefinition.instance('remaining', 'Remaining', false),
+    RaTableHeaderDefinition.instance('extraWork', 'Extra Work', false),
+    RaTableHeaderDefinition.instance('totalWork', 'Total Work', false),
     RaTableHeaderDefinition.instance('status', 'Status', false),
 ];
 
@@ -87,6 +89,8 @@ class MyActivityReport extends RaViewComponent {
                                     <TableRow key={key}>
                                         <TableCell>{user.firstName} {user.lastName}</TableCell>
                                         <TableCell>{user.firstName} {user.lastName}</TableCell>
+                                        <TableCell>{user.email}</TableCell>
+                                        <TableCell>{user.email}</TableCell>
                                         <TableCell>{user.email}</TableCell>
                                         <TableCell>{user.email}</TableCell>
                                         <TableCell>{user.email}</TableCell>
