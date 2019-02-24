@@ -1,5 +1,7 @@
 package com.hmtmcse.dtm
 
+import com.hmtmcse.datetimeutil.DateTimeUtil
+
 class WorkLog extends CommonTask {
 
     Long id
@@ -34,5 +36,14 @@ class WorkLog extends CommonTask {
 
     static mapping = {
         description(type: "text")
+    }
+
+    def beforeUpdate () {
+        lastUpdated = DateTimeUtil.dateLocalToUTC(new Date())
+    }
+
+    def beforeInsert () {
+        lastUpdated = DateTimeUtil.dateLocalToUTC(new Date())
+        println("ohh")
     }
 }

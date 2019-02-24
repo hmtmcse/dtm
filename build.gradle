@@ -39,6 +39,7 @@ grails {
 dependencies {
 
     compile project(':java-http-util')
+    compile project(':java-date-time-util')
     
     provided group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
     compile group: 'com.atlassian.jira', name: 'jira-rest-java-client-core', version: '5.0.4'
