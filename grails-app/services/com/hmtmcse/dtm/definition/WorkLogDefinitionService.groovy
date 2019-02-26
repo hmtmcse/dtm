@@ -2,9 +2,13 @@ package com.hmtmcse.dtm.definition
 
 import com.hmtmcse.dtm.AuthenticationService
 import com.hmtmcse.dtm.WorkLog
+import com.hmtmcse.dtm.WorkLogService
 import com.hmtmcse.gs.GsApiActionDefinition
+import com.hmtmcse.gs.data.ApiHelper
 import com.hmtmcse.gs.data.GsApiResponseData
 import com.hmtmcse.gs.data.GsFilteredData
+import com.hmtmcse.gs.data.GsParamsPairData
+import com.hmtmcse.gs.model.CustomProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
 import com.hmtmcse.swagger.SwaggerHelper
 import com.hmtmcse.swagger.definition.SwaggerConstant
@@ -13,6 +17,7 @@ import com.hmtmcse.swagger.definition.SwaggerConstant
 class WorkLogDefinitionService {
 
     AuthenticationService authenticationService
+    WorkLogService workLogService
 
     GsApiActionDefinition createUpdate() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<WorkLog>(WorkLog)
@@ -129,6 +134,14 @@ class WorkLogDefinitionService {
         gsApiActionDefinition.addResponseProperty("id").setDataType(SwaggerConstant.SWAGGER_DT_LONG)
         gsApiActionDefinition.addResponseProperty("start").setDataType(SwaggerConstant.SWAGGER_DT_STRING_DATE)
         gsApiActionDefinition.addResponseProperty("end").setDataType(SwaggerConstant.SWAGGER_DT_STRING_DATE)
+
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                def workLogInfo = workLogService.myWorkLog(new Date(), new Date());
+                return GsApiResponseData.successResponse(workLogInfo)
+            }
+        }
 
 
         SwaggerHelper swaggerHelper = new SwaggerHelper()

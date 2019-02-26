@@ -7,9 +7,11 @@ class WorkLogService {
 
     private def workedHourByType(String filedName, def object, User workedBy) {
         return WorkLog.createCriteria().get {
+            projections {
+                sum("workedHour")
+            }
             eq(filedName, object)
             eq("isDeleted", false)
-            sum("workedHour")
             if (workedBy){
                 eq("workedBy", workedBy)
             }
@@ -35,6 +37,7 @@ class WorkLogService {
                 eq("workedBy", workedBy)
             }
             eq("isDeleted", false)
+            order("lastUpdated", "desc")
 //            between("lastUpdated", start, end)
         }
         return workLogList
@@ -70,6 +73,7 @@ class WorkLogService {
                 "extraWork":  0.0,
                 "status": "",
                 "type": "",
+                "lastUpdated": workLog.lastUpdated,
         ]
         workLogStatus.worked = workLog.workedHour
         if (workLog.complexity){
@@ -109,6 +113,7 @@ class WorkLogService {
                 workLogStatus.remaining = "--"
             }
         }
+        return workLogStatus
     }
 
 
