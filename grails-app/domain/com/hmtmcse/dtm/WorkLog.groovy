@@ -1,6 +1,7 @@
 package com.hmtmcse.dtm
 
-import com.hmtmcse.datetimeutil.DateTimeUtil
+import com.hmtmcse.datetimeutil.TMDateTimeUtilJ7
+
 
 class WorkLog extends CommonTask {
 
@@ -39,11 +40,10 @@ class WorkLog extends CommonTask {
     }
 
     def beforeUpdate () {
-        lastUpdated = DateTimeUtil.dateLocalToUTC(new Date())
+        lastUpdated = TMDateTimeUtilJ7.localToUTC(new Date())
     }
 
     def beforeInsert () {
-        lastUpdated = DateTimeUtil.dateLocalToUTC(new Date())
-        println("ohh")
+        lastUpdated = TMDateTimeUtilJ7.localToUTC(new Date())
     }
 }
