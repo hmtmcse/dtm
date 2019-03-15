@@ -1,4 +1,5 @@
 dataSource:
+  driverClassName: com.mysql.cj.jdbc.Driver
   dbCreate: update
   username: root
   password: ''
