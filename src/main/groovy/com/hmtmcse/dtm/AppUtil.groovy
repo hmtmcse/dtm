@@ -26,6 +26,22 @@ class AppUtil {
         return taskManagerConfig("baseURL", "http://localhost:1122/")
     }
 
+    static corsOrigin(){
+        return taskManagerConfig("corsOrigin", "*")
+    }
+
+    static corsMethods(){
+        return taskManagerConfig("corsMethods", "POST, GET, OPTIONS")
+    }
+
+    static corsHeaders(){
+        return taskManagerConfig("corsHeaders", "Origin, Content-Type, application/json")
+    }
+
+    static Boolean enableAuthenticationCheck(){
+        return taskManagerConfig("enableAuthenticationCheck", true)
+    }
+
     static appBaseUrlHostWithPort(){
         String urlString = appBaseUrl()
         URL url = new URL(urlString)
@@ -38,7 +54,7 @@ class AppUtil {
 
     static taskManagerConfig(String key, Object defaultValue = null){
         Object object = Holders.config.taskManager[key]
-        if (object){
+        if (object != null){
             return object
         }
         return defaultValue

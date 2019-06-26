@@ -5,6 +5,7 @@ import com.hmtmcse.dtm.ComplexityService
 import com.hmtmcse.dtm.DummyDataService
 import com.hmtmcse.dtm.Todo
 import com.hmtmcse.dtm.TodoService
+import grails.converters.JSON
 import grails.util.Environment
 
 class TestingController {
@@ -18,6 +19,10 @@ class TestingController {
             dummyDataService.init()
         }
         render("Nice")
+    }
+
+    def cors() {
+        render(["name": "nai"] as JSON)
     }
 
     def lala() {

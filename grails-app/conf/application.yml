@@ -30,6 +30,10 @@ taskManager:
     baseURL: "http://localhost:1122/"
     jiraURL: ""
     loginType: "LOCAL"
+    corsOrigin: "*"
+    corsMethods: "POST, GET, OPTIONS"
+    corsHeaders: "Origin, Content-Type, application/json"
+    enableAuthenticationCheck: true
 
 ---
 grails:

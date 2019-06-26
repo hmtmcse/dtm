@@ -1,5 +1,6 @@
 package com.hmtmcse.dtm.system
 
+import com.hmtmcse.dtm.AppUtil
 import com.hmtmcse.dtm.AuthenticationService
 import com.hmtmcse.gs.GsConfigHolder
 import com.hmtmcse.gs.data.GsApiResponseData
@@ -17,7 +18,7 @@ class SecurityInterceptor {
     }
 
     boolean before() {
-        if (!authenticationService.isAuthenticated()) {
+        if (!authenticationService.isAuthenticated() && AppUtil.enableAuthenticationCheck()) {
             if (controllerName.startsWith(GsConfigHolder.controllerStartWithDefault.toLowerCase())){
                 response.status = 401
                 render(GsApiResponseData.failed("Unauthorized Access").toMap() as JSON)
@@ -30,7 +31,9 @@ class SecurityInterceptor {
     }
 
 
-    boolean after() { true }
+    boolean after() {
+        return true
+    }
 
     void afterView() {
         // no-op
