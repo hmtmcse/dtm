@@ -40,8 +40,7 @@ grails {
 dependencies {
 
     compile project(':java-http-util')
-    compile group: 'com.hmtmcse', name: 'java-crypto-and-auth', version: '1.0'
-    
+        
     provided group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
     compile group: 'com.atlassian.jira', name: 'jira-rest-java-client-core', version: '5.0.4'
     compile group: 'com.atlassian.fugue', name: 'fugue', version: '2.6.1'

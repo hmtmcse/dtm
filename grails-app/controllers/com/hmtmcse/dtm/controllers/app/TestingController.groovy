@@ -4,6 +4,7 @@ import com.hmtmcse.caa.jwt.JavaJWT
 import com.hmtmcse.dtm.ComplexityService
 import com.hmtmcse.dtm.DummyDataService
 import com.hmtmcse.dtm.TodoService
+import com.hmtmcse.gs.JwtAuthService
 import grails.converters.JSON
 import grails.util.Environment
 
@@ -12,6 +13,7 @@ class TestingController {
     DummyDataService dummyDataService
     ComplexityService complexityService
     TodoService todoService
+    JwtAuthService jwtAuthService
 
     def iniDummy() {
         if (Environment.current == Environment.DEVELOPMENT){
@@ -25,9 +27,11 @@ class TestingController {
     }
 
     def jwt() {
-        JavaJWT javaJWT = JavaJWT.hmackInstance(JavaJWT.ALGORITHM.HMAC256, "miavai").tokenValidUntilUTCMinutes(2);
-        String token = javaJWT.token("JWT Token Test")
-        render(["token": token] as JSON)
+        render(["token": jwtAuthService.getToken("Touhid MIa")] as JSON)
+    }
+
+    def jwtValidate() {
+        render(["isValid": jwtAuthService.isAuthenticated(request)] as JSON)
     }
 
     def lala() {
